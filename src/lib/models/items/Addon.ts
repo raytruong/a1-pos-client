@@ -20,7 +20,7 @@ class Addon extends ItemTemplate implements Buildable<Addon>, Serializable {
     }
 
     public build(quantity?: number): Addon {
-        return this.constructor(
+        return new Addon(
             this._id,
             '',
             this.cname,

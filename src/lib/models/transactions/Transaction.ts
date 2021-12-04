@@ -4,12 +4,6 @@ import Serializable from '@/lib/models/interfaces/Serializable';
 import Buildable from '@/lib/models/interfaces/Buildable';
 
 class Transaction implements Buildable<Transaction>, Serializable {
-    private __id: string;
-    private __rev: string;
-    private _employee: string;
-    private _paymentType: string;
-    private _items: Array<Item>;
-
     constructor(
         _id: string,
         _rev: string,
@@ -24,6 +18,8 @@ class Transaction implements Buildable<Transaction>, Serializable {
         this._items = items;
     }
 
+    private __id: string;
+
     public get _id(): string {
         return this.__id;
     }
@@ -32,9 +28,13 @@ class Transaction implements Buildable<Transaction>, Serializable {
         this.__id = _id;
     }
 
+    private __rev: string;
+
     public get _rev(): string {
         return this.__rev;
     }
+
+    private _employee: string;
 
     public get employee(): string {
         return this._employee;
@@ -44,19 +44,24 @@ class Transaction implements Buildable<Transaction>, Serializable {
         this._employee = employee;
     }
 
-    public get items(): Array<Item> {
-        return this._items;
-    }
+    private _paymentType: string;
 
-    public set items(items: Array<Item>) {
-        this._items = items;
-    }
     public get paymentType(): string {
         return this._paymentType;
     }
 
     public set paymentType(paymentType: string) {
         this._paymentType = paymentType;
+    }
+
+    private _items: Array<Item>;
+
+    public get items(): Array<Item> {
+        return this._items;
+    }
+
+    public set items(items: Array<Item>) {
+        this._items = items;
     }
 
     public get totalPrice(): currency {
@@ -74,7 +79,7 @@ class Transaction implements Buildable<Transaction>, Serializable {
         paymentType?: string,
         items?: Array<Item>,
     ): Transaction {
-        return this.constructor(
+        return new Transaction(
             _id ? _id : `sale:${Date.now()}`,
             _rev ? _rev : '',
             employee ? employee : '',

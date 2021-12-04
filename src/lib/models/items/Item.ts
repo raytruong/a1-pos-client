@@ -5,8 +5,6 @@ import Buildable from '@/lib/models/interfaces/Buildable';
 import Serializable from '@/lib/models/interfaces/Serializable';
 
 class Item extends ItemTemplate implements Buildable<Item>, Serializable {
-    _addons: Array<Addon>;
-
     constructor(
         _id: string,
         _rev: string,
@@ -19,6 +17,8 @@ class Item extends ItemTemplate implements Buildable<Item>, Serializable {
         super(_id, _rev, cname, price, quantity, category);
         this._addons = addons;
     }
+
+    _addons: Array<Addon>;
 
     public get addons(): Array<Addon> {
         return this._addons;
@@ -41,7 +41,7 @@ class Item extends ItemTemplate implements Buildable<Item>, Serializable {
     }
 
     public build(quantity?: number, addons?: Array<Addon>): Item {
-        return this.constructor(
+        return new Item(
             this._id,
             this._rev,
             this.cname,

@@ -2,17 +2,14 @@ import Buildable from '@/lib/models/interfaces/Buildable';
 import Serializable from '@/lib/models/interfaces/Serializable';
 
 class User implements Buildable<User>, Serializable {
-    private __id: string;
-    private __rev: string;
-    private _pin: string;
-    private _name: string;
-
     constructor(_id: string, _rev: string, pin: string, name: string) {
         this.__id = _id;
         this.__rev = _rev;
         this._pin = pin;
         this._name = name;
     }
+
+    private __id: string;
 
     public get _id(): string {
         return this.__id;
@@ -22,9 +19,13 @@ class User implements Buildable<User>, Serializable {
         this.__id = _id;
     }
 
+    private __rev: string;
+
     public get _rev(): string {
         return this.__rev;
     }
+
+    private _pin: string;
 
     public get pin(): string {
         return this._pin;
@@ -33,6 +34,8 @@ class User implements Buildable<User>, Serializable {
     public set pin(pin: string) {
         this._pin = pin;
     }
+
+    private _name: string;
 
     public get name(): string {
         return this._name;
@@ -48,7 +51,7 @@ class User implements Buildable<User>, Serializable {
                 `User.build(): Expected name and pin, actual: name: ${name}, pin: ${pin}`,
             );
         }
-        return this.constructor(`user:${Date.now()}`, '', pin, name);
+        return new User(`user:${Date.now()}`, '', pin, name);
     }
 
     public toJSON(): object {
