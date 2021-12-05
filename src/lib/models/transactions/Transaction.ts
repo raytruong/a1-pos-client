@@ -65,25 +65,29 @@ class Transaction implements Buildable<Transaction>, Serializable {
     }
 
     public get totalPrice(): currency {
-        const acc = new currency(0);
-        this._items.reduce((acc: currency, item: Item) => {
-            return acc.add(item.totalPrice);
-        }, acc);
-        return acc;
+        const initVal = new currency(0);
+        const reducer = (acc: currency, item: Item): currency =>
+            acc.add(item.totalPrice);
+        return this._items.reduce(reducer, initVal);
     }
 
     public build(
-        _id?: string,
-        _rev?: string,
         employee?: string,
         paymentType?: string,
         items?: Array<Item>,
+        _id?: string,
+        _rev?: string,
     ): Transaction {
+        if (!employee || !paymentType) {
+            throw new Error(
+                `Transaction.build(): Expected employee, paymentType, items, actual: employee: ${employee}, paymentType: ${paymentType}, items: ${items}`,
+            );
+        }
         return new Transaction(
-            _id ? _id : `sale:${Date.now()}`,
+            _id ? _id : `txn:${Date.now()}`,
             _rev ? _rev : '',
-            employee ? employee : '',
-            paymentType ? paymentType : '',
+            employee,
+            paymentType,
             items ? items : new Array<Item>(),
         );
     }

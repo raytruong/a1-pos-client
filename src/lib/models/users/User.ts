@@ -3,7 +3,7 @@ import Serializable from '@/lib/models/interfaces/Serializable';
 
 class User implements Buildable<User>, Serializable {
     constructor(_id: string, _rev: string, pin: string, name: string) {
-        this.__id = _id;
+        this.__id = _id ? _id : `user:${Date.now()}`;
         this.__rev = _rev;
         this._pin = pin;
         this._name = name;

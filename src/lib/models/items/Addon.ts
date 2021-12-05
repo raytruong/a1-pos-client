@@ -21,7 +21,7 @@ class Addon extends ItemTemplate implements Buildable<Addon>, Serializable {
 
     public build(quantity?: number): Addon {
         return new Addon(
-            this._id,
+            `addon:${Date.now()}`,
             '',
             this.cname,
             this.singlePrice,

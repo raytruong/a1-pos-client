@@ -29,11 +29,10 @@ class Item extends ItemTemplate implements Buildable<Item>, Serializable {
     }
 
     public get sumAddonPrice(): currency {
-        const acc = new currency(0);
-        this._addons.reduce((acc: currency, addon: Addon) => {
-            return acc.add(addon.batchPrice);
-        }, acc);
-        return acc;
+        const initVal = new currency(0);
+        const reducer = (acc: currency, addon: Addon): currency =>
+            acc.add(addon.batchPrice);
+        return this._addons.reduce(reducer, initVal);
     }
 
     public get totalPrice(): currency {
@@ -42,7 +41,7 @@ class Item extends ItemTemplate implements Buildable<Item>, Serializable {
 
     public build(quantity?: number, addons?: Array<Addon>): Item {
         return new Item(
-            this._id,
+            `item:${Date.now()}`,
             this._rev,
             this.cname,
             this.singlePrice,
