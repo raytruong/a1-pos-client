@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 window.addEventListener('DOMContentLoaded', () => {
-    const replaceText = (selector: any, text: any): void => {
+    const replaceText = (selector, text) => {
         const element = document.getElementById(selector);
         if (element) element.innerText = text;
     };

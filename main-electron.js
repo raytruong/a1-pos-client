@@ -1,7 +1,9 @@
-import { app, BrowserWindow } from 'electron';
-import path from 'path';
+/* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
+const { app, BrowserWindow } = require('electron');
+const path = require('path');
 
-function createWindow(): void {
+function createWindow() {
     const win = new BrowserWindow({
         width: 800,
         height: 600,
@@ -10,7 +12,7 @@ function createWindow(): void {
         },
     });
 
-    win.loadFile('dist/index.html');
+    win.loadFile('dist-vite/index.html');
 }
 
 app.whenReady().then(() => {

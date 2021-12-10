@@ -1,0 +1,18 @@
+{
+    "productName": "a1-client",
+    "appId": "a1-client",
+    "asar": true,
+    "files": ["dist-vite", "main-electron.js", "preload.js"],
+    "directories": {
+        "output": "dist-electron"
+    },
+    "mac": {
+        "target": "dmg"
+    },
+    "linux": {
+        "target": "AppImage"
+    },
+    "win": {
+        "target": "nsis"
+    }
+}
