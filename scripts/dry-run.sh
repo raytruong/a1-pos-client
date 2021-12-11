@@ -6,4 +6,4 @@ set -ex
 WORKFLOW=$1
 
 # Dry-run
-act -n -W .github/workflows/$WORKFLOW.yml
+act -n -W .github/workflows/$WORKFLOW.yml --secret-file scripts/mock-secrets

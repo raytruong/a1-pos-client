@@ -1,4 +1,5 @@
 name: Main
+
 on:
     push:
         branches:
@@ -6,18 +7,28 @@ on:
     pull_request:
         branches:
             - main
+
 jobs:
     build:
-        runs-on: ubuntu-latest
         name: Build and Test
+        runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v2
-            - uses: actions/setup-node@v1
+            - uses: actions/setup-node@v2
               with:
-                  node-version: 14
-            - run: npm install
-            - run: npm run lint
-            - run: npm run test:unit
-            - run: docker build . --build-args ${{ secrets.DB_USER }} ${{ secrets.DB_PASS }} ${{ secrets.DB_BASEURL }}
-#    env:
-#      GH_TOKEN: ${{ secrets.PAT }}
+                  node-version: 16
+
+            - name: Build
+              run: |
+                  npm install
+                  npm run build
+                  npm run electron:build:$TARGET
+              env:
+                  TARGET: ${{ secrets.TARGET }}
+
+            - name: Test
+              run: |
+                  npm run lint
+                  npm run test
+        env:
+            PAT: ${{ secrets.PAT }}

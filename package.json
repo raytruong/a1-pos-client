@@ -15,6 +15,7 @@
         "electron:build:win": "electron-builder build --win --config electron-builder.json",
         "electron:build:linux": "electron-builder build --linux --config electron-builder.json",
         "electron:build:mac": "electron-builder build --mac --config electron-builder.json",
+        "test": "jest --coverage",
         "test:unit": "jest --coverage",
         "test:watch": "jest --watch"
     },
