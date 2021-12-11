@@ -10,7 +10,7 @@
         "build": "vue-tsc --noEmit && vite build",
         "serve": "vite preview",
         "clean": "rm -rf dist-*",
-        "electron:start": "electron .",
+        "electron:dev": "electron .",
         "electron:build": "electron-builder build --config electron-builder.json",
         "electron:build:win": "electron-builder build --win --config electron-builder.json",
         "electron:build:linux": "electron-builder build --linux --config electron-builder.json",
