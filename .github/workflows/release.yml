@@ -1,39 +1,39 @@
 name: Release
 
 on:
-    push:
-        branches:
-            - release
+  push:
+    tags:
+      - 'v*.*.*'
 
 jobs:
-    build:
-        name: Upload Release Asset
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v2
-            - uses: actions/setup-node@v2
-              with:
-                  node-version: 16
+  build:
+    name: Upload Release Aseet
+    runs-on: ubuntu-latest
+    if: github.event.base_ref == 'refs/heads/release'
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 16
 
-            - name: Build and Test
-              run: |
-                  npm install
-                  npm run test
-                  docker build -t="build-img" . --build-arg $TARGET
-                  docker run --name="build-env" build-img -e $DB_USER -e $DB_PASS -e $DB_BASEURL
-                  docker cp build-env:/app/dist-electron .
-                  zip -r a1-client.zip dist-electron
-              env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-                  DB_USER: ${{ secrets.DB_USER }}
-                  DB_PASS: ${{ secrets.DB_PASS }}
-                  DB_BASEURL: ${{ secrets.DB_BASEURL }}
-                  TARGET: ${{ secrets.TARGET }}
-
-            - name: Release
-              uses: softprops/action-gh-release@v1
-              if: startsWith(github.ref, 'refs/tags/')
-              with:
-                  files: a1-client.zip
+      - name: Build and Test
+        run: |
+          npm install
+          npm run test
+          docker build -t="build-img" . --build-arg $TARGET
+          docker run --name="build-env" build-img -e $DB_USER -e $DB_PASS -e $DB_BASEURL
+          docker cp build-env:/app/dist-electron .
+          zip -r a1-client.zip dist-electron
         env:
-            PAT: ${{ secrets.PAT }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PASS: ${{ secrets.DB_PASS }}
+          DB_BASEURL: ${{ secrets.DB_BASEURL }}
+          TARGET: ${{ secrets.TARGET }}
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: a1-client.zip
+        env:
+          PAT: ${{ secrets.PAT }}
