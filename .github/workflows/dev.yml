@@ -18,15 +18,15 @@ jobs:
               with:
                   node-version: 16
 
-            - name: Build
+            - name: 📦 Install Packages
               run: |
                   npm install
-                  npm run build
-                  npm run electron:build:$TARGET
-              env:
-                  TARGET: ${{ secrets.TARGET }}
 
-            - name: Test
+            - name: 🧪 Test
               run: |
                   npm run lint
                   npm run test
+
+            - name: 🛠 Build
+              run: |
+                  npm run build
