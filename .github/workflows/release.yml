@@ -7,7 +7,7 @@ on:
 
 jobs:
     build:
-        name: Upload Release Asset
+        name: 🚚 Generate Release
         runs-on: ubuntu-latest
         if: github.event.base_ref == 'refs/heads/release'
         steps:
@@ -31,7 +31,7 @@ jobs:
                   DB_BASEURL: ${{ secrets.DB_BASEURL }}
                   TARGET: ${{ secrets.TARGET }}
 
-            - name: 🏆 Release
+            - name: 🎉 Release
               uses: softprops/action-gh-release@v1
               with:
                   files: a1-client.zip
