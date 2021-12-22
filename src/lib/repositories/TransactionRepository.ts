@@ -14,7 +14,7 @@ class TransactionRepository implements Repository<Transaction> {
         @inject('password') password: string,
         @inject('baseUrl') baseUrl: string,
     ) {
-        this.init(username, password, baseUrl);
+        this.setup(username, password, baseUrl);
     }
 
     public async get(_id: string): Promise<Transaction> {
@@ -105,7 +105,7 @@ class TransactionRepository implements Repository<Transaction> {
         }
     }
 
-    private init(username: string, password: string, baseUrl: string): void {
+    private setup(username: string, password: string, baseUrl: string): void {
         const remoteUrl = baseUrl
             .replaceAll('${USERNAME}', username)
             .replaceAll('${PASSWORD}', password)

@@ -9,35 +9,8 @@ class ItemRepository implements Repository<Item> {
     private _localDB: any;
     private _remoteDB: any;
 
-    constructor(
-        @inject('itemname') username: string,
-        @inject('password') password: string,
-        @inject('baseUrl') baseUrl: string,
-    ) {
-        this.init(username, password, baseUrl);
-    }
-
-    private init(username: string, password: string, baseUrl: string): void {
-        const remoteUrl = baseUrl
-            .replaceAll('${USERNAME}', username)
-            .replaceAll('${PASSWORD}', password)
-            .replaceAll('${DB_NAME}', this._name);
-        const localUrl = `local-${this._name}`;
-
-        this._localDB = new PouchDB(localUrl);
-        this._remoteDB = new PouchDB(remoteUrl);
-
-        this._localDB
-            .sync(this._remoteDB, {
-                live: true,
-                retry: false,
-            })
-            .on('error', function () {
-                throw new Error(
-                    'ItemRepository.init(): Unable to establish sync with remote: ' +
-                        remoteUrl,
-                );
-            });
+    constructor() {
+        this.setup();
     }
 
     public async get(_id: string): Promise<Item> {
@@ -120,6 +93,33 @@ class ItemRepository implements Repository<Item> {
                 'ItemRepository.delete(): Unable to delete item: ' + item,
             );
         }
+    }
+
+    private setup(
+        @inject('username') username?: string,
+        @inject('password') password?: string,
+        @inject('baseUrl') baseUrl?: string,
+    ): void {
+        const remoteUrl = baseUrl!
+            .replaceAll('${USERNAME}', username!)
+            .replaceAll('${PASSWORD}', password!)
+            .replaceAll('${DB_NAME}', this._name);
+        const localUrl = `local-${this._name}`;
+
+        this._localDB = new PouchDB(localUrl);
+        this._remoteDB = new PouchDB(remoteUrl);
+
+        this._localDB
+            .sync(this._remoteDB, {
+                live: true,
+                retry: false,
+            })
+            .on('error', function () {
+                throw new Error(
+                    'ItemRepository.init(): Unable to establish sync with remote: ' +
+                        remoteUrl,
+                );
+            });
     }
 }
 

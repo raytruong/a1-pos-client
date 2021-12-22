@@ -1,43 +1,24 @@
-import PouchDB from 'pouchdb-browser';
+import Database from '@/lib/models/interfaces/Database';
 import Repository from '@/lib/models/interfaces/Repository';
 import User from '@/lib/models/users/User';
-import { autoInjectable, inject } from 'tsyringe';
 
-@autoInjectable()
 class UserRepository implements Repository<User> {
-    private _name = 'UserRepository';
     private _localDB: any;
     private _remoteDB: any;
 
-    constructor(
-        @inject('username') username: string,
-        @inject('password') password: string,
-        @inject('baseUrl') baseUrl: string,
-    ) {
-        this.setup(username, password, baseUrl);
+    constructor(private database: Database) {
+        if (!database) {
+            throw new Error('UserRepository: Database is null');
+        }
+        const connections = database.getConnection();
+        this._localDB = connections.local;
+        this._remoteDB = connections.remote;
     }
 
-    private setup(username: string, password: string, baseUrl: string): void {
-        const remoteUrl = baseUrl
-            .replaceAll('${USERNAME}', username)
-            .replaceAll('${PASSWORD}', password)
-            .replaceAll('${DB_NAME}', this._name);
-        const localUrl = `local-${this._name}`;
+    private _name = 'UserRepository';
 
-        this._localDB = new PouchDB(localUrl);
-        this._remoteDB = new PouchDB(remoteUrl);
-
-        this._localDB
-            .sync(this._remoteDB, {
-                live: true,
-                retry: false,
-            })
-            .on('error', function () {
-                throw new Error(
-                    'UserRepository.init(): Unable to establish sync with remote: ' +
-                        remoteUrl,
-                );
-            });
+    public get name(): string {
+        return this._name;
     }
 
     public async get(_id: string): Promise<User> {
@@ -57,16 +38,11 @@ class UserRepository implements Repository<User> {
                 include_docs: true,
             });
             return data.rows.map((row: any) => {
-                new User(
-                    row.data._id,
-                    row.data._rev,
-                    row.data._pin,
-                    row.data._name,
-                );
+                new User(row._id, row._rev, row._pin, row._name);
             });
         } catch (err) {
             throw new Error(
-                'UserRepository.getAll(): Unable to retrieve users',
+                'UserRepository.getAll(): Unable to retrieve users' + err,
             );
         }
     }
