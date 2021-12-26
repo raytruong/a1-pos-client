@@ -1,7 +1,7 @@
-import Buildable from '@/lib/models/interfaces/Buildable';
+import Cloneable from '@/lib/models/interfaces/Cloneable';
 import Serializable from '@/lib/models/interfaces/Serializable';
 
-class User implements Buildable<User>, Serializable {
+class User implements Cloneable<User>, Serializable {
     constructor(_id: string, _rev: string, pin: string, name: string) {
         this.__id = _id ? _id : `user:${Date.now()}`;
         this.__rev = _rev;
@@ -45,10 +45,10 @@ class User implements Buildable<User>, Serializable {
         this._name = name;
     }
 
-    public build(name?: string, pin?: string): User {
+    public clone(name?: string, pin?: string): User {
         if (!name || !pin) {
             throw new Error(
-                `User.build(): Expected name and pin, actual: name: ${name}, pin: ${pin}`,
+                `Expected name and pin, actual: name: ${name}, pin: ${pin}`,
             );
         }
         return new User(`user:${Date.now()}`, '', pin, name);

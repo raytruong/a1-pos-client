@@ -23,9 +23,9 @@ describe('Addon class', () => {
 
     it('should build a new addon', () => {
         const quantity = 1;
-        const spyBuild = jest.spyOn(addon, 'build');
+        const spyBuild = jest.spyOn(addon, 'clone');
 
-        const builtAddon = addon.build(quantity);
+        const builtAddon = addon.clone(quantity);
 
         expect(spyBuild).toHaveBeenCalled();
         expect(builtAddon).toBeDefined();

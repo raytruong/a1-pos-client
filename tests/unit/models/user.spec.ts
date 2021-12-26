@@ -21,9 +21,9 @@ describe('User class', () => {
     it('should build a new user', () => {
         const name = 'Kim Wexler';
         const pin = '4321';
-        const spyBuild = jest.spyOn(user, 'build');
+        const spyBuild = jest.spyOn(user, 'clone');
 
-        const builtUser = user.build(name, pin);
+        const builtUser = user.clone(name, pin);
 
         expect(spyBuild).toHaveBeenCalled();
         expect(builtUser).toBeDefined();
@@ -35,7 +35,7 @@ describe('User class', () => {
         const pin = '';
 
         const build = (): void => {
-            user.build(name, pin);
+            user.clone(name, pin);
         };
 
         expect(build).toThrow();

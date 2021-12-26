@@ -46,9 +46,9 @@ describe('Item class', () => {
 
     it('should build a new item', () => {
         const quantity = 1;
-        const spyBuild = jest.spyOn(item, 'build');
+        const spyBuild = jest.spyOn(item, 'clone');
 
-        const newItem = item.build(quantity, addons);
+        const newItem = item.clone(quantity, addons);
 
         expect(spyBuild).toHaveBeenCalled();
         expect(newItem).toBeInstanceOf(Item);

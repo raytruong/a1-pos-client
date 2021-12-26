@@ -1,10 +1,5 @@
 interface Database {
-    connect(
-        name: string,
-        username: string,
-        password: string,
-        baseUrl: string,
-    ): void;
+    connect(): void;
 
     getConnection(): any;
 }

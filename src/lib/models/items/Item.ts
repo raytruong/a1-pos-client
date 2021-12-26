@@ -1,10 +1,10 @@
 import currency from 'currency.js';
 import ItemTemplate from './ItemTemplate';
 import Addon from './Addon';
-import Buildable from '@/lib/models/interfaces/Buildable';
+import Cloneable from '@/lib/models/interfaces/Cloneable';
 import Serializable from '@/lib/models/interfaces/Serializable';
 
-class Item extends ItemTemplate implements Buildable<Item>, Serializable {
+class Item extends ItemTemplate implements Cloneable<Item>, Serializable {
     constructor(
         _id: string,
         _rev: string,
@@ -39,7 +39,7 @@ class Item extends ItemTemplate implements Buildable<Item>, Serializable {
         return this.singlePrice.add(this.sumAddonPrice);
     }
 
-    public build(quantity?: number, addons?: Array<Addon>): Item {
+    public clone(quantity?: number, addons?: Array<Addon>): Item {
         return new Item(
             `item:${Date.now()}`,
             this._rev,

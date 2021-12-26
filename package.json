@@ -9,7 +9,7 @@
         "dev": "vite",
         "build": "vue-tsc --noEmit && vite build",
         "serve": "vite preview",
-        "clean": "rm -rf dist-*",
+        "clean": "rm -rf dist-* local-*",
         "electron:dev": "electron .",
         "electron:build": "npm run build && electron-builder build --config electron-builder.json",
         "electron:build:win": "npm run build && electron-builder build --win --config electron-builder.json",
@@ -21,10 +21,12 @@
     },
     "dependencies": {
         "currency.js": "^2.0.4",
-        "pouchdb": "^7.2.2",
+        "events": "^3.3.0",
         "pouchdb-browser": "^7.2.2",
+        "process": "^0.11.10",
         "reflect-metadata": "^0.1.13",
         "tsyringe": "^4.6.0",
+        "vite-plugin-html": "^2.1.1",
         "vue": "^3.2.16"
     },
     "devDependencies": {

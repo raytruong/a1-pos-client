@@ -54,9 +54,9 @@ describe('Transaction class', () => {
     });
 
     it('should build a new transaction', () => {
-        const spyBuild = jest.spyOn(transaction, 'build');
+        const spyBuild = jest.spyOn(transaction, 'clone');
 
-        const builtTransaction = transaction.build(
+        const builtTransaction = transaction.clone(
             'Rust Colhe',
             'Credit Card',
             new Array<Item>(itemA, itemB),
@@ -71,7 +71,7 @@ describe('Transaction class', () => {
 
     it('should throw exception on build without proper parameters', () => {
         const build = (): void => {
-            transaction.build();
+            transaction.clone();
         };
 
         expect(build).toThrow();

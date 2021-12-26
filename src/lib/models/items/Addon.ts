@@ -1,9 +1,9 @@
 import currency from 'currency.js';
 import ItemTemplate from './ItemTemplate';
-import Buildable from '@/lib/models/interfaces/Buildable';
+import Cloneable from '@/lib/models/interfaces/Cloneable';
 import Serializable from '@/lib/models/interfaces/Serializable';
 
-class Addon extends ItemTemplate implements Buildable<Addon>, Serializable {
+class Addon extends ItemTemplate implements Cloneable<Addon>, Serializable {
     constructor(
         _id: string,
         _rev: string,
@@ -19,7 +19,7 @@ class Addon extends ItemTemplate implements Buildable<Addon>, Serializable {
         return this.batchPrice;
     }
 
-    public build(quantity?: number): Addon {
+    public clone(quantity?: number): Addon {
         return new Addon(
             `addon:${Date.now()}`,
             '',

@@ -1,25 +1,27 @@
 import Repository from '@/lib/models/interfaces/Repository';
-import PouchDB from 'pouchdb-browser';
 import Transaction from '@/lib/models/transactions/Transaction';
-import { autoInjectable, inject } from 'tsyringe';
+import Database from '@/lib/models/interfaces/Database';
 
-@autoInjectable()
 class TransactionRepository implements Repository<Transaction> {
-    private _name = 'TransactionRepository';
     private _localDB: any;
-    private _remoteDB: any;
 
-    constructor(
-        @inject('username') username: string,
-        @inject('password') password: string,
-        @inject('baseUrl') baseUrl: string,
-    ) {
-        this.setup(username, password, baseUrl);
+    constructor(private database: Database) {
+        if (!database) {
+            throw new Error('Database is null');
+        }
+        this._localDB = database.getConnection();
+    }
+
+    private _name = 'TransactionRepository';
+
+    public get name(): string {
+        return this._name;
     }
 
     public async get(_id: string): Promise<Transaction> {
         try {
             const data = await this._localDB.get(_id);
+            //TODO: move to serializer
             return new Transaction(
                 data._id,
                 data._rev,
@@ -27,11 +29,8 @@ class TransactionRepository implements Repository<Transaction> {
                 data.paymentType,
                 data._items,
             );
-        } catch (err) {
-            throw new Error(
-                'TransactionRepository.get(): Unable to retrieve transaction with id: ' +
-                    _id,
-            );
+        } catch (err: any) {
+            throw new Error(err);
         }
     }
 
@@ -40,6 +39,8 @@ class TransactionRepository implements Repository<Transaction> {
             const data = await this._localDB.allDocs({
                 include_docs: true,
             });
+            //TODO: move to serializer
+            //TODO: add pagination support
             return data.rows.map((row: any) => {
                 new Transaction(
                     row.data._id,
@@ -49,15 +50,14 @@ class TransactionRepository implements Repository<Transaction> {
                     row.data._items,
                 );
             });
-        } catch (err) {
-            throw new Error(
-                'TransactionRepository.getAll(): Unable to retrieve transactions',
-            );
+        } catch (err: any) {
+            throw new Error(err);
         }
     }
 
     public async save(transaction: Transaction): Promise<void> {
         try {
+            //TODO: move to serializer
             const serialized: string = JSON.stringify(
                 transaction,
                 (key, val) => {
@@ -66,17 +66,14 @@ class TransactionRepository implements Repository<Transaction> {
                 },
             );
             await this._localDB.put(serialized);
-        } catch (err) {
-            throw new Error(
-                'TransactionRepository.put(): Unable to put transaction: ' +
-                    transaction,
-            );
+        } catch (err: any) {
+            throw new Error(err);
         }
     }
 
     public async update(transaction: Transaction): Promise<void> {
         try {
-            // Disabled until necessary
+            //TODO: move to serializer
             const tempRev = transaction._rev;
             const serialized: string = JSON.stringify(
                 transaction,
@@ -86,46 +83,18 @@ class TransactionRepository implements Repository<Transaction> {
                 },
             );
             await this._localDB.put(serialized);
-        } catch (err) {
-            throw new Error(
-                'TransactionRepository.update(): Unable to update transaction: ' +
-                    transaction,
-            );
+        } catch (err: any) {
+            throw new Error(err);
         }
     }
 
     public async delete(transaction: Transaction): Promise<void> {
         try {
+            //TODO: move to serializer
             await this._localDB.delete(transaction);
-        } catch (err) {
-            throw new Error(
-                'TransactionRepository.delete(): Unable to delete transaction: ' +
-                    transaction,
-            );
+        } catch (err: any) {
+            throw new Error(err);
         }
-    }
-
-    private setup(username: string, password: string, baseUrl: string): void {
-        const remoteUrl = baseUrl
-            .replaceAll('${USERNAME}', username)
-            .replaceAll('${PASSWORD}', password)
-            .replaceAll('${DB_NAME}', this._name);
-        const localUrl = `local-${this._name}`;
-
-        this._localDB = new PouchDB(localUrl);
-        this._remoteDB = new PouchDB(remoteUrl);
-
-        this._localDB
-            .sync(this._remoteDB, {
-                live: true,
-                retry: false,
-            })
-            .on('error', function () {
-                throw new Error(
-                    'TransactionRepository.init(): Unable to establish sync with remote: ' +
-                        remoteUrl,
-                );
-            });
     }
 }
 

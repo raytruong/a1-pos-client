@@ -1,6 +1,5 @@
 import Database from '@/lib/models/interfaces/Database';
 import PouchDB from 'pouchdb-browser';
-import { inject } from 'tsyringe';
 
 class Pouch implements Database {
     private _localDB: any;
@@ -8,23 +7,27 @@ class Pouch implements Database {
 
     constructor(
         private _name: string,
-        @inject('username') username?: string,
-        @inject('password') password?: string,
-        @inject('baseUrl') baseUrl?: string,
-    ) {
-        this.connect(username!, password!, baseUrl!);
+        private username: string,
+        private password: string,
+        private baseUrl: string,
+    ) {}
+
+    public get name(): string {
+        return this._name;
     }
 
-    public connect(username: string, password: string, baseUrl: string): void {
-        if (!username || !password || !baseUrl) {
-            throw new Error(
-                `PouchDB.connect() expected username, password, baseUrl, was: ${username} ${password} ${baseUrl}`,
-            );
-        }
+    public get getRemote(): any {
+        return this._remoteDB;
+    }
 
-        const remoteUrl = baseUrl!
-            .replaceAll('${USERNAME}', username!)
-            .replaceAll('${PASSWORD}', password!)
+    public getConnection(): any {
+        return this._localDB;
+    }
+
+    public connect(): void {
+        const remoteUrl = this.baseUrl
+            .replaceAll('${USERNAME}', this.username)
+            .replaceAll('${PASSWORD}', this.password)
             .replaceAll('${DB_NAME}', this._name);
         const localUrl = `local-${this._name}`;
 
@@ -36,16 +39,11 @@ class Pouch implements Database {
                 live: true,
                 retry: false,
             })
-            .on('error', function () {
+            .on('error', function (err: any) {
                 throw new Error(
-                    'UserRepository.init(): Unable to establish sync with remote: ' +
-                        remoteUrl,
+                    'Unable to establish sync with remote url: ' + remoteUrl,
                 );
             });
-    }
-
-    public getConnection(): any {
-        return { local: this._localDB, remote: this._remoteDB };
     }
 }
 

@@ -1,9 +1,9 @@
 import currency from 'currency.js';
 import Item from '@/lib/models/items/Item';
 import Serializable from '@/lib/models/interfaces/Serializable';
-import Buildable from '@/lib/models/interfaces/Buildable';
+import Cloneable from '@/lib/models/interfaces/Cloneable';
 
-class Transaction implements Buildable<Transaction>, Serializable {
+class Transaction implements Cloneable<Transaction>, Serializable {
     constructor(
         _id: string,
         _rev: string,
@@ -71,7 +71,7 @@ class Transaction implements Buildable<Transaction>, Serializable {
         return this._items.reduce(reducer, initVal);
     }
 
-    public build(
+    public clone(
         employee?: string,
         paymentType?: string,
         items?: Array<Item>,

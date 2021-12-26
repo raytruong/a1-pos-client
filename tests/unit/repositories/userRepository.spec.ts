@@ -1,6 +1,8 @@
 import 'jest';
 import UserRepository from '@/lib/repositories/UserRepository';
 import User from '@/lib/models/users/User';
+import { container } from 'tsyringe';
+import UserService from '@/lib/services/UserService';
 
 describe('UserRepository class', () => {
     let repository: UserRepository;
@@ -21,7 +23,7 @@ describe('UserRepository class', () => {
 
     const mockPouch = {
         get: jest.fn().mockImplementation((_id) => {
-            return _id === 'user1' ? user1 : user2;
+            return _id === 'id1' ? user1 : user2;
         }),
         allDocs: jest.fn().mockImplementation((include_docs) => {
             return { rows: [user1, user2] };
@@ -30,9 +32,7 @@ describe('UserRepository class', () => {
 
     const mockDB = {
         connect: jest.fn().mockImplementation(),
-        getConnection: jest
-            .fn()
-            .mockReturnValue({ local: mockPouch, remote: mockPouch }),
+        getConnection: jest.fn().mockReturnValue(mockPouch),
     };
 
     beforeAll(() => {
@@ -50,21 +50,29 @@ describe('UserRepository class', () => {
         expect(actual).toStrictEqual(expected);
     });
 
-    it('should get user1', async () => {
-        const actual = await repository.get('user1');
+    it('should get user1 by id', async () => {
+        const actual = await repository.get('id1');
         expect(actual).toBeInstanceOf(User);
-        expect(actual).toHaveProperty('_id', 'id1');
+        expect(actual).toHaveProperty('name', 'name1');
     });
 
-    it('should get user2', async () => {
-        const actual = await repository.get('user2');
+    it('should get user2 by id', async () => {
+        const actual = await repository.get('id2');
         expect(actual).toBeInstanceOf(User);
-        expect(actual).toHaveProperty('_id', 'id2');
+        expect(actual).toHaveProperty('name', 'name2');
     });
 
     it('should get all users', async () => {
         const actual = await repository.getAll();
         expect(actual).toBeInstanceOf(Array);
         expect(actual.length).toEqual(2);
+    });
+
+    it('IOC throwaway test', async () => {
+        // TODO: remove me
+        // const actual = await repository.save(await repository.get('id1'));
+        // expect(actual).not.toHaveProperty('_rev');
+        const service = container.resolve(UserService);
+        expect(service).toBeDefined();
     });
 });
