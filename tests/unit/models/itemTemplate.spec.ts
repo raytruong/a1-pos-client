@@ -1,7 +1,7 @@
 import 'jest';
 import currency from 'currency.js';
 import Item from '@/lib/models/items/Item';
-import Addon from '../../../src/lib/models/items/Addon';
+import Addon from '@/lib/models/items/Addon';
 
 describe('itemTemplate abstract class', () => {
     let item: Item;

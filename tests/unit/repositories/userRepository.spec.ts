@@ -1,8 +1,6 @@
 import 'jest';
 import UserRepository from '@/lib/repositories/UserRepository';
 import User from '@/lib/models/users/User';
-import { container } from 'tsyringe';
-import UserService from '@/lib/services/UserService';
 
 describe('UserRepository class', () => {
     let repository: UserRepository;
@@ -66,13 +64,5 @@ describe('UserRepository class', () => {
         const actual = await repository.getAll();
         expect(actual).toBeInstanceOf(Array);
         expect(actual.length).toEqual(2);
-    });
-
-    it('IOC throwaway test', async () => {
-        // TODO: remove me
-        // const actual = await repository.save(await repository.get('id1'));
-        // expect(actual).not.toHaveProperty('_rev');
-        const service = container.resolve(UserService);
-        expect(service).toBeDefined();
     });
 });
