@@ -25,6 +25,10 @@ class User implements Cloneable<User>, Serializable {
         return this.__rev;
     }
 
+    public set _rev(rev: string) {
+        this.__rev = rev;
+    }
+
     private _pin: string;
 
     public get pin(): string {

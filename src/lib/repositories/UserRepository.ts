@@ -1,17 +1,22 @@
 import Database from '@/lib/models/interfaces/Database';
 import Repository from '@/lib/models/interfaces/Repository';
 import User from '@/lib/models/users/User';
+import Serializer from '@/lib/services/Serializer';
+import Pouch from '@/lib/models/databases/Pouch';
 import { inject, singleton } from 'tsyringe';
 
 @singleton()
 class UserRepository implements Repository<User> {
     private _localDB: any;
 
-    constructor(@inject('UserDatabase') private database: Database) {
+    constructor(
+        @inject(Pouch) private database: Database,
+        @inject(Serializer) private serializer: Serializer,
+    ) {
         if (!database) {
             throw new Error('Database is null');
         }
-        database.connect();
+        database.setup(this.name);
         this._localDB = database.getConnection();
     }
 
@@ -25,7 +30,11 @@ class UserRepository implements Repository<User> {
         //TODO: move to serializer
         try {
             const data = await this._localDB.get(_id);
-            return new User(data._id, data._rev, data._pin, data._name);
+            // return new User(data._id, data._rev, data._pin, data._name);
+            return this.serializer.deserialize<User>(
+                JSON.stringify(data),
+                User,
+            );
         } catch (err: any) {
             throw new Error(err);
         }

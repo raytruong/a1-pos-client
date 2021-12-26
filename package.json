@@ -22,7 +22,7 @@
     "dependencies": {
         "currency.js": "^2.0.4",
         "events": "^3.3.0",
-        "pouchdb-browser": "^7.2.2",
+        "pouchdb": "^7.2.2",
         "process": "^0.11.10",
         "reflect-metadata": "^0.1.13",
         "tsyringe": "^4.6.0",

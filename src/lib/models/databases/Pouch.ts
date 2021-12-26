@@ -1,19 +1,33 @@
 import Database from '@/lib/models/interfaces/Database';
-import PouchDB from 'pouchdb-browser';
+import PouchDB from 'pouchdb';
+import { inject, injectable } from 'tsyringe';
 
+@injectable()
 class Pouch implements Database {
     private _localDB: any;
     private _remoteDB: any;
 
+    // TODO: move to auth service and setup function instead of injection
     constructor(
-        private _name: string,
-        private username: string,
-        private password: string,
-        private baseUrl: string,
+        @inject('username') private _username: string,
+        @inject('password') private _password: string,
+        @inject('baseUrl') private _baseUrl: string,
     ) {}
+
+    private _uuid = '';
+
+    public get uuid(): string {
+        return this._uuid;
+    }
+
+    private _name = '';
 
     public get name(): string {
         return this._name;
+    }
+
+    public set name(name: string) {
+        this._name = name;
     }
 
     public get getRemote(): any {
@@ -24,12 +38,26 @@ class Pouch implements Database {
         return this._localDB;
     }
 
+    public setup(name?: string): void {
+        if (!name) {
+            throw new Error('Name needs to be provided in setup function');
+        }
+        this._name = name;
+        this._uuid = `${this.name}-${Date.now()}`;
+        this.connect();
+    }
+
     public connect(): void {
-        const remoteUrl = this.baseUrl
-            .replaceAll('${USERNAME}', this.username)
-            .replaceAll('${PASSWORD}', this.password)
-            .replaceAll('${DB_NAME}', this._name);
-        const localUrl = `local-${this._name}`;
+        if (!this.uuid) {
+            throw new Error('Name needs to be assigned before connection');
+        }
+
+        // TODO: implement auth service
+        const remoteUrl = this._baseUrl
+            .replaceAll('USERNAME', this._username)
+            .replaceAll('PASSWORD', this._password)
+            .replaceAll('DB_NAME', this.uuid);
+        const localUrl = `local-${this.uuid}`;
 
         this._localDB = new PouchDB(localUrl);
         this._remoteDB = new PouchDB(remoteUrl);

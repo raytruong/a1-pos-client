@@ -16,6 +16,11 @@ class UserService {
         }
     }
 
+    public async get(_id: string): Promise<User> {
+        const data = await this.repository.get(_id);
+        return data;
+    }
+
     public async getAllUsers(): Promise<Array<User>> {
         const data = await this.repository.getAll();
         return data;

@@ -1,45 +1,34 @@
 import 'jest';
 import UserRepository from '@/lib/repositories/UserRepository';
 import User from '@/lib/models/users/User';
+import { container } from 'tsyringe';
+import Pouch from '@/lib/models/databases/Pouch';
+import mockPouch, {
+    mockConnect,
+    mockGetConnection,
+    mockSetup,
+} from './__mocks__/Pouch';
 
 describe('UserRepository class', () => {
+    const mockContainer = container
+        .createChildContainer()
+        .register<Pouch>(Pouch, mockPouch);
+
     let repository: UserRepository;
 
-    const user1 = {
-        _id: 'id1',
-        _rev: 'rev1',
-        _pin: 'pin1',
-        _name: 'name1',
-    };
+    beforeEach(() => {
+        repository = mockContainer.resolve(UserRepository);
+    });
 
-    const user2 = {
-        _id: 'id2',
-        _rev: 'rev2',
-        _pin: 'pin2',
-        _name: 'name2',
-    };
-
-    const mockPouch = {
-        get: jest.fn().mockImplementation((_id) => {
-            return _id === 'id1' ? user1 : user2;
-        }),
-        allDocs: jest.fn().mockImplementation((include_docs) => {
-            return { rows: [user1, user2] };
-        }),
-    };
-
-    const mockDB = {
-        connect: jest.fn().mockImplementation(),
-        getConnection: jest.fn().mockReturnValue(mockPouch),
-    };
-
-    beforeAll(() => {
-        repository = new UserRepository(mockDB);
+    afterEach(() => {
+        mockContainer.clearInstances();
     });
 
     it('should create a UserRepository', () => {
-        expect(mockDB.getConnection).toHaveBeenCalled();
         expect(repository).toBeDefined();
+        expect(mockSetup).toHaveBeenCalled();
+        expect(mockGetConnection).toHaveBeenCalled();
+        expect(mockConnect).toHaveBeenCalled();
     });
 
     it('should get the name', () => {
@@ -49,15 +38,23 @@ describe('UserRepository class', () => {
     });
 
     it('should get user1 by id', async () => {
+        const expected = {
+            _id: 'id1',
+            _name: 'name1',
+        };
         const actual = await repository.get('id1');
         expect(actual).toBeInstanceOf(User);
-        expect(actual).toHaveProperty('name', 'name1');
+        expect(actual).toEqual(expect.objectContaining(expected));
     });
 
     it('should get user2 by id', async () => {
+        const expected = {
+            _id: 'id2',
+            _name: 'name2',
+        };
         const actual = await repository.get('id2');
         expect(actual).toBeInstanceOf(User);
-        expect(actual).toHaveProperty('name', 'name2');
+        expect(actual).toEqual(expect.objectContaining(expected));
     });
 
     it('should get all users', async () => {
