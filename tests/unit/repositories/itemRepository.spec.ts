@@ -8,6 +8,7 @@ import mockItemDatabase, {
     mockGetConnection,
     mockSetup,
 } from './__mocks__/itemDatabase';
+import Addon from '@/lib/models/Addon';
 
 describe('ItemRepository class', () => {
     const mockContainer = container
@@ -44,6 +45,9 @@ describe('ItemRepository class', () => {
         };
         const actual = await repository.get('id1');
         expect(actual).toBeInstanceOf(Item);
+        actual.addons.forEach((object) => {
+            expect(object).toBeInstanceOf(Addon);
+        });
         expect(actual).toEqual(expect.objectContaining(expected));
     });
 });

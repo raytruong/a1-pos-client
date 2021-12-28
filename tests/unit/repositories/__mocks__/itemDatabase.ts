@@ -1,30 +1,30 @@
 export const addon1 = {
-    _id: 'id1',
-    _rev: 'rev1',
-    name: 'name1',
-    price: 1,
-    quantity: 1,
-    category: 'category1',
+    __id: 'id1',
+    __rev: 'rev1',
+    _name: 'name1',
+    _price: 1,
+    _quantity: 1,
+    _category: 'category1',
 };
 
 export const item1 = {
-    _id: 'id1',
-    _rev: 'rev1',
-    name: 'name1',
-    price: 1,
-    quantity: 1,
-    category: 'category1',
-    addons: [addon1],
+    __id: 'id1',
+    __rev: 'rev1',
+    _name: 'name1',
+    _price: 1,
+    _quantity: 1,
+    _category: 'category1',
+    _addons: [addon1],
 };
 
 export const item2 = {
-    _id: 'id2',
-    _rev: 'rev2',
-    name: 'name2',
-    price: 2,
-    quantity: 2,
-    category: 'category2',
-    addons: [],
+    __id: 'id2',
+    __rev: 'rev2',
+    _name: 'name2',
+    _price: 2,
+    _quantity: 2,
+    _category: 'category2',
+    _addons: [],
 };
 
 const mockDB = {

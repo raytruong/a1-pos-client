@@ -45,8 +45,8 @@ abstract class ItemTemplate {
         return this._name;
     }
 
-    public set name(cname: string) {
-        this._name = cname;
+    public set name(name: string) {
+        this._name = name;
     }
 
     private _quantity: number;

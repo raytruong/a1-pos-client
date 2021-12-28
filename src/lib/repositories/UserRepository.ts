@@ -27,10 +27,9 @@ class UserRepository implements Repository<User> {
     }
 
     public async get(_id: string): Promise<User> {
-        //TODO: move to serializer
         try {
             const data = await this._localDB.get(_id);
-            return new User(data._id, data._rev, data._pin, data._name);
+            return this.serializer.deserialize(data);
         } catch (err: any) {
             throw new Error(err);
         }

@@ -1,13 +1,13 @@
 export const user1 = {
-    _id: 'id1',
-    _rev: 'rev1',
+    __id: 'id1',
+    __rev: 'rev1',
     _pin: 'pin1',
     _name: 'name1',
 };
 
 export const user2 = {
-    _id: 'id2',
-    _rev: 'rev2',
+    __id: 'id2',
+    __rev: 'rev2',
     _pin: 'pin2',
     _name: 'name2',
 };

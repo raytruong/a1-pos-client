@@ -29,15 +29,7 @@ class ItemRepository implements Repository<Item> {
     public async get(_id: string): Promise<Item> {
         try {
             const data = await this._localDB.get(_id);
-            return new Item(
-                data._id,
-                data._rev,
-                data.name,
-                data.price,
-                data.quantity,
-                data.category,
-                data.addons,
-            );
+            return this.serializer.deserialize(data);
         } catch (err: any) {
             throw new Error(err);
         }
