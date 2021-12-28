@@ -1,6 +1,6 @@
-import Repository from '@/lib/models/interfaces/Repository';
-import Transaction from '@/lib/models/transactions/Transaction';
-import Database from '@/lib/models/interfaces/Database';
+import Repository from '@/lib/interfaces/Repository';
+import Transaction from '@/lib/models/Transaction';
+import Database from '@/lib/interfaces/Database';
 
 class TransactionRepository implements Repository<Transaction> {
     private _localDB: any;

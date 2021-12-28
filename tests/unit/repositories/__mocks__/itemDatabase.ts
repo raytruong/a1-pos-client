@@ -1,40 +1,26 @@
-const user1 = {
+export const addon1 = {
     _id: 'id1',
     _rev: 'rev1',
-    _pin: 'pin1',
-    _name: 'name1',
-};
-
-const user2 = {
-    _id: 'id2',
-    _rev: 'rev2',
-    _pin: 'pin2',
-    _name: 'name2',
-};
-
-const addon1 = {
-    _id: 'id1',
-    _rev: 'rev1',
-    cname: 'cname1',
+    name: 'name1',
     price: 1,
     quantity: 1,
     category: 'category1',
 };
 
-const item1 = {
+export const item1 = {
     _id: 'id1',
     _rev: 'rev1',
-    cname: 'cname1',
+    name: 'name1',
     price: 1,
     quantity: 1,
     category: 'category1',
     addons: [addon1],
 };
 
-const item2 = {
+export const item2 = {
     _id: 'id2',
     _rev: 'rev2',
-    cname: 'cname2',
+    name: 'name2',
     price: 2,
     quantity: 2,
     category: 'category2',
@@ -43,10 +29,10 @@ const item2 = {
 
 const mockDB = {
     get: jest.fn().mockImplementation((_id) => {
-        return _id === 'id1' ? user1 : user2;
+        return _id === 'id1' ? item1 : item2;
     }),
     allDocs: jest.fn().mockImplementation((include_docs) => {
-        return { rows: [user1, user2] };
+        return { rows: [item1, item2] };
     }),
 };
 
@@ -66,7 +52,7 @@ export const mockConnect = jest.fn().mockImplementation(() => {
     };
 });
 
-const mockPouch = jest.fn().mockImplementation(() => {
+const mockItemDatabase = jest.fn().mockImplementation(() => {
     return {
         getConnection: mockGetConnection(),
         setup: mockSetup(),
@@ -74,4 +60,4 @@ const mockPouch = jest.fn().mockImplementation(() => {
     };
 });
 
-export default mockPouch;
+export default mockItemDatabase;

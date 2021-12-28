@@ -1,5 +1,5 @@
-import Cloneable from '@/lib/models/interfaces/Cloneable';
-import Serializable from '@/lib/models/interfaces/Serializable';
+import Cloneable from '@/lib/interfaces/Cloneable';
+import Serializable from '@/lib/interfaces/Serializable';
 
 class User implements Cloneable<User>, Serializable {
     constructor(_id: string, _rev: string, pin: string, name: string) {

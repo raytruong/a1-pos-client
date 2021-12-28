@@ -1,14 +1,22 @@
-import Database from '@/lib/models/interfaces/Database';
-import Repository from '@/lib/models/interfaces/Repository';
-import Item from '@/lib/models/items/Item';
+import Database from '@/lib/interfaces/Database';
+import Repository from '@/lib/interfaces/Repository';
+import Item from '@/lib/models/Item';
+import Pouch from '@/lib/databases/Pouch';
+import ItemSerializer from '@/lib/serializers/ItemSerializer';
+import { inject, singleton } from 'tsyringe';
 
+@singleton()
 class ItemRepository implements Repository<Item> {
     private _localDB: any;
 
-    constructor(private database: Database) {
-        if (!database) {
-            throw new Error('Database is null');
+    constructor(
+        @inject(Pouch) private database: Database,
+        @inject(ItemSerializer) private serializer: ItemSerializer,
+    ) {
+        if (!database || !serializer) {
+            throw new Error('Missing database or serializer');
         }
+        database.setup(this.name);
         this._localDB = database.getConnection();
     }
 
@@ -21,11 +29,10 @@ class ItemRepository implements Repository<Item> {
     public async get(_id: string): Promise<Item> {
         try {
             const data = await this._localDB.get(_id);
-            //TODO: move to serializer
             return new Item(
                 data._id,
                 data._rev,
-                data.cname,
+                data.name,
                 data.price,
                 data.quantity,
                 data.category,
@@ -47,7 +54,7 @@ class ItemRepository implements Repository<Item> {
                 new Item(
                     row._id,
                     row._rev,
-                    row.cname,
+                    row.name,
                     row.price,
                     row.quantity,
                     row.category,

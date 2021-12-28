@@ -1,18 +1,18 @@
 import 'jest';
-import UserRepository from '@/lib/repositories/UserRepository';
-import User from '@/lib/models/users/User';
 import { container } from 'tsyringe';
-import Pouch from '@/lib/models/databases/Pouch';
-import mockPouch, {
+import UserRepository from '@/lib/repositories/UserRepository';
+import User from '@/lib/models/User';
+import Pouch from '@/lib/databases/Pouch';
+import mockUserDatabase, {
     mockConnect,
     mockGetConnection,
     mockSetup,
-} from './__mocks__/Pouch';
+} from './__mocks__/userDatabase';
 
 describe('UserRepository class', () => {
     const mockContainer = container
         .createChildContainer()
-        .register<Pouch>(Pouch, mockPouch);
+        .register<Pouch>(Pouch, mockUserDatabase);
 
     let repository: UserRepository;
 

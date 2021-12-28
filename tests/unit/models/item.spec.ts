@@ -1,7 +1,7 @@
 import 'jest';
 import currency from 'currency.js';
-import Item from '@/lib/models/items/Item';
-import Addon from '@/lib/models/items/Addon';
+import Item from '../../../src/lib/models/Item';
+import Addon from '../../../src/lib/models/Addon';
 
 describe('Item class', () => {
     let item: Item;
@@ -100,7 +100,7 @@ describe('Item class', () => {
         const expected = {
             _id: 'item:1234567890',
             _rev: '7-8596f70bd9ed85a3e133af283838f191',
-            cname: 'Classic Pedicure',
+            name: 'Classic Pedicure',
             price: new currency(1).toString(),
             quantity: 1,
             category: 'Pedicure',

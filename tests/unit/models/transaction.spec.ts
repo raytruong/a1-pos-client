@@ -1,7 +1,7 @@
 import 'jest';
-import Transaction from '@/lib/models/transactions/Transaction';
-import Item from '@/lib/models/items/Item';
-import Addon from '@/lib/models/items/Addon';
+import Transaction from '../../../src/lib/models/Transaction';
+import Item from '../../../src/lib/models/Item';
+import Addon from '../../../src/lib/models/Addon';
 import currency from 'currency.js';
 
 describe('Transaction class', () => {

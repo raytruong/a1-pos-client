@@ -1,4 +1,4 @@
-import Database from '@/lib/models/interfaces/Database';
+import Database from '@/lib/interfaces/Database';
 import PouchDB from 'pouchdb';
 import { inject, injectable } from 'tsyringe';
 

@@ -1,7 +1,7 @@
 import 'jest';
 import currency from 'currency.js';
-import Item from '@/lib/models/items/Item';
-import Addon from '@/lib/models/items/Addon';
+import Item from '../../../src/lib/models/Item';
+import Addon from '../../../src/lib/models/Addon';
 
 describe('itemTemplate abstract class', () => {
     let item: Item;
@@ -103,21 +103,21 @@ describe('itemTemplate abstract class', () => {
     });
 
     it('should get cname', () => {
-        const spyCname = jest.spyOn(item, 'cname', 'get');
+        const spyCname = jest.spyOn(item, 'name', 'get');
 
         const expected = 'Classic Pedicure';
-        const actual = item.cname;
+        const actual = item.name;
 
         expect(spyCname).toHaveBeenCalled();
         expect(actual).toStrictEqual(expected);
     });
 
     it('should set cname', () => {
-        const spyCname = jest.spyOn(item, 'cname', 'set');
+        const spyCname = jest.spyOn(item, 'name', 'set');
 
         const expected = 'Kids Pedicure';
-        item.cname = expected;
-        const actual = item.cname;
+        item.name = expected;
+        const actual = item.name;
 
         expect(spyCname).toHaveBeenCalled();
         expect(actual).toStrictEqual(expected);

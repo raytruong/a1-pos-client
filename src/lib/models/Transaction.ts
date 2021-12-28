@@ -1,7 +1,7 @@
 import currency from 'currency.js';
-import Item from '@/lib/models/items/Item';
-import Serializable from '@/lib/models/interfaces/Serializable';
-import Cloneable from '@/lib/models/interfaces/Cloneable';
+import Item from '@/lib/models/Item';
+import Serializable from '@/lib/interfaces/Serializable';
+import Cloneable from '@/lib/interfaces/Cloneable';
 
 class Transaction implements Cloneable<Transaction>, Serializable {
     constructor(

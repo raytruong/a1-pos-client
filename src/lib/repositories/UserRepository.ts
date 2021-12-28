@@ -1,8 +1,8 @@
-import Database from '@/lib/models/interfaces/Database';
-import Repository from '@/lib/models/interfaces/Repository';
-import User from '@/lib/models/users/User';
-import Serializer from '@/lib/services/Serializer';
-import Pouch from '@/lib/models/databases/Pouch';
+import Database from '@/lib/interfaces/Database';
+import Repository from '@/lib/interfaces/Repository';
+import Pouch from '@/lib/databases/Pouch';
+import User from '@/lib/models/User';
+import UserSerializer from '@/lib/serializers/UserSerializer';
 import { inject, singleton } from 'tsyringe';
 
 @singleton()
@@ -11,10 +11,10 @@ class UserRepository implements Repository<User> {
 
     constructor(
         @inject(Pouch) private database: Database,
-        @inject(Serializer) private serializer: Serializer,
+        @inject(UserSerializer) private serializer: UserSerializer,
     ) {
-        if (!database) {
-            throw new Error('Database is null');
+        if (!database || !serializer) {
+            throw new Error('Missing database or serializer');
         }
         database.setup(this.name);
         this._localDB = database.getConnection();
@@ -30,11 +30,7 @@ class UserRepository implements Repository<User> {
         //TODO: move to serializer
         try {
             const data = await this._localDB.get(_id);
-            // return new User(data._id, data._rev, data._pin, data._name);
-            return this.serializer.deserialize<User>(
-                JSON.stringify(data),
-                User,
-            );
+            return new User(data._id, data._rev, data._pin, data._name);
         } catch (err: any) {
             throw new Error(err);
         }

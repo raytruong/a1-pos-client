@@ -1,5 +1,5 @@
 import 'jest';
-import User from '@/lib/models/users/User';
+import User from '../../../src/lib/models/User';
 
 describe('User class', () => {
     let user: User;

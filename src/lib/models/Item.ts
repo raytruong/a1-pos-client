@@ -1,20 +1,20 @@
 import currency from 'currency.js';
 import ItemTemplate from './ItemTemplate';
 import Addon from './Addon';
-import Cloneable from '@/lib/models/interfaces/Cloneable';
-import Serializable from '@/lib/models/interfaces/Serializable';
+import Cloneable from '@/lib/interfaces/Cloneable';
+import Serializable from '@/lib/interfaces/Serializable';
 
 class Item extends ItemTemplate implements Cloneable<Item>, Serializable {
     constructor(
         _id: string,
         _rev: string,
-        cname: string,
+        name: string,
         price: currency,
         quantity: number,
         category: string,
         addons: Array<Addon>,
     ) {
-        super(_id, _rev, cname, price, quantity, category);
+        super(_id, _rev, name, price, quantity, category);
         this._addons = addons;
     }
 
@@ -43,7 +43,7 @@ class Item extends ItemTemplate implements Cloneable<Item>, Serializable {
         return new Item(
             `item:${Date.now()}`,
             this._rev,
-            this.cname,
+            this.name,
             this.singlePrice,
             quantity ? quantity : 1,
             this.category,
@@ -55,7 +55,7 @@ class Item extends ItemTemplate implements Cloneable<Item>, Serializable {
         return {
             _id: this._id,
             _rev: this._rev,
-            cname: this.cname,
+            name: this.name,
             price: this.displaySinglePrice,
             quantity: this.quantity,
             category: this.category,

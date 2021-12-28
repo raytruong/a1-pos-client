@@ -1,28 +1,25 @@
 import currency from 'currency.js';
 
 abstract class ItemTemplate {
-    private __id: string;
-    private __rev: string;
     private _price: currency;
-    private _cname: string;
-    private _quantity: number;
-    private _category: string;
 
     constructor(
         _id: string,
         _rev: string,
-        cname: string,
+        name: string,
         price: currency,
         quantity: number,
         category: string,
     ) {
         this.__id = _id;
         this.__rev = _rev;
-        this._cname = cname;
+        this._name = name;
         this._price = price;
         this._quantity = quantity;
         this._category = category;
     }
+
+    private __id: string;
 
     public get _id(): string {
         return this.__id;
@@ -32,13 +29,37 @@ abstract class ItemTemplate {
         this.__id = _id;
     }
 
+    private __rev: string;
+
     public get _rev(): string {
         return this.__rev;
     }
 
-    public get batchPrice(): currency {
-        return this.singlePrice.multiply(this.quantity);
+    public set _rev(_rev: string) {
+        this.__rev = _rev;
     }
+
+    private _name: string;
+
+    public get name(): string {
+        return this._name;
+    }
+
+    public set name(cname: string) {
+        this._name = cname;
+    }
+
+    private _quantity: number;
+
+    public get quantity(): number {
+        return this._quantity;
+    }
+
+    public set quantity(quantity: number) {
+        this._quantity = quantity;
+    }
+
+    private _category: string;
 
     public get category(): string {
         return this._category;
@@ -48,12 +69,8 @@ abstract class ItemTemplate {
         this._category = category;
     }
 
-    public get cname(): string {
-        return this._cname;
-    }
-
-    public set cname(cname: string) {
-        this._cname = cname;
+    public get batchPrice(): currency {
+        return this.singlePrice.multiply(this.quantity);
     }
 
     public get displayBatchPrice(): string {
@@ -66,14 +83,6 @@ abstract class ItemTemplate {
 
     public get displayTotalPrice(): string {
         return this.totalPrice.toString();
-    }
-
-    public get quantity(): number {
-        return this._quantity;
-    }
-
-    public set quantity(quantity: number) {
-        this._quantity = quantity;
     }
 
     public get singlePrice(): currency {
