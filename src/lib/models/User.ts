@@ -3,7 +3,7 @@ import Serializable from '@/lib/interfaces/Serializable';
 
 class User implements Cloneable<User>, Serializable {
     constructor(_id: string, _rev: string, pin: string, name: string) {
-        this.__id = _id ? _id : `user:${Date.now()}`;
+        this.__id = _id;
         this.__rev = _rev;
         this._pin = pin;
         this._name = name;
@@ -62,8 +62,8 @@ class User implements Cloneable<User>, Serializable {
         return {
             _id: this._id,
             _rev: this._rev,
-            _pin: this.pin,
-            _name: this.name,
+            pin: this.pin,
+            name: this.name,
         };
     }
 }

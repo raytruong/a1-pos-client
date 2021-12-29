@@ -18,7 +18,7 @@ abstract class AbstractItem {
     )
     private _price: Currency;
 
-    constructor(
+    protected constructor(
         _id: string,
         _rev: string,
         name: string,
