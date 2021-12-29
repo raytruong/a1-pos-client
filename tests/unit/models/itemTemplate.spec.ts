@@ -1,5 +1,5 @@
 import 'jest';
-import currency from 'currency.js';
+import Currency from '@/lib/models/Currency';
 import Item from '../../../src/lib/models/Item';
 import Addon from '../../../src/lib/models/Addon';
 
@@ -12,7 +12,7 @@ describe('itemTemplate abstract class', () => {
             'addon:1234567890',
             '7-8596f70bd9ed85a3e133af283838f191',
             'addonA',
-            new currency(1),
+            new Currency(1),
             1,
             'Addon',
         );
@@ -21,7 +21,7 @@ describe('itemTemplate abstract class', () => {
             'addon:1234567890',
             '7-8596f70bd9ed85a3e133af283838f191',
             'addonB',
-            new currency(2),
+            new Currency(2),
             2,
             'Addon',
         );
@@ -32,7 +32,7 @@ describe('itemTemplate abstract class', () => {
             'item:1234567890',
             '7-8596f70bd9ed85a3e133af283838f191',
             'Classic Pedicure',
-            new currency(1),
+            new Currency(1),
             1,
             'Pedicure',
             addons,
@@ -73,7 +73,7 @@ describe('itemTemplate abstract class', () => {
     it('should get batchPrice', () => {
         const spyBatchPrice = jest.spyOn(item, 'batchPrice', 'get');
 
-        const expected = new currency(10);
+        const expected = new Currency(10);
         item.quantity = 10;
         const actual = item.batchPrice;
 
@@ -126,7 +126,7 @@ describe('itemTemplate abstract class', () => {
     it('should get displayBatchPrice', () => {
         const spyDispBatchPrice = jest.spyOn(item, 'displayBatchPrice', 'get');
 
-        const expected = new currency(2).toString();
+        const expected = new Currency(2).toString();
         item.quantity = 2;
         const actual = item.displayBatchPrice;
 
@@ -141,7 +141,7 @@ describe('itemTemplate abstract class', () => {
             'get',
         );
 
-        const expected = new currency(1).toString();
+        const expected = new Currency(1).toString();
         const actual = item.displaySinglePrice;
 
         expect(spyDisplaySinglePrice).toHaveBeenCalled();
@@ -151,7 +151,7 @@ describe('itemTemplate abstract class', () => {
     it('should set singlePrice', () => {
         const spyCname = jest.spyOn(item, 'singlePrice', 'set');
 
-        const expected = new currency(1);
+        const expected = new Currency(1);
         item.singlePrice = expected;
         const actual = item.singlePrice;
 
@@ -166,7 +166,7 @@ describe('itemTemplate abstract class', () => {
             'get',
         );
 
-        const expected = new currency(6).toString();
+        const expected = new Currency(6).toString();
         const actual = item.displayTotalPrice;
 
         expect(spyDisplayTotalPrice).toHaveBeenCalled();

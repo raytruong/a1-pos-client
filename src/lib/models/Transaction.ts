@@ -1,5 +1,5 @@
-import currency from 'currency.js';
 import Item from '@/lib/models/Item';
+import Currency from '@/lib/models/Currency';
 import Serializable from '@/lib/interfaces/Serializable';
 import Cloneable from '@/lib/interfaces/Cloneable';
 
@@ -64,9 +64,9 @@ class Transaction implements Cloneable<Transaction>, Serializable {
         this._items = items;
     }
 
-    public get totalPrice(): currency {
-        const initVal = new currency(0);
-        const reducer = (acc: currency, item: Item): currency =>
+    public get totalPrice(): Currency {
+        const initVal = new Currency(0);
+        const reducer = (acc: Currency, item: Item): Currency =>
             acc.add(item.totalPrice);
         return this._items.reduce(reducer, initVal);
     }

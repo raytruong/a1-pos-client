@@ -1,18 +1,40 @@
 import { singleton } from 'tsyringe';
-import { plainToClass } from 'class-transformer';
+import { instanceToPlain, plainToInstance } from 'class-transformer';
 import Item from '@/lib/models/Item';
-import Addon from '@/lib/models/Addon';
+import Serializer from '@/lib/interfaces/Serializer';
 
 @singleton()
-class ItemSerializer {
+class ItemSerializer implements Serializer<Item> {
     public deserialize(serialized: Record<string, unknown>): Item {
-        const item = plainToClass(Item, serialized);
-        const addons = Array<Addon>();
-        item.addons.forEach((addon) => {
-            addons.push(plainToClass(Addon, addon));
+        const deserialized = plainToInstance(Item, serialized);
+        return deserialized;
+    }
+
+    public deserializeAll(
+        serialized: Array<Record<string, unknown>>,
+    ): Array<Item> {
+        const deserializedItemArray = Array<Item>();
+        serialized.forEach((serializedItem) => {
+            const deserializedItem = this.deserialize(serializedItem);
+            deserializedItemArray.push(deserializedItem);
         });
-        item.addons = addons;
-        return item;
+        return deserializedItemArray;
+    }
+
+    public serialize(deserialized: Item): Record<string, unknown> {
+        const serialized = instanceToPlain(deserialized);
+        return serialized;
+    }
+
+    public serializeAll(
+        deserialized: Array<Item>,
+    ): Array<Record<string, unknown>> {
+        const serializedItemArray = Array<Record<string, unknown>>();
+        deserialized.forEach((deserializedItem) => {
+            const serializedItem = this.serialize(deserializedItem);
+            serializedItemArray.push(serializedItem);
+        });
+        return serializedItemArray;
     }
 }
 

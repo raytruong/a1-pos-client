@@ -1,6 +1,6 @@
-import currency from 'currency.js';
 import 'jest';
 import Addon from '@/lib/models/Addon';
+import Currency from '@/lib/models/Currency';
 
 describe('Addon class', () => {
     let addon: Addon;
@@ -10,7 +10,7 @@ describe('Addon class', () => {
             'item:1234567890',
             '7-8596f70bd9ed85a3e133af283838f191',
             'Gel Powder',
-            new currency(1),
+            new Currency(100),
             1,
             'Addon',
         );
@@ -34,13 +34,13 @@ describe('Addon class', () => {
 
     it('should get the total price', () => {
         const spyTotalPrice = jest.spyOn(addon, 'totalPrice', 'get');
-        const expectedPrice = new currency(1);
+        const expectedPrice = new Currency(100);
 
         const totalPrice = addon.totalPrice;
 
         expect(spyTotalPrice).toHaveBeenCalled();
         expect(totalPrice).toBeDefined();
-        expect(totalPrice).toBeInstanceOf(currency);
+        expect(totalPrice).toBeInstanceOf(Currency);
         expect(totalPrice).toEqual(expectedPrice);
     });
 
@@ -50,7 +50,7 @@ describe('Addon class', () => {
             _id: 'item:1234567890',
             _rev: '7-8596f70bd9ed85a3e133af283838f191',
             name: 'Gel Powder',
-            price: new currency(1).toString(),
+            price: new Currency(100).toString(),
             quantity: 1,
             category: 'Addon',
         };

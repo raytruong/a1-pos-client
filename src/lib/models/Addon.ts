@@ -1,21 +1,21 @@
-import currency from 'currency.js';
-import ItemTemplate from './ItemTemplate';
+import AbstractItem from '@/lib/models/AbstractItem';
 import Cloneable from '@/lib/interfaces/Cloneable';
 import Serializable from '@/lib/interfaces/Serializable';
+import Currency from '@/lib/models/Currency';
 
-class Addon extends ItemTemplate implements Cloneable<Addon>, Serializable {
+class Addon extends AbstractItem implements Cloneable<Addon>, Serializable {
     constructor(
         _id: string,
         _rev: string,
         name: string,
-        price: currency,
+        price: Currency,
         quantity: number,
         category: string,
     ) {
         super(_id, _rev, name, price, quantity, category);
     }
 
-    public get totalPrice(): currency {
+    public get totalPrice(): Currency {
         return this.batchPrice;
     }
 

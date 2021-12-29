@@ -1,8 +1,9 @@
 import Database from '@/lib/interfaces/Database';
 import Repository from '@/lib/interfaces/Repository';
+import Serializer from '@/lib/interfaces/Serializer';
+import ItemSerializer from '@/lib/serializers/ItemSerializer';
 import Item from '@/lib/models/Item';
 import Pouch from '@/lib/databases/Pouch';
-import ItemSerializer from '@/lib/serializers/ItemSerializer';
 import { inject, singleton } from 'tsyringe';
 
 @singleton()
@@ -11,7 +12,7 @@ class ItemRepository implements Repository<Item> {
 
     constructor(
         @inject(Pouch) private database: Database,
-        @inject(ItemSerializer) private serializer: ItemSerializer,
+        @inject(ItemSerializer) private serializer: Serializer<Item>,
     ) {
         if (!database || !serializer) {
             throw new Error('Missing database or serializer');
@@ -35,24 +36,13 @@ class ItemRepository implements Repository<Item> {
         }
     }
 
+    //TODO: add pagination support
     public async getAll(): Promise<Array<Item>> {
         try {
             const data = await this._localDB.allDocs({
                 include_docs: true,
             });
-            //TODO: move to serializer
-            //TODO: add pagination support
-            return data.rows.map((row: any) => {
-                new Item(
-                    row._id,
-                    row._rev,
-                    row.name,
-                    row.price,
-                    row.quantity,
-                    row.category,
-                    row.addons,
-                );
-            });
+            return this.serializer.deserializeAll(data.rows);
         } catch (err: any) {
             throw new Error(err);
         }
@@ -60,11 +50,11 @@ class ItemRepository implements Repository<Item> {
 
     public async save(item: Item): Promise<void> {
         try {
-            // TODO: move to serializer
-            const serialized: string = JSON.stringify(item, (key, val) => {
-                if (key === '_rev') return undefined;
-                return val;
-            });
+            const serialized = this.serializer.serialize(item);
+
+            // Strip _rev tag to force new insertion in PouchDB
+            delete serialized._rev;
+
             await this._localDB.put(serialized);
         } catch (err: any) {
             throw new Error(err);
@@ -73,12 +63,9 @@ class ItemRepository implements Repository<Item> {
 
     public async update(item: Item): Promise<void> {
         try {
-            // TODO: move to serializer
-            const tempRev = item._rev;
-            const serialized: string = JSON.stringify(item, (key, val) => {
-                if (key === '_rev' && val !== tempRev) return undefined;
-                return val;
-            });
+            const serialized = this.serializer.serialize(item);
+            // Check exists
+            await this._localDB.get(serialized);
             await this._localDB.put(serialized);
         } catch (err: any) {
             throw new Error(err);
@@ -86,9 +73,9 @@ class ItemRepository implements Repository<Item> {
     }
 
     public async delete(item: Item): Promise<void> {
-        // TODO: move to serializer
         try {
-            await this._localDB.delete(item);
+            const serialized = this.serializer.serialize(item);
+            await this._localDB.delete(serialized);
         } catch (err: any) {
             throw new Error(err);
         }

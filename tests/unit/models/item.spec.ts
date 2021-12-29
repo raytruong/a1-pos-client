@@ -1,7 +1,7 @@
 import 'jest';
-import currency from 'currency.js';
-import Item from '../../../src/lib/models/Item';
-import Addon from '../../../src/lib/models/Addon';
+import Currency from '@/lib/models/Currency';
+import Item from '@/lib/models/Item';
+import Addon from '@/lib/models/Addon';
 
 describe('Item class', () => {
     let item: Item;
@@ -12,7 +12,7 @@ describe('Item class', () => {
             'addon:1234567890',
             '7-8596f70bd9ed85a3e133af283838f191',
             'Gel Powder',
-            new currency(1),
+            new Currency(100),
             1,
             'Addon',
         );
@@ -21,7 +21,7 @@ describe('Item class', () => {
             'addon:1234567890',
             '7-8596f70bd9ed85a3e133af283838f191',
             'Dipping Powder',
-            new currency(2),
+            new Currency(200),
             2,
             'Addon',
         );
@@ -32,7 +32,7 @@ describe('Item class', () => {
             'item:1234567890',
             '7-8596f70bd9ed85a3e133af283838f191',
             'Classic Pedicure',
-            new currency(1),
+            new Currency(100),
             1,
             'Pedicure',
             addons,
@@ -78,7 +78,7 @@ describe('Item class', () => {
     it('should get sum of all addon prices', () => {
         const spySumAddonPrice = jest.spyOn(item, 'sumAddonPrice', 'get');
 
-        const expected = new currency(5);
+        const expected = new Currency(500);
         const actual = item.sumAddonPrice;
 
         expect(spySumAddonPrice).toHaveBeenCalled();
@@ -88,7 +88,7 @@ describe('Item class', () => {
     it('should get total price', () => {
         const spyTotalPrice = jest.spyOn(item, 'totalPrice', 'get');
 
-        const expected = new currency(6);
+        const expected = new Currency(600);
         const actual = item.totalPrice;
 
         expect(spyTotalPrice).toHaveBeenCalled();
@@ -101,7 +101,7 @@ describe('Item class', () => {
             _id: 'item:1234567890',
             _rev: '7-8596f70bd9ed85a3e133af283838f191',
             name: 'Classic Pedicure',
-            price: new currency(1).toString(),
+            price: new Currency(100).toString(),
             quantity: 1,
             category: 'Pedicure',
             addons: addons,

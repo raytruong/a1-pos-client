@@ -14,12 +14,6 @@ class Pouch implements Database {
         @inject('baseUrl') private _baseUrl: string,
     ) {}
 
-    private _uuid = '';
-
-    public get uuid(): string {
-        return this._uuid;
-    }
-
     private _name = '';
 
     public get name(): string {
@@ -43,12 +37,11 @@ class Pouch implements Database {
             throw new Error('Name needs to be provided in setup function');
         }
         this._name = name;
-        this._uuid = `${this.name}-${Date.now()}`;
         this.connect();
     }
 
     public connect(): void {
-        if (!this.uuid) {
+        if (!this.name) {
             throw new Error('Name needs to be assigned before connection');
         }
 
@@ -56,8 +49,8 @@ class Pouch implements Database {
         const remoteUrl = this._baseUrl
             .replaceAll('USERNAME', this._username)
             .replaceAll('PASSWORD', this._password)
-            .replaceAll('DB_NAME', this.uuid);
-        const localUrl = `local-${this.uuid}`;
+            .replaceAll('DB_NAME', this.name);
+        const localUrl = `local-${this.name}`;
 
         this._localDB = new PouchDB(localUrl);
         this._remoteDB = new PouchDB(remoteUrl);

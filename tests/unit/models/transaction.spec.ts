@@ -1,8 +1,8 @@
 import 'jest';
-import Transaction from '../../../src/lib/models/Transaction';
-import Item from '../../../src/lib/models/Item';
-import Addon from '../../../src/lib/models/Addon';
-import currency from 'currency.js';
+import Transaction from '@/lib/models/Transaction';
+import Item from '@/lib/models/Item';
+import Addon from '@/lib/models/Addon';
+import Currency from '@/lib/models/Currency';
 
 describe('Transaction class', () => {
     let transaction: Transaction;
@@ -14,7 +14,7 @@ describe('Transaction class', () => {
             'addon:1234567890',
             '7-8596f70bd9ed85a3e133af283838f191',
             'Gel Powder',
-            new currency(0.5),
+            new Currency(50),
             3,
             'Addon',
         );
@@ -23,7 +23,7 @@ describe('Transaction class', () => {
             'item:1234567890',
             '7-8596f70bd9ed85a3e133af283838f191',
             'Classic Pedicure',
-            new currency(1),
+            new Currency(100),
             1,
             'Pedicure',
             new Array<Addon>(addonA),
@@ -33,7 +33,7 @@ describe('Transaction class', () => {
             'item:0987654321',
             '7-9333f80bd9ed85a3e133af283834j239',
             'Gel Manicure',
-            new currency(2),
+            new Currency(200),
             2,
             'Manicure',
             new Array<Addon>(),
@@ -60,8 +60,6 @@ describe('Transaction class', () => {
             'Rust Colhe',
             'Credit Card',
             new Array<Item>(itemA, itemB),
-            // 'transaction:0987654321',
-            // '7-8596f70bd9ed85a3e133af283838f192',
         );
 
         expect(spyBuild).toHaveBeenCalled();
@@ -173,7 +171,7 @@ describe('Transaction class', () => {
 
     it('should get the items of the totalPrice', () => {
         const spyTotalPrice = jest.spyOn(transaction, 'totalPrice', 'get');
-        const expected = new currency(4.5);
+        const expected = new Currency(450);
 
         const actual = transaction.totalPrice;
 

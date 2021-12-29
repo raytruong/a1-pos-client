@@ -1,13 +1,28 @@
-import currency from 'currency.js';
+import { Expose, Transform, Type } from 'class-transformer';
+import Currency from '@/lib/models/Currency';
 
-abstract class ItemTemplate {
-    private _price: currency;
+abstract class AbstractItem {
+    @Type(() => Currency)
+    @Expose({ name: 'price' })
+    @Transform(
+        ({ value }) => {
+            return value.toCents();
+        },
+        { toPlainOnly: true },
+    )
+    @Transform(
+        ({ value }) => {
+            return new Currency(value);
+        },
+        { toClassOnly: true },
+    )
+    private _price: Currency;
 
     constructor(
         _id: string,
         _rev: string,
         name: string,
-        price: currency,
+        price: Currency,
         quantity: number,
         category: string,
     ) {
@@ -19,6 +34,7 @@ abstract class ItemTemplate {
         this._category = category;
     }
 
+    @Expose({ name: '_id' })
     private __id: string;
 
     public get _id(): string {
@@ -29,6 +45,7 @@ abstract class ItemTemplate {
         this.__id = _id;
     }
 
+    @Expose({ name: '_rev' })
     private __rev: string;
 
     public get _rev(): string {
@@ -39,6 +56,7 @@ abstract class ItemTemplate {
         this.__rev = _rev;
     }
 
+    @Expose({ name: 'name' })
     private _name: string;
 
     public get name(): string {
@@ -49,6 +67,7 @@ abstract class ItemTemplate {
         this._name = name;
     }
 
+    @Expose({ name: 'quantity' })
     private _quantity: number;
 
     public get quantity(): number {
@@ -59,6 +78,7 @@ abstract class ItemTemplate {
         this._quantity = quantity;
     }
 
+    @Expose({ name: 'category' })
     private _category: string;
 
     public get category(): string {
@@ -69,8 +89,9 @@ abstract class ItemTemplate {
         this._category = category;
     }
 
-    public get batchPrice(): currency {
-        return this.singlePrice.multiply(this.quantity);
+    public get batchPrice(): Currency {
+        const ret = this.singlePrice.multiply(this.quantity);
+        return ret;
     }
 
     public get displayBatchPrice(): string {
@@ -85,15 +106,15 @@ abstract class ItemTemplate {
         return this.totalPrice.toString();
     }
 
-    public get singlePrice(): currency {
+    public get singlePrice(): Currency {
         return this._price;
     }
 
-    public set singlePrice(price: currency) {
+    public set singlePrice(price: Currency) {
         this._price = price;
     }
 
-    public abstract get totalPrice(): currency;
+    public abstract get totalPrice(): Currency;
 }
 
-export default ItemTemplate;
+export default AbstractItem;
