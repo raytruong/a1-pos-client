@@ -1,5 +1,5 @@
 interface Cloneable<T> {
-    clone(): T;
+    clone(...args: any[]): T;
 }
 
 export default Cloneable;

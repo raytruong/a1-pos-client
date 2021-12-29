@@ -1,9 +1,8 @@
 import AbstractItem from '@/lib/models/AbstractItem';
 import Cloneable from '@/lib/interfaces/Cloneable';
-import Serializable from '@/lib/interfaces/Serializable';
 import Currency from '@/lib/models/Currency';
 
-class Addon extends AbstractItem implements Cloneable<Addon>, Serializable {
+class Addon extends AbstractItem implements Cloneable<Addon> {
     constructor(
         _id: string,
         _rev: string,
@@ -19,26 +18,15 @@ class Addon extends AbstractItem implements Cloneable<Addon>, Serializable {
         return this.batchPrice;
     }
 
-    public clone(quantity?: number): Addon {
+    public clone(quantity: number): Addon {
         return new Addon(
             `addon:${Date.now()}`,
             '',
             this.name,
             this.singlePrice,
-            quantity ? quantity : 1,
+            quantity,
             this.category,
         );
-    }
-
-    public toJSON(): object {
-        return {
-            _id: this._id,
-            _rev: this._rev,
-            name: this.name,
-            price: this.displaySinglePrice,
-            quantity: this.quantity,
-            category: this.category,
-        };
     }
 }
 

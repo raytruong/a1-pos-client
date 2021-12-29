@@ -61,9 +61,7 @@ class Pouch implements Database {
                 retry: false,
             })
             .on('error', function (err: any) {
-                throw new Error(
-                    'Unable to establish sync with remote url: ' + remoteUrl,
-                );
+                throw new Error(err);
             });
     }
 }

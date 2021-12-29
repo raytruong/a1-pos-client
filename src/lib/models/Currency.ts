@@ -1,5 +1,5 @@
 import Dinero from 'dinero.js';
-import { Expose, Transform } from 'class-transformer';
+import { Expose } from 'class-transformer';
 
 class Currency {
     constructor(amount: number) {
