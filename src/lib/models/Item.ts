@@ -1,11 +1,10 @@
 import AbstractItem from '@/lib/models/AbstractItem';
-import Currency from '@/lib/models/Currency';
 import Addon from '@/lib/models/Addon';
 import Cloneable from '@/lib/interfaces/Cloneable';
-import Serializable from '@/lib/interfaces/Serializable';
+import Currency from '@/lib/models/Currency';
 import { Expose, Type } from 'class-transformer';
 
-class Item extends AbstractItem implements Cloneable<Item>, Serializable {
+class Item extends AbstractItem implements Cloneable<Item> {
     constructor(
         _id: string,
         _rev: string,
@@ -42,28 +41,16 @@ class Item extends AbstractItem implements Cloneable<Item>, Serializable {
         return this.singlePrice.add(this.sumAddonPrice);
     }
 
-    public clone(quantity?: number, addons?: Array<Addon>): Item {
+    public clone(quantity: number, addons?: Array<Addon>): Item {
         return new Item(
             `item:${Date.now()}`,
-            this._rev,
+            '',
             this.name,
             this.singlePrice,
-            quantity ? quantity : 1,
+            quantity,
             this.category,
             addons ? addons : new Array<Addon>(),
         );
-    }
-
-    public toJSON(): object {
-        return {
-            _id: this._id,
-            _rev: this._rev,
-            name: this.name,
-            price: this.displaySinglePrice,
-            quantity: this.quantity,
-            category: this.category,
-            addons: this.addons,
-        };
     }
 }
 
