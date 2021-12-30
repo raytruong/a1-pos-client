@@ -3,7 +3,7 @@ import Transaction from '@/lib/models/Transaction';
 import Addon from '@/lib/models/Addon';
 import Currency from '@/lib/models/Currency';
 
-export const transactionAJSON = {
+export const itemAJSON = {
     _id: 'txn:1640891179',
     _rev: '4-cq3t8gq8bs722paa4qi8sy5arbi9swvu',
     employee: 'John Doe',
@@ -66,38 +66,38 @@ export const transactionBJSON = {
 };
 
 const addonAInstance = new Addon(
-    transactionAJSON.items[0].addons[0]._id,
-    transactionAJSON.items[0].addons[0]._rev,
-    transactionAJSON.items[0].addons[0].name,
-    new Currency(transactionAJSON.items[0].addons[0].price),
-    transactionAJSON.items[0].addons[0].quantity,
-    transactionAJSON.items[0].addons[0].category,
+    itemAJSON.items[0].addons[0]._id,
+    itemAJSON.items[0].addons[0]._rev,
+    itemAJSON.items[0].addons[0].name,
+    new Currency(itemAJSON.items[0].addons[0].price),
+    itemAJSON.items[0].addons[0].quantity,
+    itemAJSON.items[0].addons[0].category,
 );
 
 const addonBInstance = new Addon(
-    transactionAJSON.items[0].addons[1]._id,
-    transactionAJSON.items[0].addons[1]._rev,
-    transactionAJSON.items[0].addons[1].name,
-    new Currency(transactionAJSON.items[0].addons[1].price),
-    transactionAJSON.items[0].addons[1].quantity,
-    transactionAJSON.items[0].addons[1].category,
+    itemAJSON.items[0].addons[1]._id,
+    itemAJSON.items[0].addons[1]._rev,
+    itemAJSON.items[0].addons[1].name,
+    new Currency(itemAJSON.items[0].addons[1].price),
+    itemAJSON.items[0].addons[1].quantity,
+    itemAJSON.items[0].addons[1].category,
 );
 
 const ItemAInstance = new Item(
-    transactionAJSON.items[0]._id,
-    transactionAJSON.items[0]._rev,
-    transactionAJSON.items[0].name,
-    new Currency(transactionAJSON.items[0].price),
-    transactionAJSON.items[0].quantity,
-    transactionAJSON.items[0].category,
+    itemAJSON.items[0]._id,
+    itemAJSON.items[0]._rev,
+    itemAJSON.items[0].name,
+    new Currency(itemAJSON.items[0].price),
+    itemAJSON.items[0].quantity,
+    itemAJSON.items[0].category,
     new Array<Addon>(addonAInstance, addonBInstance),
 );
 
 export const transactionAInstance = new Transaction(
-    transactionAJSON._id,
-    transactionAJSON._rev,
-    transactionAJSON.employee,
-    transactionAJSON.paymentType,
+    itemAJSON._id,
+    itemAJSON._rev,
+    itemAJSON.employee,
+    itemAJSON.paymentType,
     new Array<Item>(ItemAInstance),
 );
 

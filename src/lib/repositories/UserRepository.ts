@@ -37,14 +37,10 @@ class UserRepository implements Repository<User> {
 
     public async getAll(): Promise<Array<User>> {
         try {
-            //TODO: move to serializer
-            //TODO: add pagination support
             const data = await this._localDB.allDocs({
                 include_docs: true,
             });
-            return data.rows.map((row: any) => {
-                new User(row._id, row._rev, row._pin, row._name);
-            });
+            return this.serializer.deserializeAll(data.rows);
         } catch (err: any) {
             throw new Error(err);
         }
@@ -52,13 +48,12 @@ class UserRepository implements Repository<User> {
 
     public async save(user: User): Promise<void> {
         try {
-            //TODO: move to serializer
-            const serialized: string = JSON.parse(
-                JSON.stringify(user, (key, val) => {
-                    if (key === '_rev') return undefined;
-                    return val;
-                }),
-            );
+            const serialized = this.serializer.serialize(user);
+
+            // Strip _rev tag to force new insertion in PouchDB
+            delete serialized._rev;
+
+            await this._localDB.put(serialized);
             await this._localDB.put(serialized);
         } catch (err: any) {
             throw new Error(err);
@@ -67,15 +62,9 @@ class UserRepository implements Repository<User> {
 
     public async update(user: User): Promise<void> {
         try {
-            // Disabled until necessary
-            // disable _rev setter on all models
-            // sanitize all _rev tags and add back in manually
-            //TODO: move to serializer
-            const tempRev = user._rev;
-            const serialized: string = JSON.stringify(user, (key, val) => {
-                if (key === '_rev' && val !== tempRev) return undefined;
-                return val;
-            });
+            const serialized = this.serializer.serialize(user);
+            // Check exists
+            await this._localDB.get(serialized);
             await this._localDB.put(serialized);
         } catch (err: any) {
             throw new Error(err);
@@ -84,8 +73,8 @@ class UserRepository implements Repository<User> {
 
     public async delete(user: User): Promise<void> {
         try {
-            //TODO: move to serializer
-            await this._localDB.delete(user);
+            const serialized = this.serializer.serialize(user);
+            await this._localDB.delete(serialized);
         } catch (err: any) {
             throw new Error(err);
         }

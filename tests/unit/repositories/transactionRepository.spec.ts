@@ -2,6 +2,7 @@ import 'jest';
 import { container } from 'tsyringe';
 import TransactionRepository from '@/lib/repositories/TransactionRepository';
 import Pouch from '@/lib/databases/Pouch';
+import Transaction from '@/lib/models/Transaction';
 import mockTransactionDatabase, {
     mockConnect,
     mockGetConnection,
@@ -10,7 +11,6 @@ import mockTransactionDatabase, {
     transactionBInstance,
     mockDB,
 } from './__mocks__/transactionDatabase';
-import Transaction from '@/lib/models/Transaction';
 
 describe('TransactionRepository class', () => {
     const mockContainer = container

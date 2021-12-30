@@ -1,23 +1,45 @@
-export const user1 = {
-    _id: 'id1',
-    _rev: 'rev1',
-    pin: 'pin1',
-    name: 'name1',
+import User from '@/lib/models/User';
+
+export const userAJSON = {
+    _id: 'user:1031448183',
+    _rev: '3-rq290b2sjwgcwrm11ouc21wjuebl0lzj',
+    pin: '9494',
+    name: 'Jane Doe',
 };
 
-export const user2 = {
-    _id: 'id2',
-    _rev: 'rev2',
-    pin: 'pin2',
-    name: 'name2',
+export const userBJSON = {
+    _id: 'user:1051090379',
+    _rev: '7-1ytd74mdaqx5cs7pb45z9evdtf5fwgvl',
+    pin: '2321',
+    name: 'John Doe',
 };
 
-const mockDB = {
+export const userAInstance = new User(
+    userAJSON._id,
+    userAJSON._rev,
+    userAJSON.pin,
+    userAJSON.name,
+);
+
+export const userBInstance = new User(
+    userBJSON._id,
+    userBJSON._rev,
+    userBJSON.pin,
+    userBJSON.name,
+);
+
+export const mockDB = {
     get: jest.fn().mockImplementation((_id) => {
-        return _id === 'id1' ? user1 : user2;
+        return _id === userAInstance._id ? userAInstance : userBInstance;
     }),
     allDocs: jest.fn().mockImplementation((include_docs) => {
-        return { rows: [user1, user2] };
+        return { rows: [userAInstance, userBInstance] };
+    }),
+    put: jest.fn().mockImplementation((serialized) => {
+        return serialized;
+    }),
+    delete: jest.fn().mockImplementation((serialized) => {
+        return serialized;
     }),
 };
 
