@@ -1,14 +1,24 @@
-import Repository from '@/lib/interfaces/Repository';
-import Transaction from '@/lib/models/Transaction';
 import Database from '@/lib/interfaces/Database';
+import Repository from '@/lib/interfaces/Repository';
+import Serializer from '@/lib/interfaces/Serializer';
+import TransactionSerializer from '@/lib/serializers/TransactionSerializer';
+import Transaction from '@/lib/models/Transaction';
+import Pouch from '@/lib/databases/Pouch';
+import { inject, singleton } from 'tsyringe';
 
+@singleton()
 class TransactionRepository implements Repository<Transaction> {
     private _localDB: any;
 
-    constructor(private database: Database) {
-        if (!database) {
-            throw new Error('Database is null');
+    constructor(
+        @inject(Pouch) private database: Database,
+        @inject(TransactionSerializer)
+        private serializer: Serializer<Transaction>,
+    ) {
+        if (!database || !serializer) {
+            throw new Error('Missing database or serializer');
         }
+        database.setup(this.name);
         this._localDB = database.getConnection();
     }
 
@@ -21,14 +31,7 @@ class TransactionRepository implements Repository<Transaction> {
     public async get(_id: string): Promise<Transaction> {
         try {
             const data = await this._localDB.get(_id);
-            //TODO: move to serializer
-            return new Transaction(
-                data._id,
-                data._rev,
-                data.employee,
-                data.paymentType,
-                data._items,
-            );
+            return this.serializer.deserialize(data);
         } catch (err: any) {
             throw new Error(err);
         }
@@ -39,17 +42,7 @@ class TransactionRepository implements Repository<Transaction> {
             const data = await this._localDB.allDocs({
                 include_docs: true,
             });
-            //TODO: move to serializer
-            //TODO: add pagination support
-            return data.rows.map((row: any) => {
-                new Transaction(
-                    row.data._id,
-                    row.data._rev,
-                    row.data.employee,
-                    row.data.paymentType,
-                    row.data._items,
-                );
-            });
+            return this.serializer.deserializeAll(data.rows);
         } catch (err: any) {
             throw new Error(err);
         }
@@ -57,14 +50,12 @@ class TransactionRepository implements Repository<Transaction> {
 
     public async save(transaction: Transaction): Promise<void> {
         try {
-            //TODO: move to serializer
-            const serialized: string = JSON.stringify(
-                transaction,
-                (key, val) => {
-                    if (key === '_rev') return undefined;
-                    return val;
-                },
-            );
+            const serialized = this.serializer.serialize(transaction);
+
+            // Strip _rev tag to force new insertion in PouchDB
+            delete serialized._rev;
+
+            await this._localDB.put(serialized);
             await this._localDB.put(serialized);
         } catch (err: any) {
             throw new Error(err);
@@ -73,15 +64,9 @@ class TransactionRepository implements Repository<Transaction> {
 
     public async update(transaction: Transaction): Promise<void> {
         try {
-            //TODO: move to serializer
-            const tempRev = transaction._rev;
-            const serialized: string = JSON.stringify(
-                transaction,
-                (key, val) => {
-                    if (key === '_rev' && val !== tempRev) return undefined;
-                    return val;
-                },
-            );
+            const serialized = this.serializer.serialize(transaction);
+            // Check exists
+            await this._localDB.get(serialized);
             await this._localDB.put(serialized);
         } catch (err: any) {
             throw new Error(err);
@@ -90,8 +75,8 @@ class TransactionRepository implements Repository<Transaction> {
 
     public async delete(transaction: Transaction): Promise<void> {
         try {
-            //TODO: move to serializer
-            await this._localDB.delete(transaction);
+            const serialized = this.serializer.serialize(transaction);
+            await this._localDB.delete(serialized);
         } catch (err: any) {
             throw new Error(err);
         }
