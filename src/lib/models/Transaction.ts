@@ -1,7 +1,7 @@
 import Item from '@/lib/models/Item';
 import Currency from '@/lib/models/Currency';
 import Cloneable from '@/lib/interfaces/Cloneable';
-import { Expose } from 'class-transformer';
+import { Expose, Type } from 'class-transformer';
 
 class Transaction implements Cloneable<Transaction> {
     constructor(
@@ -62,6 +62,7 @@ class Transaction implements Cloneable<Transaction> {
         this._paymentType = paymentType;
     }
 
+    @Type(() => Item)
     @Expose({ name: 'items' })
     private _items: Array<Item>;
 
