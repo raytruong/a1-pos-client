@@ -90,8 +90,7 @@ abstract class AbstractItem {
     }
 
     public get batchPrice(): Currency {
-        const ret = this.singlePrice.multiply(this.quantity);
-        return ret;
+        return this.singlePrice.multiply(this.quantity);
     }
 
     public get displayBatchPrice(): string {
