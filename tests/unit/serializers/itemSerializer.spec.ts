@@ -25,7 +25,7 @@ describe('ItemSerializer class', () => {
         expect(serializer).toBeInstanceOf(ItemSerializer);
     });
 
-    it('should serialize an Item with addons', async () => {
+    it('should serialize an Item with addons', () => {
         const expected = SerializedItemA;
         const actual = serializer.serialize(itemA);
         expect(actual).toBeInstanceOf(Object);
@@ -39,14 +39,14 @@ describe('ItemSerializer class', () => {
         expect(actual).toStrictEqual(expected);
     });
 
-    it('should deserialize an Item with addons', async () => {
+    it('should deserialize an Item with addons', () => {
         const expected = itemA;
         const actual = serializer.deserialize(SerializedItemA);
         expect(actual).toBeInstanceOf(Item);
         expect(actual).toStrictEqual(expected);
     });
 
-    it('should deserialize multiple Items with addons', async () => {
+    it('should deserialize multiple Items with addons', () => {
         const expected = [itemA, itemB];
         const actual = serializer.deserializeAll([
             SerializedItemA,
@@ -56,7 +56,7 @@ describe('ItemSerializer class', () => {
         expect(actual).toStrictEqual(expected);
     });
 
-    it('should retain transitivity', async () => {
+    it('should retain transitivity', () => {
         expect(
             serializer.deserialize(
                 serializer.serialize(

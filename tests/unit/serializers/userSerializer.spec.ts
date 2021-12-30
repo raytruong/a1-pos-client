@@ -25,28 +25,28 @@ describe('UserSerializer class', () => {
         expect(serializer).toBeInstanceOf(UserSerializer);
     });
 
-    it('should serialize a User', async () => {
+    it('should serialize a User', () => {
         const expected = SerializedUserA;
         const actual = serializer.serialize(userA);
         expect(actual).toBeInstanceOf(Object);
         expect(actual).toStrictEqual(expected);
     });
 
-    it('should serialize multiple Users', async () => {
+    it('should serialize multiple Users', () => {
         const expected = [SerializedUserA, SerializedUserB];
         const actual = serializer.serializeAll([userA, userB]);
         expect(actual).toBeInstanceOf(Array);
         expect(actual).toStrictEqual(expected);
     });
 
-    it('should deserialize a User', async () => {
+    it('should deserialize a User', () => {
         const expected = userA;
         const actual = serializer.deserialize(SerializedUserA);
         expect(actual).toBeInstanceOf(User);
         expect(actual).toStrictEqual(expected);
     });
 
-    it('should deserialize multiple Users', async () => {
+    it('should deserialize multiple Users', () => {
         const expected = [userA, userB];
         const actual = serializer.deserializeAll([
             SerializedUserA,
@@ -56,7 +56,7 @@ describe('UserSerializer class', () => {
         expect(actual).toStrictEqual(expected);
     });
 
-    it('should retain transitivity', async () => {
+    it('should retain transitivity', () => {
         expect(
             serializer.deserialize(
                 serializer.serialize(
