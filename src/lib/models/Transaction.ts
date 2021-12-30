@@ -1,9 +1,9 @@
 import Item from '@/lib/models/Item';
 import Currency from '@/lib/models/Currency';
-import Serializable from '@/lib/interfaces/Serializable';
 import Cloneable from '@/lib/interfaces/Cloneable';
+import { Expose } from 'class-transformer';
 
-class Transaction implements Cloneable<Transaction>, Serializable {
+class Transaction implements Cloneable<Transaction> {
     constructor(
         _id: string,
         _rev: string,
@@ -18,6 +18,7 @@ class Transaction implements Cloneable<Transaction>, Serializable {
         this._items = items;
     }
 
+    @Expose({ name: '_id' })
     private __id: string;
 
     public get _id(): string {
@@ -28,12 +29,18 @@ class Transaction implements Cloneable<Transaction>, Serializable {
         this.__id = _id;
     }
 
+    @Expose({ name: '_rev' })
     private __rev: string;
 
     public get _rev(): string {
         return this.__rev;
     }
 
+    public set _rev(_rev: string) {
+        this.__rev = _rev;
+    }
+
+    @Expose({ name: 'employee' })
     private _employee: string;
 
     public get employee(): string {
@@ -44,6 +51,7 @@ class Transaction implements Cloneable<Transaction>, Serializable {
         this._employee = employee;
     }
 
+    @Expose({ name: 'paymentType' })
     private _paymentType: string;
 
     public get paymentType(): string {
@@ -54,6 +62,7 @@ class Transaction implements Cloneable<Transaction>, Serializable {
         this._paymentType = paymentType;
     }
 
+    @Expose({ name: 'items' })
     private _items: Array<Item>;
 
     public get items(): Array<Item> {
@@ -72,34 +81,17 @@ class Transaction implements Cloneable<Transaction>, Serializable {
     }
 
     public clone(
-        employee?: string,
-        paymentType?: string,
-        items?: Array<Item>,
-        _id?: string,
-        _rev?: string,
+        employee: string,
+        paymentType: string,
+        items: Array<Item>,
     ): Transaction {
-        if (!employee || !paymentType) {
-            throw new Error(
-                `Transaction.build(): Expected employee, paymentType, items, actual: employee: ${employee}, paymentType: ${paymentType}, items: ${items}`,
-            );
-        }
         return new Transaction(
-            _id ? _id : `txn:${Date.now()}`,
-            _rev ? _rev : '',
+            `txn:${Date.now()}`,
+            '',
             employee,
             paymentType,
-            items ? items : new Array<Item>(),
+            items,
         );
-    }
-
-    public toJSON(): object {
-        return {
-            _id: this._id,
-            _rev: this._rev,
-            employee: this.employee,
-            paymentType: this.paymentType,
-            items: this.items,
-        };
     }
 }
 
