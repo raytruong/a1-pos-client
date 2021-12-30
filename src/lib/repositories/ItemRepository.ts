@@ -2,17 +2,17 @@ import Database from '@/lib/interfaces/Database';
 import Repository from '@/lib/interfaces/Repository';
 import Serializer from '@/lib/interfaces/Serializer';
 import ItemSerializer from '@/lib/serializers/ItemSerializer';
-import AbstractItem from '@/lib/models/AbstractItem';
+import Item from '@/lib/models/AbstractItem';
 import Pouch from '@/lib/databases/Pouch';
 import { inject, singleton } from 'tsyringe';
 
 @singleton()
-class ItemRepository implements Repository<AbstractItem> {
+class ItemRepository implements Repository<Item> {
     private _localDB: any;
 
     constructor(
         @inject(Pouch) private database: Database,
-        @inject(ItemSerializer) private serializer: Serializer<AbstractItem>,
+        @inject(ItemSerializer) private serializer: Serializer<Item>,
     ) {
         if (!database || !serializer) {
             throw new Error('Missing database or serializer');
@@ -27,7 +27,7 @@ class ItemRepository implements Repository<AbstractItem> {
         return this._name;
     }
 
-    public async get(_id: string): Promise<AbstractItem> {
+    public async get(_id: string): Promise<Item> {
         try {
             const data = await this._localDB.get(_id);
             return this.serializer.deserialize(data);
@@ -37,7 +37,7 @@ class ItemRepository implements Repository<AbstractItem> {
     }
 
     //TODO: add pagination support
-    public async getAll(): Promise<Array<AbstractItem>> {
+    public async getAll(): Promise<Array<Item>> {
         try {
             const data = await this._localDB.allDocs({
                 include_docs: true,
@@ -48,7 +48,7 @@ class ItemRepository implements Repository<AbstractItem> {
         }
     }
 
-    public async save(item: AbstractItem): Promise<void> {
+    public async save(item: Item): Promise<void> {
         try {
             const serialized = this.serializer.serialize(item);
 
@@ -61,7 +61,7 @@ class ItemRepository implements Repository<AbstractItem> {
         }
     }
 
-    public async update(item: AbstractItem): Promise<void> {
+    public async update(item: Item): Promise<void> {
         try {
             const serialized = this.serializer.serialize(item);
             // Check exists
@@ -72,7 +72,7 @@ class ItemRepository implements Repository<AbstractItem> {
         }
     }
 
-    public async delete(item: AbstractItem): Promise<void> {
+    public async delete(item: Item): Promise<void> {
         try {
             const serialized = this.serializer.serialize(item);
             await this._localDB.delete(serialized);
