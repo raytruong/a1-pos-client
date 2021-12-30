@@ -42,7 +42,9 @@ describe('UserRepository class', () => {
             _id: 'id1',
             _name: 'name1',
         };
+
         const actual = await repository.get('id1');
+
         expect(actual).toBeInstanceOf(User);
         expect(actual).toEqual(expect.objectContaining(expected));
     });

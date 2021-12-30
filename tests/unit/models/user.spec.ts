@@ -40,19 +40,6 @@ describe('User class', () => {
         expect(clone._rev).toStrictEqual('');
     });
 
-    it('should throw exception on clone without proper parameters', () => {
-        const clonedUser = {
-            name: '',
-            pin: '',
-        };
-
-        const clone = (): void => {
-            user.clone(clonedUser.name, clonedUser.pin);
-        };
-
-        expect(clone).toThrow();
-    });
-
     it('should get the name of the user', () => {
         const spy = jest.spyOn(user, 'name', 'get');
         const expected = userJSON.name;
@@ -132,16 +119,6 @@ describe('User class', () => {
 
         user.pin = expected;
         const actual = user.pin;
-
-        expect(spy).toHaveBeenCalled();
-        expect(actual).toStrictEqual(expected);
-    });
-
-    it('should return JSON representation', () => {
-        const spy = jest.spyOn(user, 'toJSON');
-        const expected = userJSON;
-
-        const actual = user.toJSON();
 
         expect(spy).toHaveBeenCalled();
         expect(actual).toStrictEqual(expected);

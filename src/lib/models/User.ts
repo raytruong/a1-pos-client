@@ -1,7 +1,7 @@
 import Cloneable from '@/lib/interfaces/Cloneable';
-import Serializable from '@/lib/interfaces/Serializable';
+import { Expose } from 'class-transformer';
 
-class User implements Cloneable<User>, Serializable {
+class User implements Cloneable<User> {
     constructor(_id: string, _rev: string, pin: string, name: string) {
         this.__id = _id;
         this.__rev = _rev;
@@ -9,6 +9,7 @@ class User implements Cloneable<User>, Serializable {
         this._name = name;
     }
 
+    @Expose({ name: '_id' })
     private __id: string;
 
     public get _id(): string {
@@ -19,6 +20,7 @@ class User implements Cloneable<User>, Serializable {
         this.__id = _id;
     }
 
+    @Expose({ name: '_rev' })
     private __rev: string;
 
     public get _rev(): string {
@@ -29,6 +31,7 @@ class User implements Cloneable<User>, Serializable {
         this.__rev = rev;
     }
 
+    @Expose({ name: 'pin' })
     private _pin: string;
 
     public get pin(): string {
@@ -39,6 +42,7 @@ class User implements Cloneable<User>, Serializable {
         this._pin = pin;
     }
 
+    @Expose({ name: 'name' })
     private _name: string;
 
     public get name(): string {
@@ -49,22 +53,8 @@ class User implements Cloneable<User>, Serializable {
         this._name = name;
     }
 
-    public clone(name?: string, pin?: string): User {
-        if (!name || !pin) {
-            throw new Error(
-                `Expected name and pin, actual: name: ${name}, pin: ${pin}`,
-            );
-        }
+    public clone(name: string, pin: string): User {
         return new User(`user:${Date.now()}`, '', pin, name);
-    }
-
-    public toJSON(): object {
-        return {
-            _id: this._id,
-            _rev: this._rev,
-            pin: this.pin,
-            name: this.name,
-        };
     }
 }
 
