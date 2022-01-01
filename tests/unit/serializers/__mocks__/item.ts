@@ -2,132 +2,95 @@ import Addon from '@/lib/models/Addon';
 import Item from '@/lib/models/Item';
 import Currency from '@/lib/models/Currency';
 
-export const addonAJSON = {
-    _id: 'addon:1234567890',
-    _rev: '7-8596f70bd9ed85a3e133af283838f191',
-    name: 'Gel Powder',
-    price: new Currency(100),
-    quantity: 1,
-    category: 'Addon',
-};
-
-export const addonA = new Addon(
-    addonAJSON._id,
-    addonAJSON._rev,
-    addonAJSON.name,
-    addonAJSON.price,
-    addonAJSON.quantity,
-    addonAJSON.category,
-);
-
-export const addonBJSON = {
-    _id: 'addon:0987654321',
-    _rev: '3-8596f70bd9ed85a3e133af283838f191',
-    name: 'Dipping Powder',
-    price: new Currency(100),
-    quantity: 2,
-    category: 'Addon',
-};
-
-export const addonB = new Addon(
-    addonBJSON._id,
-    addonBJSON._rev,
-    addonBJSON.name,
-    addonBJSON.price,
-    addonBJSON.quantity,
-    addonBJSON.category,
-);
-
 export const itemAJSON = {
-    _id: 'item:1234567890',
-    _rev: '7-8596f70bd9ed85a3e133af283838f191',
+    _id: 'item:1539132218',
+    _rev: '1-d3a8e0e5aa7c8fff0c376dac2d8a4007',
     name: 'Classic Pedicure',
-    price: new Currency(100),
+    price: 100,
     quantity: 1,
     category: 'Pedicure',
-    addons: new Array<Addon>(addonA, addonB),
+    addons: [
+        {
+            _id: 'addon:1723925225',
+            _rev: '7-8596f70bd9ed85a3e133af283838f191',
+            name: 'Gel Powder',
+            price: 100,
+            quantity: 1,
+            category: 'Addon',
+        },
+        {
+            _id: 'addon:1135275267',
+            _rev: '3-8596f70bd9ed85a3e133af283838f191',
+            name: 'Dipping Powder',
+            price: 100,
+            quantity: 2,
+            category: 'Addon',
+        },
+    ],
 };
 
-export const itemA = new Item(
+export const itemBJSON = {
+    _id: 'item:1428376496',
+    _rev: '3-o2v0rfvg2dpp36u4ojbfu5vawizyetng',
+    name: 'Pedicure',
+    price: 100,
+    quantity: 2,
+    category: 'Pedicure',
+    addons: [
+        {
+            _id: 'addon:953018296',
+            _rev: '1-cf776ua62gxogki0rcmnaansx5fxkqnk',
+            name: 'White Tips',
+            price: 200,
+            quantity: 1,
+            category: 'Addon',
+        },
+    ],
+};
+
+export const addonAInstance = new Addon(
+    itemAJSON.addons[0]._id,
+    itemAJSON.addons[0]._rev,
+    itemAJSON.addons[0].name,
+    new Currency(itemAJSON.addons[0].price),
+    itemAJSON.addons[0].quantity,
+    itemAJSON.addons[0].category,
+);
+
+export const addonB = new Addon(
+    itemAJSON.addons[1]._id,
+    itemAJSON.addons[1]._rev,
+    itemAJSON.addons[1].name,
+    new Currency(itemAJSON.addons[1].price),
+    itemAJSON.addons[1].quantity,
+    itemAJSON.addons[1].category,
+);
+
+export const addonC = new Addon(
+    itemBJSON.addons[0]._id,
+    itemBJSON.addons[0]._rev,
+    itemBJSON.addons[0].name,
+    new Currency(itemBJSON.addons[0].price),
+    itemBJSON.addons[0].quantity,
+    itemBJSON.addons[0].category,
+);
+
+export const itemAInstance = new Item(
     itemAJSON._id,
     itemAJSON._rev,
     itemAJSON.name,
-    itemAJSON.price,
+    new Currency(itemAJSON.price),
     itemAJSON.quantity,
     itemAJSON.category,
-    itemAJSON.addons,
+    new Array<Addon>(addonAInstance, addonB),
 );
 
-export const itemBJSON = {
-    _id: 'item:0987654321',
-    _rev: '1-5782E71F1E4BF698FA3793D9D5A96393',
-    name: 'Kids Pedicure',
-    price: new Currency(300),
-    quantity: 2,
-    category: 'Pedicure',
-    addons: new Array<Addon>(addonA, addonB),
-};
-
-export const itemB = new Item(
+export const itemBInstance = new Item(
     itemBJSON._id,
     itemBJSON._rev,
     itemBJSON.name,
-    itemBJSON.price,
+    new Currency(itemBJSON.price),
     itemBJSON.quantity,
     itemBJSON.category,
-    itemBJSON.addons,
+    new Array<Addon>(addonC),
 );
-
-export const SerializedItemA = {
-    _id: itemAJSON._id,
-    _rev: itemAJSON._rev,
-    name: itemAJSON.name,
-    price: itemAJSON.price.toCents(),
-    quantity: itemAJSON.quantity,
-    category: itemAJSON.category,
-    addons: [
-        {
-            _id: addonAJSON._id,
-            _rev: addonAJSON._rev,
-            name: addonAJSON.name,
-            price: addonAJSON.price.toCents(),
-            quantity: addonAJSON.quantity,
-            category: addonAJSON.category,
-        },
-        {
-            _id: addonBJSON._id,
-            _rev: addonBJSON._rev,
-            name: addonBJSON.name,
-            price: addonBJSON.price.toCents(),
-            quantity: addonBJSON.quantity,
-            category: addonBJSON.category,
-        },
-    ],
-};
-
-export const SerializedItemB = {
-    _id: itemBJSON._id,
-    _rev: itemBJSON._rev,
-    name: itemBJSON.name,
-    price: itemBJSON.price.toCents(),
-    quantity: itemBJSON.quantity,
-    category: itemBJSON.category,
-    addons: [
-        {
-            _id: addonAJSON._id,
-            _rev: addonAJSON._rev,
-            name: addonAJSON.name,
-            price: addonAJSON.price.toCents(),
-            quantity: addonAJSON.quantity,
-            category: addonAJSON.category,
-        },
-        {
-            _id: addonBJSON._id,
-            _rev: addonBJSON._rev,
-            name: addonBJSON.name,
-            price: addonBJSON.price.toCents(),
-            quantity: addonBJSON.quantity,
-            category: addonBJSON.category,
-        },
-    ],
-};

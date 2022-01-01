@@ -48,7 +48,7 @@ export const itemBJSON = {
     ],
 };
 
-export const addonA = new Addon(
+export const addonAInstance = new Addon(
     itemAJSON.addons[0]._id,
     itemAJSON.addons[0]._rev,
     itemAJSON.addons[0].name,
@@ -57,7 +57,7 @@ export const addonA = new Addon(
     itemAJSON.addons[0].category,
 );
 
-export const addonB = new Addon(
+export const addonBInstance = new Addon(
     itemAJSON.addons[1]._id,
     itemAJSON.addons[1]._rev,
     itemAJSON.addons[1].name,
@@ -66,7 +66,7 @@ export const addonB = new Addon(
     itemAJSON.addons[1].category,
 );
 
-export const addonC = new Addon(
+export const addonCInstance = new Addon(
     itemBJSON.addons[0]._id,
     itemBJSON.addons[0]._rev,
     itemBJSON.addons[0].name,
@@ -75,22 +75,22 @@ export const addonC = new Addon(
     itemBJSON.addons[0].category,
 );
 
-export const itemA = new Item(
+export const itemAInstance = new Item(
     itemAJSON._id,
     itemAJSON._rev,
     itemAJSON.name,
     new Currency(itemAJSON.price),
     itemAJSON.quantity,
     itemAJSON.category,
-    new Array<Addon>(addonA, addonB),
+    new Array<Addon>(addonAInstance, addonBInstance),
 );
 
-export const itemB = new Item(
+export const itemBInstance = new Item(
     itemBJSON._id,
     itemBJSON._rev,
     itemBJSON.name,
     new Currency(itemBJSON.price),
     itemBJSON.quantity,
     itemBJSON.category,
-    new Array<Addon>(addonC),
+    new Array<Addon>(addonCInstance),
 );

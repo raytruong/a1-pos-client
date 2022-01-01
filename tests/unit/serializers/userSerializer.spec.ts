@@ -2,10 +2,10 @@ import { container } from 'tsyringe';
 import UserSerializer from '@/lib/serializers/UserSerializer';
 import User from '@/lib/models/User';
 import {
-    userA,
-    userB,
-    SerializedUserA,
-    SerializedUserB,
+    userAInstance,
+    userBInstance,
+    userAJSON,
+    userBJSON,
 } from './__mocks__/user';
 
 describe('UserSerializer class', () => {
@@ -26,32 +26,29 @@ describe('UserSerializer class', () => {
     });
 
     it('should serialize a User', () => {
-        const expected = SerializedUserA;
-        const actual = serializer.serialize(userA);
+        const expected = userAJSON;
+        const actual = serializer.serialize(userAInstance);
         expect(actual).toBeInstanceOf(Object);
         expect(actual).toStrictEqual(expected);
     });
 
     it('should serialize multiple Users', () => {
-        const expected = [SerializedUserA, SerializedUserB];
-        const actual = serializer.serializeAll([userA, userB]);
+        const expected = [userAJSON, userBJSON];
+        const actual = serializer.serializeAll([userAInstance, userBInstance]);
         expect(actual).toBeInstanceOf(Array);
         expect(actual).toStrictEqual(expected);
     });
 
     it('should deserialize a User', () => {
-        const expected = userA;
-        const actual = serializer.deserialize(SerializedUserA);
+        const expected = userAInstance;
+        const actual = serializer.deserialize(userAJSON);
         expect(actual).toBeInstanceOf(User);
         expect(actual).toStrictEqual(expected);
     });
 
     it('should deserialize multiple Users', () => {
-        const expected = [userA, userB];
-        const actual = serializer.deserializeAll([
-            SerializedUserA,
-            SerializedUserB,
-        ]);
+        const expected = [userAInstance, userBInstance];
+        const actual = serializer.deserializeAll([userAJSON, userBJSON]);
         expect(actual).toBeInstanceOf(Array);
         expect(actual).toStrictEqual(expected);
     });
@@ -60,9 +57,9 @@ describe('UserSerializer class', () => {
         expect(
             serializer.deserialize(
                 serializer.serialize(
-                    serializer.deserialize(serializer.serialize(userA)),
+                    serializer.deserialize(serializer.serialize(userAInstance)),
                 ),
             ),
-        ).toStrictEqual(userA);
+        ).toStrictEqual(userAInstance);
     });
 });

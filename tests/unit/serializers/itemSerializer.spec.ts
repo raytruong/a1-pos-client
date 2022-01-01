@@ -1,11 +1,13 @@
 import { container } from 'tsyringe';
 import ItemSerializer from '@/lib/serializers/ItemSerializer';
 import Item from '@/lib/models/Item';
+import Addon from '@/lib/models/Addon';
 import {
-    itemA,
-    itemB,
-    SerializedItemA,
-    SerializedItemB,
+    addonAInstance,
+    itemAInstance,
+    itemAJSON,
+    itemBInstance,
+    itemBJSON,
 } from './__mocks__/item';
 
 describe('ItemSerializer class', () => {
@@ -17,6 +19,7 @@ describe('ItemSerializer class', () => {
     });
 
     afterEach(() => {
+        jest.clearAllMocks();
         mockContainer.clearInstances();
     });
 
@@ -26,33 +29,53 @@ describe('ItemSerializer class', () => {
     });
 
     it('should serialize an Item with addons', () => {
-        const expected = SerializedItemA;
-        const actual = serializer.serialize(itemA);
+        const expected = itemAJSON;
+        const actual = serializer.serialize(itemAInstance);
         expect(actual).toBeInstanceOf(Object);
         expect(actual).toStrictEqual(expected);
     });
 
     it('should serialize multiple Items with addons', () => {
-        const expected = [SerializedItemA, SerializedItemB];
-        const actual = serializer.serializeAll([itemA, itemB]);
+        const expected = [itemAJSON, itemBJSON];
+        const actual = serializer.serializeAll([itemAInstance, itemBInstance]);
         expect(actual).toBeInstanceOf(Array);
         expect(actual).toStrictEqual(expected);
     });
 
     it('should deserialize an Item with addons', () => {
-        const expected = itemA;
-        const actual = serializer.deserialize(SerializedItemA);
+        const expected = itemAInstance;
+        const actual = serializer.deserialize(itemAJSON);
         expect(actual).toBeInstanceOf(Item);
         expect(actual).toStrictEqual(expected);
     });
 
     it('should deserialize multiple Items with addons', () => {
-        const expected = [itemA, itemB];
+        const expected = [itemAInstance, itemBInstance];
+        const actual = serializer.deserializeAll([itemAJSON, itemBJSON]);
+        expect(actual).toBeInstanceOf(Array);
+        expect(actual).toStrictEqual(expected);
+    });
+
+    it('should deserialize an Addon', () => {
+        const expected = addonAInstance;
+        const actual = serializer.deserialize(itemAJSON.addons[0]);
+        expect(actual).toBeInstanceOf(Addon);
+        expect(actual).toStrictEqual(expected);
+    });
+
+    it('should deserialize multiple Items or Addons', () => {
+        const expected = [itemAInstance, itemBInstance, addonAInstance];
         const actual = serializer.deserializeAll([
-            SerializedItemA,
-            SerializedItemB,
+            itemAJSON,
+            itemBJSON,
+            itemAJSON.addons[0],
         ]);
         expect(actual).toBeInstanceOf(Array);
+        actual.forEach((AbstractItem, index) => {
+            expect(AbstractItem.constructor.name).toEqual(
+                expected[index].constructor.name,
+            );
+        });
         expect(actual).toStrictEqual(expected);
     });
 
@@ -60,9 +83,9 @@ describe('ItemSerializer class', () => {
         expect(
             serializer.deserialize(
                 serializer.serialize(
-                    serializer.deserialize(serializer.serialize(itemA)),
+                    serializer.deserialize(serializer.serialize(itemAInstance)),
                 ),
             ),
-        ).toStrictEqual(itemA);
+        ).toStrictEqual(itemAInstance);
     });
 });

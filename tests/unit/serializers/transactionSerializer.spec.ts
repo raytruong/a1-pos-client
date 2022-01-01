@@ -2,10 +2,10 @@ import { container } from 'tsyringe';
 import TransactionSerializer from '@/lib/serializers/TransactionSerializer';
 import Transaction from '@/lib/models/Transaction';
 import {
-    transactionA,
-    transactionB,
-    SerializedTransactionA,
-    SerializedTransactionB,
+    transactionAInstance,
+    transactionBInstance,
+    transactionAJSON,
+    transactionBJSON,
 } from './__mocks__/transaction';
 
 describe('TransactionSerializer class', () => {
@@ -26,31 +26,34 @@ describe('TransactionSerializer class', () => {
     });
 
     it('should serialize a Transaction', () => {
-        const expected = SerializedTransactionA;
-        const actual = serializer.serialize(transactionA);
+        const expected = transactionAJSON;
+        const actual = serializer.serialize(transactionAInstance);
         expect(actual).toBeInstanceOf(Object);
         expect(actual).toStrictEqual(expected);
     });
 
     it('should serialize multiple Transactions', () => {
-        const expected = [SerializedTransactionA, SerializedTransactionB];
-        const actual = serializer.serializeAll([transactionA, transactionB]);
+        const expected = [transactionAJSON, transactionBJSON];
+        const actual = serializer.serializeAll([
+            transactionAInstance,
+            transactionBInstance,
+        ]);
         expect(actual).toBeInstanceOf(Array);
         expect(actual).toStrictEqual(expected);
     });
 
     it('should deserialize a Transaction', () => {
-        const expected = transactionA;
-        const actual = serializer.deserialize(SerializedTransactionA);
+        const expected = transactionAInstance;
+        const actual = serializer.deserialize(transactionAJSON);
         expect(actual).toBeInstanceOf(Transaction);
         expect(actual).toStrictEqual(expected);
     });
 
     it('should deserialize multiple Transactions', () => {
-        const expected = [transactionA, transactionB];
+        const expected = [transactionAInstance, transactionBInstance];
         const actual = serializer.deserializeAll([
-            SerializedTransactionA,
-            SerializedTransactionB,
+            transactionAJSON,
+            transactionBJSON,
         ]);
         expect(actual).toBeInstanceOf(Array);
         expect(actual).toStrictEqual(expected);
@@ -60,9 +63,11 @@ describe('TransactionSerializer class', () => {
         expect(
             serializer.deserialize(
                 serializer.serialize(
-                    serializer.deserialize(serializer.serialize(transactionA)),
+                    serializer.deserialize(
+                        serializer.serialize(transactionAInstance),
+                    ),
                 ),
             ),
-        ).toStrictEqual(transactionA);
+        ).toStrictEqual(transactionAInstance);
     });
 });
