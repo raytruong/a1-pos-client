@@ -45,7 +45,7 @@ describe('TransactionRepository class', () => {
         expect(actual).toStrictEqual(expected);
     });
 
-    it('should get transaction1 by id', async () => {
+    it('should get transactionA by id', async () => {
         const expected = {
             __id: transactionA._id,
         };

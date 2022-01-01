@@ -1,5 +1,5 @@
-import Item from '@/lib/models/Item';
 import Addon from '@/lib/models/Addon';
+import Item from '@/lib/models/Item';
 import Currency from '@/lib/models/Currency';
 
 export const itemAJSON = {
@@ -48,7 +48,7 @@ export const itemBJSON = {
     ],
 };
 
-const addonAInstance = new Addon(
+export const addonA = new Addon(
     itemAJSON.addons[0]._id,
     itemAJSON.addons[0]._rev,
     itemAJSON.addons[0].name,
@@ -57,7 +57,7 @@ const addonAInstance = new Addon(
     itemAJSON.addons[0].category,
 );
 
-const addonBInstance = new Addon(
+export const addonB = new Addon(
     itemAJSON.addons[1]._id,
     itemAJSON.addons[1]._rev,
     itemAJSON.addons[1].name,
@@ -66,7 +66,7 @@ const addonBInstance = new Addon(
     itemAJSON.addons[1].category,
 );
 
-const addonCInstance = new Addon(
+export const addonC = new Addon(
     itemBJSON.addons[0]._id,
     itemBJSON.addons[0]._rev,
     itemBJSON.addons[0].name,
@@ -75,63 +75,22 @@ const addonCInstance = new Addon(
     itemBJSON.addons[0].category,
 );
 
-export const itemAInstance = new Item(
+export const itemA = new Item(
     itemAJSON._id,
     itemAJSON._rev,
     itemAJSON.name,
     new Currency(itemAJSON.price),
     itemAJSON.quantity,
     itemAJSON.category,
-    new Array<Addon>(addonAInstance, addonBInstance),
+    new Array<Addon>(addonA, addonB),
 );
 
-export const itemBInstance = new Item(
+export const itemB = new Item(
     itemBJSON._id,
     itemBJSON._rev,
     itemBJSON.name,
     new Currency(itemBJSON.price),
     itemBJSON.quantity,
     itemBJSON.category,
-    new Array<Addon>(addonCInstance),
+    new Array<Addon>(addonC),
 );
-
-export const mockDB = {
-    get: jest.fn().mockImplementation((_id) => {
-        return _id === itemAJSON._id ? itemAJSON : itemBJSON;
-    }),
-    allDocs: jest.fn().mockImplementation((include_docs) => {
-        return { rows: [itemAJSON, itemBJSON] };
-    }),
-    put: jest.fn().mockImplementation((serialized) => {
-        return serialized;
-    }),
-    delete: jest.fn().mockImplementation((serialized) => {
-        return serialized;
-    }),
-};
-
-export const mockGetConnection = jest.fn().mockImplementation(() => {
-    return () => {
-        return mockDB;
-    };
-});
-export const mockSetup = jest.fn().mockImplementation(() => {
-    return () => {
-        // do nothing
-    };
-});
-export const mockConnect = jest.fn().mockImplementation(() => {
-    return () => {
-        // do nothing
-    };
-});
-
-const mockItemDatabase = jest.fn().mockImplementation(() => {
-    return {
-        getConnection: mockGetConnection(),
-        setup: mockSetup(),
-        connect: mockConnect(),
-    };
-});
-
-export default mockItemDatabase;

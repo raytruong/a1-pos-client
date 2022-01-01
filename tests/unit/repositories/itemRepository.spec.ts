@@ -49,7 +49,7 @@ describe('ItemRepository class', () => {
         expect(actual).toStrictEqual(expected);
     });
 
-    it('should get item1 by id', async () => {
+    it('should get itemA by id', async () => {
         const expected = {
             __id: itemA._id,
         };

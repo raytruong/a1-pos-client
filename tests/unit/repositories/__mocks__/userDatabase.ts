@@ -30,10 +30,10 @@ export const userBInstance = new User(
 
 export const mockDB = {
     get: jest.fn().mockImplementation((_id) => {
-        return _id === userAInstance._id ? userAInstance : userBInstance;
+        return _id === userAJSON._id ? userAJSON : userBJSON;
     }),
     allDocs: jest.fn().mockImplementation((include_docs) => {
-        return { rows: [userAInstance, userBInstance] };
+        return { rows: [userAJSON, userBJSON] };
     }),
     put: jest.fn().mockImplementation((serialized) => {
         return serialized;

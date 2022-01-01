@@ -3,7 +3,7 @@ import Transaction from '@/lib/models/Transaction';
 import Addon from '@/lib/models/Addon';
 import Currency from '@/lib/models/Currency';
 
-export const itemAJSON = {
+export const transactionAJSON = {
     _id: 'txn:1640891179',
     _rev: '4-cq3t8gq8bs722paa4qi8sy5arbi9swvu',
     employee: 'John Doe',
@@ -66,38 +66,38 @@ export const transactionBJSON = {
 };
 
 const addonAInstance = new Addon(
-    itemAJSON.items[0].addons[0]._id,
-    itemAJSON.items[0].addons[0]._rev,
-    itemAJSON.items[0].addons[0].name,
-    new Currency(itemAJSON.items[0].addons[0].price),
-    itemAJSON.items[0].addons[0].quantity,
-    itemAJSON.items[0].addons[0].category,
+    transactionAJSON.items[0].addons[0]._id,
+    transactionAJSON.items[0].addons[0]._rev,
+    transactionAJSON.items[0].addons[0].name,
+    new Currency(transactionAJSON.items[0].addons[0].price),
+    transactionAJSON.items[0].addons[0].quantity,
+    transactionAJSON.items[0].addons[0].category,
 );
 
 const addonBInstance = new Addon(
-    itemAJSON.items[0].addons[1]._id,
-    itemAJSON.items[0].addons[1]._rev,
-    itemAJSON.items[0].addons[1].name,
-    new Currency(itemAJSON.items[0].addons[1].price),
-    itemAJSON.items[0].addons[1].quantity,
-    itemAJSON.items[0].addons[1].category,
+    transactionAJSON.items[0].addons[1]._id,
+    transactionAJSON.items[0].addons[1]._rev,
+    transactionAJSON.items[0].addons[1].name,
+    new Currency(transactionAJSON.items[0].addons[1].price),
+    transactionAJSON.items[0].addons[1].quantity,
+    transactionAJSON.items[0].addons[1].category,
 );
 
 const ItemAInstance = new Item(
-    itemAJSON.items[0]._id,
-    itemAJSON.items[0]._rev,
-    itemAJSON.items[0].name,
-    new Currency(itemAJSON.items[0].price),
-    itemAJSON.items[0].quantity,
-    itemAJSON.items[0].category,
+    transactionAJSON.items[0]._id,
+    transactionAJSON.items[0]._rev,
+    transactionAJSON.items[0].name,
+    new Currency(transactionAJSON.items[0].price),
+    transactionAJSON.items[0].quantity,
+    transactionAJSON.items[0].category,
     new Array<Addon>(addonAInstance, addonBInstance),
 );
 
 export const transactionAInstance = new Transaction(
-    itemAJSON._id,
-    itemAJSON._rev,
-    itemAJSON.employee,
-    itemAJSON.paymentType,
+    transactionAJSON._id,
+    transactionAJSON._rev,
+    transactionAJSON.employee,
+    transactionAJSON.paymentType,
     new Array<Item>(ItemAInstance),
 );
 
@@ -130,12 +130,12 @@ export const transactionBInstance = new Transaction(
 
 export const mockDB = {
     get: jest.fn().mockImplementation((_id) => {
-        return _id === transactionAInstance._id
-            ? transactionAInstance
-            : transactionBInstance;
+        return _id === transactionAJSON._id
+            ? transactionAJSON
+            : transactionBJSON;
     }),
     allDocs: jest.fn().mockImplementation((include_docs) => {
-        return { rows: [transactionAInstance, transactionBInstance] };
+        return { rows: [transactionAJSON, transactionBJSON] };
     }),
     put: jest.fn().mockImplementation((serialized) => {
         return serialized;
