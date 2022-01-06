@@ -8,6 +8,9 @@ export default defineConfig({
     build: {
         outDir: resolve(__dirname, './dist-vite/'),
     },
+    optimizeDeps: {
+        entries: ['pouchdb-browser', 'pouchdb-utils'],
+    },
     plugins: [vue()],
     resolve: {
         alias: {

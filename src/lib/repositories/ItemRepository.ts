@@ -1,124 +1,83 @@
-import Repository from '@/lib/models/interfaces/Repository';
-import PouchDB from 'pouchdb-browser';
-import Item from '@/lib/models/items/Item';
-import { autoInjectable, inject } from 'tsyringe';
+import Database from '@/lib/interfaces/Database';
+import Repository from '@/lib/interfaces/Repository';
+import Serializer from '@/lib/interfaces/Serializer';
+import ItemSerializer from '@/lib/serializers/ItemSerializer';
+import AbstractItem from '@/lib/models/AbstractItem';
+import Pouch from '@/lib/databases/Pouch';
+import { inject, singleton } from 'tsyringe';
 
-@autoInjectable()
-class ItemRepository implements Repository<Item> {
-    private _name = 'ItemRepository';
+@singleton()
+class ItemRepository implements Repository<AbstractItem> {
     private _localDB: any;
-    private _remoteDB: any;
 
     constructor(
-        @inject('itemname') username: string,
-        @inject('password') password: string,
-        @inject('baseUrl') baseUrl: string,
+        @inject(Pouch) private database: Database,
+        @inject(ItemSerializer) private serializer: Serializer<AbstractItem>,
     ) {
-        this.init(username, password, baseUrl);
+        if (!database || !serializer) {
+            throw new Error('Missing database or serializer');
+        }
+        database.setup(this.name);
+        this._localDB = database.getConnection();
     }
 
-    private init(username: string, password: string, baseUrl: string): void {
-        const remoteUrl = baseUrl
-            .replaceAll('${USERNAME}', username)
-            .replaceAll('${PASSWORD}', password)
-            .replaceAll('${DB_NAME}', this._name);
-        const localUrl = `local-${this._name}`;
+    private _name = 'ItemRepository';
 
-        this._localDB = new PouchDB(localUrl);
-        this._remoteDB = new PouchDB(remoteUrl);
-
-        this._localDB
-            .sync(this._remoteDB, {
-                live: true,
-                retry: false,
-            })
-            .on('error', function () {
-                throw new Error(
-                    'ItemRepository.init(): Unable to establish sync with remote: ' +
-                        remoteUrl,
-                );
-            });
+    public get name(): string {
+        return this._name;
     }
 
-    public async get(_id: string): Promise<Item> {
+    public async get(_id: string): Promise<AbstractItem> {
         try {
             const data = await this._localDB.get(_id);
-            return new Item(
-                data._id,
-                data._rev,
-                data.cname,
-                data.price,
-                data.quantity,
-                data.category,
-                data.addons,
-            );
-        } catch (err) {
-            throw new Error(
-                'ItemRepository.get(): Unable to retrieve item with id: ' + _id,
-            );
+            return this.serializer.deserialize(data);
+        } catch (err: any) {
+            throw new Error(err);
         }
     }
 
-    public async getAll(): Promise<Array<Item>> {
+    //TODO: add pagination support
+    public async getAll(): Promise<Array<AbstractItem>> {
         try {
             const data = await this._localDB.allDocs({
                 include_docs: true,
             });
-            return data.rows.map((row: any) => {
-                new Item(
-                    row.data._id,
-                    row.data._rev,
-                    row.data.cname,
-                    row.data.price,
-                    row.data.quantity,
-                    row.data.category,
-                    row.data.addons,
-                );
-            });
-        } catch (err) {
-            throw new Error(
-                'ItemRepository.getAll(): Unable to retrieve items',
-            );
+            return this.serializer.deserializeAll(data.rows);
+        } catch (err: any) {
+            throw new Error(err);
         }
     }
 
-    public async save(item: Item): Promise<void> {
+    public async save(item: AbstractItem): Promise<void> {
         try {
-            const serialized: string = JSON.stringify(item, (key, val) => {
-                if (key === '_rev') return undefined;
-                return val;
-            });
+            const serialized = this.serializer.serialize(item);
+
+            // Strip _rev tag to force new insertion in PouchDB
+            delete serialized._rev;
+
             await this._localDB.put(serialized);
-        } catch (err) {
-            throw new Error(
-                'ItemRepository.put(): Unable to put item: ' + item,
-            );
+        } catch (err: any) {
+            throw new Error(err);
         }
     }
 
-    public async update(item: Item): Promise<void> {
+    public async update(item: AbstractItem): Promise<void> {
         try {
-            // Disabled until necessary
-            const tempRev = item._rev;
-            const serialized: string = JSON.stringify(item, (key, val) => {
-                if (key === '_rev' && val !== tempRev) return undefined;
-                return val;
-            });
+            const serialized = this.serializer.serialize(item);
+            // Check exists
+            await this._localDB.get(serialized);
             await this._localDB.put(serialized);
-        } catch (err) {
-            throw new Error(
-                'ItemRepository.update(): Unable to update item: ' + item,
-            );
+        } catch (err: any) {
+            throw new Error(err);
         }
     }
 
-    public async delete(item: Item): Promise<void> {
+    public async delete(item: AbstractItem): Promise<void> {
         try {
-            await this._localDB.delete(item);
-        } catch (err) {
-            throw new Error(
-                'ItemRepository.delete(): Unable to delete item: ' + item,
-            );
+            const serialized = this.serializer.serialize(item);
+            await this._localDB.delete(serialized);
+        } catch (err: any) {
+            throw new Error(err);
         }
     }
 }

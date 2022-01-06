@@ -7,7 +7,7 @@ on:
 
 jobs:
     build:
-        name: Upload Release Aseet
+        name: 🚚 Generate Release
         runs-on: ubuntu-latest
         if: github.event.base_ref == 'refs/heads/release'
         steps:
@@ -16,7 +16,7 @@ jobs:
               with:
                   node-version: 16
 
-            - name: Build and Test
+            - name: 🛠 Build and Test
               run: |
                   npm install
                   npm run test
@@ -31,7 +31,7 @@ jobs:
                   DB_BASEURL: ${{ secrets.DB_BASEURL }}
                   TARGET: ${{ secrets.TARGET }}
 
-            - name: Release
+            - name: 🎉 Release
               uses: softprops/action-gh-release@v1
               with:
                   files: a1-client.zip

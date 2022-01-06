@@ -1,53 +1,37 @@
-import PouchDB from 'pouchdb-browser';
-import Repository from '@/lib/models/interfaces/Repository';
-import User from '@/lib/models/users/User';
-import { autoInjectable, inject } from 'tsyringe';
+import Database from '@/lib/interfaces/Database';
+import Repository from '@/lib/interfaces/Repository';
+import Pouch from '@/lib/databases/Pouch';
+import User from '@/lib/models/User';
+import UserSerializer from '@/lib/serializers/UserSerializer';
+import { inject, singleton } from 'tsyringe';
 
-@autoInjectable()
+@singleton()
 class UserRepository implements Repository<User> {
-    private _name = 'UserRepository';
     private _localDB: any;
-    private _remoteDB: any;
 
     constructor(
-        @inject('username') username: string,
-        @inject('password') password: string,
-        @inject('baseUrl') baseUrl: string,
+        @inject(Pouch) private database: Database,
+        @inject(UserSerializer) private serializer: UserSerializer,
     ) {
-        this.setup(username, password, baseUrl);
+        if (!database || !serializer) {
+            throw new Error('Missing database or serializer');
+        }
+        database.setup(this.name);
+        this._localDB = database.getConnection();
     }
 
-    private setup(username: string, password: string, baseUrl: string): void {
-        const remoteUrl = baseUrl
-            .replaceAll('${USERNAME}', username)
-            .replaceAll('${PASSWORD}', password)
-            .replaceAll('${DB_NAME}', this._name);
-        const localUrl = `local-${this._name}`;
+    private _name = 'UserRepository';
 
-        this._localDB = new PouchDB(localUrl);
-        this._remoteDB = new PouchDB(remoteUrl);
-
-        this._localDB
-            .sync(this._remoteDB, {
-                live: true,
-                retry: false,
-            })
-            .on('error', function () {
-                throw new Error(
-                    'UserRepository.init(): Unable to establish sync with remote: ' +
-                        remoteUrl,
-                );
-            });
+    public get name(): string {
+        return this._name;
     }
 
     public async get(_id: string): Promise<User> {
         try {
             const data = await this._localDB.get(_id);
-            return new User(data._id, data._rev, data._pin, data._name);
-        } catch (err) {
-            throw new Error(
-                'UserRepository.get(): Unable to retrieve user with id: ' + _id,
-            );
+            return this.serializer.deserialize(data);
+        } catch (err: any) {
+            throw new Error(err);
         }
     }
 
@@ -56,60 +40,43 @@ class UserRepository implements Repository<User> {
             const data = await this._localDB.allDocs({
                 include_docs: true,
             });
-            return data.rows.map((row: any) => {
-                new User(
-                    row.data._id,
-                    row.data._rev,
-                    row.data._pin,
-                    row.data._name,
-                );
-            });
-        } catch (err) {
-            throw new Error(
-                'UserRepository.getAll(): Unable to retrieve users',
-            );
+            return this.serializer.deserializeAll(data.rows);
+        } catch (err: any) {
+            throw new Error(err);
         }
     }
 
     public async save(user: User): Promise<void> {
         try {
-            const serialized: string = JSON.stringify(user, (key, val) => {
-                if (key === '_rev') return undefined;
-                return val;
-            });
+            const serialized = this.serializer.serialize(user);
+
+            // Strip _rev tag to force new insertion in PouchDB
+            delete serialized._rev;
+
             await this._localDB.put(serialized);
-        } catch (err) {
-            throw new Error(
-                'UserRepository.put(): Unable to put user: ' + user,
-            );
+            await this._localDB.put(serialized);
+        } catch (err: any) {
+            throw new Error(err);
         }
     }
 
     public async update(user: User): Promise<void> {
         try {
-            // Disabled until necessary
-            // disable _rev setter on all models
-            // sanitize all _rev tags and add back in manually
-            const tempRev = user._rev;
-            const serialized: string = JSON.stringify(user, (key, val) => {
-                if (key === '_rev' && val !== tempRev) return undefined;
-                return val;
-            });
+            const serialized = this.serializer.serialize(user);
+            // Check exists
+            await this._localDB.get(serialized);
             await this._localDB.put(serialized);
-        } catch (err) {
-            throw new Error(
-                'UserRepository.update(): Unable to update user: ' + user,
-            );
+        } catch (err: any) {
+            throw new Error(err);
         }
     }
 
     public async delete(user: User): Promise<void> {
         try {
-            await this._localDB.delete(user);
-        } catch (err) {
-            throw new Error(
-                'UserRepository.delete(): Unable to delete user: ' + user,
-            );
+            const serialized = this.serializer.serialize(user);
+            await this._localDB.delete(serialized);
+        } catch (err: any) {
+            throw new Error(err);
         }
     }
 }

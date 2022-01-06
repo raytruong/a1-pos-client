@@ -1,14 +1,15 @@
-import Buildable from '@/lib/models/interfaces/Buildable';
-import Serializable from '@/lib/models/interfaces/Serializable';
+import Cloneable from '@/lib/interfaces/Cloneable';
+import { Expose } from 'class-transformer';
 
-class User implements Buildable<User>, Serializable {
+class User implements Cloneable<User> {
     constructor(_id: string, _rev: string, pin: string, name: string) {
-        this.__id = _id ? _id : `user:${Date.now()}`;
+        this.__id = _id;
         this.__rev = _rev;
         this._pin = pin;
         this._name = name;
     }
 
+    @Expose({ name: '_id' })
     private __id: string;
 
     public get _id(): string {
@@ -19,12 +20,18 @@ class User implements Buildable<User>, Serializable {
         this.__id = _id;
     }
 
+    @Expose({ name: '_rev' })
     private __rev: string;
 
     public get _rev(): string {
         return this.__rev;
     }
 
+    public set _rev(rev: string) {
+        this.__rev = rev;
+    }
+
+    @Expose({ name: 'pin' })
     private _pin: string;
 
     public get pin(): string {
@@ -35,6 +42,7 @@ class User implements Buildable<User>, Serializable {
         this._pin = pin;
     }
 
+    @Expose({ name: 'name' })
     private _name: string;
 
     public get name(): string {
@@ -45,22 +53,8 @@ class User implements Buildable<User>, Serializable {
         this._name = name;
     }
 
-    public build(name?: string, pin?: string): User {
-        if (!name || !pin) {
-            throw new Error(
-                `User.build(): Expected name and pin, actual: name: ${name}, pin: ${pin}`,
-            );
-        }
+    public clone(name: string, pin: string): User {
         return new User(`user:${Date.now()}`, '', pin, name);
-    }
-
-    public toJSON(): object {
-        return {
-            _id: this._id,
-            _rev: this._rev,
-            _pin: this.pin,
-            _name: this.name,
-        };
     }
 }
 

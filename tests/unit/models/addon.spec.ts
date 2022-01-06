@@ -1,18 +1,27 @@
-import currency from 'currency.js';
 import 'jest';
-import Addon from '@/lib/models/items/Addon';
+import Addon from '@/lib/models/Addon';
+import Currency from '@/lib/models/Currency';
 
 describe('Addon class', () => {
     let addon: Addon;
+    let addonJSON: Record<string, any>;
 
     beforeEach(() => {
+        addonJSON = {
+            _id: 'item:1234567890',
+            _rev: '7-8596f70bd9ed85a3e133af283838f191',
+            name: 'Gel Powder',
+            price: new Currency(100),
+            quantity: 1,
+            category: 'Addon',
+        };
         addon = new Addon(
-            'item:1234567890',
-            '7-8596f70bd9ed85a3e133af283838f191',
-            'Gel Powder',
-            new currency(1),
-            1,
-            'Addon',
+            addonJSON._id,
+            addonJSON._rev,
+            addonJSON.name,
+            addonJSON.price,
+            addonJSON.quantity,
+            addonJSON.category,
         );
     });
 
@@ -21,45 +30,43 @@ describe('Addon class', () => {
         expect(addon).toBeInstanceOf(Addon);
     });
 
-    it('should build a new addon', () => {
-        const quantity = 1;
-        const spyBuild = jest.spyOn(addon, 'build');
+    it('should clone a new addon', () => {
+        const clonedAddon = {
+            quantity: 1,
+        };
 
-        const builtAddon = addon.build(quantity);
+        const clone = addon.clone(clonedAddon.quantity);
 
-        expect(spyBuild).toHaveBeenCalled();
-        expect(builtAddon).toBeDefined();
-        expect(builtAddon).toBeInstanceOf(Addon);
+        expect(clone).toBeDefined();
+        expect(clone).toBeInstanceOf(Addon);
+        expect(clone).toEqual(expect.objectContaining(clonedAddon));
+        expect(clone._id).not.toEqual(addon._id);
+        expect(clone._rev).toStrictEqual('');
     });
 
     it('should get the total price', () => {
-        const spyTotalPrice = jest.spyOn(addon, 'totalPrice', 'get');
-        const expectedPrice = new currency(1);
+        const spy = jest.spyOn(addon, 'totalPrice', 'get');
+        const expectedPrice = addonJSON.price;
 
         const totalPrice = addon.totalPrice;
 
-        expect(spyTotalPrice).toHaveBeenCalled();
+        expect(spy).toHaveBeenCalled();
         expect(totalPrice).toBeDefined();
-        expect(totalPrice).toBeInstanceOf(currency);
+        expect(totalPrice).toBeInstanceOf(Currency);
         expect(totalPrice).toEqual(expectedPrice);
     });
 
-    it('should return JSON representation', () => {
-        const spytoJSON = jest.spyOn(addon, 'toJSON');
-        const expected = {
-            _id: 'item:1234567890',
-            _rev: '7-8596f70bd9ed85a3e133af283838f191',
-            cname: 'Gel Powder',
-            price: new currency(1).toString(),
-            quantity: 1,
-            category: 'Addon',
-        };
+    it('should get the total price with multiple quantities', () => {
+        const spy = jest.spyOn(addon, 'totalPrice', 'get');
+        const quantity = 2;
+        const expectedPrice = addonJSON.price.multiply(quantity);
 
-        const actual = addon.toJSON();
+        addon.quantity = quantity;
+        const totalPrice = addon.totalPrice;
 
-        expect(spytoJSON).toHaveBeenCalled();
-        expect(actual).toBeDefined();
-        expect(actual).toBeInstanceOf(Object);
-        expect(actual).toEqual(expected);
+        expect(spy).toHaveBeenCalled();
+        expect(totalPrice).toBeDefined();
+        expect(totalPrice).toBeInstanceOf(Currency);
+        expect(totalPrice).toEqual(expectedPrice);
     });
 });

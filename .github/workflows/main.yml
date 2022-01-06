@@ -10,7 +10,7 @@ on:
 
 jobs:
     build:
-        name: Build and Test
+        name: 🤞 Build and Test
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v2
@@ -18,15 +18,18 @@ jobs:
               with:
                   node-version: 16
 
-            - name: Build
+            - name: 📦 Install Packages
               run: |
                   npm install
+
+            - name: 🧪 Test
+              run: |
+                  npm run lint
+                  npm run test
+
+            - name: 🛠 Build
+              run: |
                   npm run build
                   npm run electron:build:$TARGET
               env:
                   TARGET: ${{ secrets.TARGET }}
-
-            - name: Test
-              run: |
-                  npm run lint
-                  npm run test
