@@ -96,17 +96,35 @@ export const itemBInstance = new Item(
 );
 
 export const mockDB = {
-    get: jest.fn().mockImplementation((_id) => {
-        return _id === itemAJSON._id ? itemAJSON : itemBJSON;
+    get: jest.fn().mockImplementation((query) => {
+        const _id = query._id ? query._id : query;
+        switch (_id) {
+            case itemAJSON._id:
+                return itemAJSON;
+            case itemBJSON._id:
+                return itemBJSON;
+        }
     }),
     allDocs: jest.fn().mockImplementation((include_docs) => {
         return { rows: [itemAJSON, itemBJSON] };
     }),
     put: jest.fn().mockImplementation((serialized) => {
-        return serialized;
+        const _id = serialized._id ? serialized._id : serialized;
+        switch (_id) {
+            case itemAJSON._id:
+                return itemAJSON;
+            case itemBJSON._id:
+                return itemBJSON;
+        }
     }),
     delete: jest.fn().mockImplementation((serialized) => {
-        return serialized;
+        const _id = serialized._id ? serialized._id : serialized;
+        switch (_id) {
+            case itemAJSON._id:
+                return itemAJSON;
+            case itemBJSON._id:
+                return itemBJSON;
+        }
     }),
 };
 

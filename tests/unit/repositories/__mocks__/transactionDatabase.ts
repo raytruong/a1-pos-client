@@ -129,16 +129,26 @@ export const transactionBInstance = new Transaction(
 );
 
 export const mockDB = {
-    get: jest.fn().mockImplementation((_id) => {
-        return _id === transactionAJSON._id
-            ? transactionAJSON
-            : transactionBJSON;
+    get: jest.fn().mockImplementation((query) => {
+        const _id = query._id ? query._id : query;
+        switch (_id) {
+            case transactionAJSON._id:
+                return transactionAJSON;
+            case transactionBJSON._id:
+                return transactionBJSON;
+        }
     }),
     allDocs: jest.fn().mockImplementation((include_docs) => {
         return { rows: [transactionAJSON, transactionBJSON] };
     }),
     put: jest.fn().mockImplementation((serialized) => {
-        return serialized;
+        const _id = serialized._id ? serialized._id : serialized;
+        switch (_id) {
+            case transactionAJSON._id:
+                return transactionAJSON;
+            case transactionBJSON._id:
+                return transactionBJSON;
+        }
     }),
     delete: jest.fn().mockImplementation((serialized) => {
         return serialized;

@@ -11,10 +11,6 @@ import mockItemDatabase, {
     itemBInstance,
     mockDB,
 } from './__mocks__/itemDatabase';
-import {
-    transactionAInstance,
-    transactionBInstance,
-} from './__mocks__/transactionDatabase';
 
 describe('ItemRepository class', () => {
     const mockContainer = container
@@ -59,9 +55,7 @@ describe('ItemRepository class', () => {
     });
 
     it('should get itemB by id', async () => {
-        const expected = {
-            __id: itemB._id,
-        };
+        const expected = itemBInstance;
         const actual = await repository.get(itemB._id);
         expect(actual).toBeInstanceOf(Item);
         expect(actual).toEqual(expect.objectContaining(expected));
