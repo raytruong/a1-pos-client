@@ -12,7 +12,9 @@ function createWindow() {
         },
     });
 
-    win.loadFile('dist-vite/index.html');
+    win.loadURL(`file://${path.join(__dirname, './dist-vite/index.html')}`);
+
+    if (process.env.debug === 'true') win.webContents.openDevTools();
 }
 
 app.whenReady().then(() => {
