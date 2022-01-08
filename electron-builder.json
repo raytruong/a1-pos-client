@@ -1,7 +1,7 @@
 {
     "productName": "a1-client",
     "appId": "a1-client",
-    "asar": false,
+    "asar": true,
     "publish": null,
     "files": ["dist-vite", "main-electron.js", "preload.js"],
     "directories": {

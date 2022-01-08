@@ -1,6 +1,5 @@
 import HomeView from '@/views/HomeView.vue';
-
-const NotFoundComponent = { template: '<p>Page not found</p>' };
+import NotFoundView from '@/views/NotFoundView.vue';
 
 const routeConfig = [
     {
@@ -9,9 +8,9 @@ const routeConfig = [
         component: HomeView,
     },
     {
-        path: '/lost',
-        name: '404',
-        component: NotFoundComponent,
+        path: '/NotFound',
+        name: 'NotFoundView',
+        component: NotFoundView,
     },
 ];
 
