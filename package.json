@@ -10,7 +10,7 @@
         "build": "vue-tsc --noEmit && vite build",
         "serve": "vite preview",
         "clean": "rm -rf dist-* local-*",
-        "css:build": "tailwindcss build src/styles/index.css -o public/styles.css",
+        "css:build": "tailwindcss build -i src/styles/index.css -o public/styles.css",
         "electron:dev": "cross-env debug=true electron .",
         "electron:build": "npm run build && electron-builder build --config electron-builder.json",
         "electron:build:win": "npm run build && electron-builder build --win --config electron-builder.json",
@@ -21,6 +21,7 @@
         "test:watch": "jest --watch"
     },
     "dependencies": {
+        "@headlessui/vue": "^1.4.3",
         "class-transformer": "^0.5.1",
         "dinero.js": "^1.9.1",
         "events": "^3.3.0",

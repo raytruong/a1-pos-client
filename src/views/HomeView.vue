@@ -1,6 +1,8 @@
 <template>
     <MainLayout>
-        <PasswordPrompt></PasswordPrompt>
+        <div>
+            <PasswordPrompt></PasswordPrompt>
+        </div>
     </MainLayout>
 </template>
 

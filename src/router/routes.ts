@@ -8,6 +8,16 @@ const routeConfig = [
         component: HomeView,
     },
     {
+        path: '/checkout',
+        name: 'CheckoutView',
+        component: NotFoundView,
+    },
+    {
+        path: '/dashboard',
+        name: 'DashboardView',
+        component: NotFoundView,
+    },
+    {
         path: '/NotFound',
         name: 'NotFoundView',
         component: NotFoundView,
