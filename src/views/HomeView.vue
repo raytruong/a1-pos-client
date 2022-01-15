@@ -1,18 +1,19 @@
 <template>
-  <main-layout>
-    <p>Welcome home!</p>
-    <router-link to="/NotFound">Go to 404</router-link>
-  </main-layout>
+    <MainLayout>
+        <PasswordPrompt></PasswordPrompt>
+    </MainLayout>
 </template>
 
 <script>
-import MainLayout from "@/layouts/Main.vue";
+import MainLayout from '@/layouts/Main.vue';
+import PasswordPrompt from '@/components/PasswordPrompt.vue';
 
 export default {
-  name: "HomeView",
-  components: {
-    MainLayout
-  }
+    name: 'HomeView',
+    components: {
+        MainLayout,
+        PasswordPrompt,
+    },
 };
 </script>
 
