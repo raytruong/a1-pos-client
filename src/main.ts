@@ -1,6 +1,13 @@
 import { createApp } from 'vue';
 import App from './App.vue';
 
+// vue-router
+import router from '@/router';
+
+// tailwind
+import './styles/index.css';
+
+// tsyringe
 import 'reflect-metadata';
 import { container } from 'tsyringe';
 
@@ -9,4 +16,6 @@ container.register('username', { useValue: import.meta.env.VITE_DB_USER });
 container.register('password', { useValue: import.meta.env.VITE_DB_PASS });
 container.register('baseUrl', { useValue: import.meta.env.VITE_DB_BASEURL });
 
-createApp(App).mount('#app');
+const app = createApp(App);
+app.use(router);
+app.mount('#app');
