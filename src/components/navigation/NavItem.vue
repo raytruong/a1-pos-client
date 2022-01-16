@@ -1,9 +1,6 @@
 <template>
     <li>
-        <router-link
-            :to="href"
-            class="block px-3 py-2 rounded-md bg-sky-500 text-white"
-        >
+        <router-link :to="href">
             <slot />
         </router-link>
     </li>

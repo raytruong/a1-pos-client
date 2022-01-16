@@ -18,6 +18,11 @@ const routeConfig = [
         component: NotFoundView,
     },
     {
+        path: '/logout',
+        name: 'LogoutView',
+        component: NotFoundView,
+    },
+    {
         path: '/NotFound',
         name: 'NotFoundView',
         component: NotFoundView,
