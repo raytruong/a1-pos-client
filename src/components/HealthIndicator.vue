@@ -38,8 +38,8 @@
                     <path d="M9.5 15.25a3.5 3.5 0 0 1 5 0" />
                 </svg>
             </div>
-            <span v-if="isHealthy" class="ml-7">Healthy</span>
-            <span v-else class="ml-7">Unhealthy</span>
+            <span v-if="isHealthy" class="ml-7">Online</span>
+            <span v-else class="ml-7">Offline</span>
         </div>
     </div>
 </template>

@@ -10,6 +10,7 @@
         "build": "vue-tsc --noEmit && vite build",
         "serve": "vite preview",
         "clean": "rm -rf dist-* local-*",
+        "precommit": "npm run build && npm run test && npm run format",
         "css:build": "tailwindcss build -i src/styles/index.css -o public/styles.css",
         "electron:dev": "cross-env debug=true electron .",
         "electron:build": "npm run build && electron-builder build --config electron-builder.json",

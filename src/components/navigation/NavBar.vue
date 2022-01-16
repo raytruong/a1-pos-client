@@ -21,7 +21,7 @@
                     :href="item.path"
                 >
                     <button
-                        :class="item.color ? item.color : 'bg-sky-500'"
+                        :class="item.color"
                         class="block rounded-md text-white px-3 py-2"
                     >
                         {{ item.text }}
@@ -46,6 +46,7 @@ export default defineComponent({
             dashboard: {
                 text: 'Dashboard',
                 path: '/dashboard',
+                color: 'bg-sky-500',
             },
             logout: {
                 text: 'Logout',
