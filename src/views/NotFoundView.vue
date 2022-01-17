@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import MainLayout from '@/layouts/Main.vue';
+import MainLayout from '@/layouts/TwoPanelLayout.vue';
 
 export default {
     name: 'NotFoundView',

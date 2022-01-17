@@ -1,14 +1,6 @@
 <template>
     <header
-        class="
-            flex
-            justify-between
-            items-center
-            shadow-2xl
-            bg-gray-800
-            px-4
-            py-3
-        "
+        class="flex justify-between items-center shadow-sm bg-white px-4 py-3"
     >
         <div>
             <HealthIndicator />
@@ -21,8 +13,7 @@
                     :href="item.path"
                 >
                     <button
-                        :class="item.color"
-                        class="block rounded-md text-white px-3 py-2"
+                        :class="`block bg-gradient-to-r from-${item.color}-400 to-${item.color}-500 rounded-lg text-white text-md shadow-sm px-3 py-3`"
                     >
                         {{ item.text }}
                     </button>
@@ -46,12 +37,12 @@ export default defineComponent({
             dashboard: {
                 text: 'Dashboard',
                 path: '/dashboard',
-                color: 'bg-sky-500',
+                color: 'blue',
             },
             logout: {
                 text: 'Logout',
                 path: '/logout',
-                color: 'bg-red-400',
+                color: 'red',
             },
         };
         return { navItems };

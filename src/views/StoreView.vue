@@ -13,7 +13,7 @@
 import TwoPanelLayout from '@/layouts/TwoPanelLayout.vue';
 
 export default {
-    name: 'HomeView',
+    name: 'StoreView',
     components: {
         TwoPanelLayout,
     },
