@@ -1,5 +1,5 @@
 <template>
-    <div class="flex-col w-40">
+    <div class="flex-col max-w-xs">
         <div class="mb-3 overflow-ellipsis">
             <div class="flex">
                 <div class="relative mr-7">
@@ -26,18 +26,16 @@
                 <p class="text-black text-lg truncate">Raymond Truong</p>
             </div>
         </div>
-        <div class="flex justify-center gap-3">
+        <div class="flex justify-start gap-3">
             <button
                 class="
                     block
-                    rounded-lg
-                    bg-gradient-to-r
-                    from-blue-400
-                    to-blue-500
+                    rounded-2xl
+                    bg-blue-400
                     text-white text-md
                     shadow-sm
-                    px-3
-                    py-3
+                    px-5
+                    py-5
                 "
             >
                 Dashboard
@@ -45,14 +43,12 @@
             <button
                 class="
                     block
-                    rounded-lg
-                    bg-gradient-to-r
-                    from-red-400
-                    to-red-500
+                    rounded-2xl
+                    bg-red-400
                     text-white text-md
                     shadow-sm
-                    px-3
-                    py-3
+                    px-5
+                    py-2
                 "
             >
                 Logout
@@ -61,12 +57,8 @@
     </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
-
-export default defineComponent({
-    name: 'UserPanel.vue',
-});
+<script lang="ts" setup>
+const name = 'UserPanel.vue';
 </script>
 
 <style scoped></style>

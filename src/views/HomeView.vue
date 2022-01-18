@@ -1,23 +1,18 @@
 <template>
     <TwoPanelLayout>
-        <template v-slot:leftPanel>
+        <template #leftPanel>
             <div>Left</div>
         </template>
-        <template v-slot:rightPanel>
+        <template #rightPanel>
             <div>Right</div>
         </template>
     </TwoPanelLayout>
 </template>
 
-<script>
+<script lang="ts" setup>
 import TwoPanelLayout from '@/layouts/TwoPanelLayout.vue';
 
-export default {
-    name: 'HomeView',
-    components: {
-        TwoPanelLayout,
-    },
-};
+const name = 'HomeView';
 </script>
 
 <style scoped></style>

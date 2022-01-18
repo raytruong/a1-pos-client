@@ -5,15 +5,10 @@
     </main-layout>
 </template>
 
-<script>
+<script lang="ts" setup>
 import MainLayout from '@/layouts/TwoPanelLayout.vue';
 
-export default {
-    name: 'NotFoundView',
-    components: {
-        MainLayout,
-    },
-};
+const name = 'NotFoundView';
 </script>
 
 <style scoped></style>

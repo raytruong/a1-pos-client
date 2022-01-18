@@ -4,10 +4,8 @@
     </ul>
 </template>
 
-<script>
-export default {
-    name: 'NavItemGroup.vue',
-};
+<script lang="ts" setup>
+const name = 'NavItemGroup.vue';
 </script>
 
 <style scoped></style>

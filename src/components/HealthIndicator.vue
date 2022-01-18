@@ -1,15 +1,5 @@
 <template>
-    <div
-        class="
-            px-4
-            py-4
-            text-xs
-            rounded-lg
-            bg-white
-            shadow-md
-            ring-1 ring-gray-900/5
-        "
-    >
+    <div class="px-4 py-4 text-md">
         <div class="flex flex-col items-end">
             <div class="font-extralight text-gray-400">Last Synced</div>
             <div class="flex">
@@ -27,20 +17,12 @@
     </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from 'vue';
+<script lang="ts" setup>
+import { ref } from 'vue';
 
-export default defineComponent({
-    name: 'HealthIndicator.vue',
-    setup(props, context) {
-        const isHealthy = ref(true);
-        const lastConnected = ref('3 mins ago');
-        return {
-            isHealthy,
-            lastConnected,
-        };
-    },
-});
+const name = 'HealthIndicator.vue';
+const isHealthy = ref(true);
+const lastConnected = ref('3 mins ago');
 </script>
 
 <style scoped></style>

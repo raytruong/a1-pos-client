@@ -9,8 +9,6 @@
     </div>
 </template>
 
-<script lang="ts">
-export default {
-    name: 'TwoPanelLayout',
-};
+<script lang="ts" setup>
+const name = 'TwoPanelLayout';
 </script>

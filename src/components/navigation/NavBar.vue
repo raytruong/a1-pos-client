@@ -23,31 +23,25 @@
     </header>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from 'vue';
+<script lang="ts" setup>
 import NavItem from '@/components/navigation/NavItem.vue';
 import NavItemGroup from '@/components/navigation/NavItemGroup.vue';
 import HealthIndicator from '@/components/HealthIndicator.vue';
 
-export default defineComponent({
-    name: 'NavbarHeader.vue',
-    components: { NavItem, NavItemGroup, HealthIndicator },
-    setup(props, context) {
-        const navItems = {
-            dashboard: {
-                text: 'Dashboard',
-                path: '/dashboard',
-                color: 'blue',
-            },
-            logout: {
-                text: 'Logout',
-                path: '/logout',
-                color: 'red',
-            },
-        };
-        return { navItems };
+const name = 'NavbarHeader.vue';
+
+const navItems = {
+    dashboard: {
+        text: 'Dashboard',
+        path: '/dashboard',
+        color: 'blue',
     },
-});
+    logout: {
+        text: 'Logout',
+        path: '/logout',
+        color: 'red',
+    },
+};
 </script>
 
 <style scoped></style>
