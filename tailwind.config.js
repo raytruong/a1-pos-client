@@ -3,7 +3,8 @@ module.exports = {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Sansburg'],
+                sans: ['Cera Round Pro'],
+                body: ['Sansburg'],
             },
             gridTemplateRows: {
                 12: 'repeat(12, minmax(0, 1fr))',

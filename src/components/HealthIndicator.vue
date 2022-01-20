@@ -1,7 +1,7 @@
 <template>
     <div class="px-4 py-4 text-md">
         <div class="flex flex-col items-end">
-            <div class="font-extralight text-gray-400">Last Synced</div>
+            <p class="font-extralight text-gray-400">Last Synced</p>
             <div class="flex">
                 <div class="relative mr-4">
                     <div class="absolute inset-y-0 left-0 flex items-center">
@@ -11,7 +11,7 @@
                         ></div>
                     </div>
                 </div>
-                <div>{{ lastConnected }}</div>
+                <p class="font-light">{{ lastConnected }}</p>
             </div>
         </div>
     </div>
