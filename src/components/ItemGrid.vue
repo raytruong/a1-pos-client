@@ -1,10 +1,10 @@
 <template>
-    <div class='grid grow grid-rows-3 grid-cols-5 gap-x-12 gap-y-8 m-4'>
-        <!--        <ItemCard :item='getItems()'></ItemCard>-->
+    <div class="grid grow grid-rows-3 grid-cols-5 gap-x-12 gap-y-8 m-4">
+        <ItemCard :item="getItems()"></ItemCard>
     </div>
 </template>
 
-<script lang='ts' setup>
+<script lang="ts" setup>
 import { ref, PropType } from 'vue';
 import ItemCard from '@/components/ItemCard.vue';
 import Item from '@/lib/models/Item';
