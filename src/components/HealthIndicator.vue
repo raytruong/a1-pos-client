@@ -6,7 +6,11 @@
                 <div class="relative mr-4">
                     <div class="absolute inset-y-0 left-0 flex items-center">
                         <div
-                            :class="isHealthy ? 'bg-green-400' : 'bg-red-400'"
+                            :class="
+                                isHealthy
+                                    ? 'bg-green-400'
+                                    : 'bg-red-400 animate-pulse'
+                            "
                             class="h-2 w-2 rounded-lg"
                         ></div>
                     </div>

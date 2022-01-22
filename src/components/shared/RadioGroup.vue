@@ -15,7 +15,16 @@
             v-for="(btn, index) in buttons"
             :key="btn.val"
             :class="index === activeIndex ? 'bg-orange-400' : 'bg-gray-400'"
-            class="px-6 py-3 rounded-full min-w-fit"
+            class="
+                px-6
+                py-3
+                rounded-full
+                min-w-fit
+                focus:outline-none
+                focus:ring
+                focus:ring-offset-2
+                focus:ring-orange-300
+            "
             @click="onClick(btn.val, index)"
         >
             {{ btn.text }}

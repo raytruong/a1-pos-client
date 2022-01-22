@@ -20,7 +20,14 @@
                         :buttons="getButtons()"
                     ></RadioGroup>
                 </div>
-                <div class="row-span-8 px-6 overflow-y-scroll no-scrollbar">
+                <div
+                    class="
+                        row-span-8
+                        px-6
+                        overflow-y-scroll overflow-x-hidden
+                        no-scrollbar
+                    "
+                >
                     <ItemGrid></ItemGrid>
                 </div>
                 <div class="row-span-2 px-6 flex items-center">
