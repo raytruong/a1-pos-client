@@ -4,8 +4,6 @@
     </ul>
 </template>
 
-<script lang="ts" setup>
-const name = 'NavItemGroup.vue';
-</script>
+<script lang="ts" setup></script>
 
 <style scoped></style>

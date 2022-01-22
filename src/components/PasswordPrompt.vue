@@ -8,7 +8,6 @@ import { ref } from 'vue';
 import PasswordInput from '@/components/PasswordInput.vue';
 import NumPad from '@/components/NumPad.vue';
 
-const name = 'PasswordPrompt.vue';
 const emit = defineEmits(['login-attempted']);
 const input = ref('');
 </script>

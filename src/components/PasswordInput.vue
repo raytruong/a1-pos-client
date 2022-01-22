@@ -5,7 +5,6 @@
 </template>
 
 <script lang="ts" setup>
-const name = 'PasswordInput.vue';
 const props = defineProps({
     input: {
         type: String,

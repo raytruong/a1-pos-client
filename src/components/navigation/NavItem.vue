@@ -7,7 +7,6 @@
 </template>
 
 <script lang="ts" setup>
-const name = 'NavItem.vue';
 const props = defineProps({
     href: {
         type: String,

@@ -59,8 +59,6 @@
     </div>
 </template>
 
-<script lang="ts" setup>
-const name = 'UserPanel.vue';
-</script>
+<script lang="ts" setup></script>
 
 <style scoped></style>

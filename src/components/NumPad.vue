@@ -8,7 +8,6 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 
-const name = 'NumPad.vue';
 const props = defineProps({
     input: {
         type: String,

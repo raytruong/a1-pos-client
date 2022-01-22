@@ -28,8 +28,6 @@ import NavItem from '@/components/navigation/NavItem.vue';
 import NavItemGroup from '@/components/navigation/NavItemGroup.vue';
 import HealthIndicator from '@/components/HealthIndicator.vue';
 
-const name = 'NavbarHeader.vue';
-
 const navItems = {
     dashboard: {
         text: 'Dashboard',

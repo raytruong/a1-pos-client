@@ -7,8 +7,6 @@
 
 <script lang="ts" setup>
 import MainLayout from '@/layouts/TwoPanelLayout.vue';
-
-const name = 'NotFoundView';
 </script>
 
 <style scoped></style>

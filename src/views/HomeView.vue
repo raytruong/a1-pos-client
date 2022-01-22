@@ -11,8 +11,6 @@
 
 <script lang="ts" setup>
 import TwoPanelLayout from '@/layouts/TwoPanelLayout.vue';
-
-const name = 'HomeView';
 </script>
 
 <style scoped></style>

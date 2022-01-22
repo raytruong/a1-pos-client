@@ -20,7 +20,6 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 
-const name = 'HealthIndicator.vue';
 const isHealthy = ref(true);
 const lastConnected = ref('3 mins ago');
 </script>
