@@ -15,7 +15,7 @@
 import { ref, PropType } from 'vue';
 
 const props = defineProps({
-    buttons: { type: Array as PropType<Array<number>>, required: true },
+    buttons: { type: Array as PropType<Array<number>>, required: false },
 });
 const emit = defineEmits(['update:value']);
 
