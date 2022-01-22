@@ -1,29 +1,46 @@
 <template>
     <div class="flex flex-row items-center gap-8 px-4 py-2 text-white text-sm">
-        <button class="bg-orange-400 px-5 py-3 rounded-full">Full Set</button>
-        <button class="bg-orange-400 px-5 py-3 rounded-full">Fill In</button>
-        <button class="bg-orange-400 px-5 py-3 rounded-full">Pedicure</button>
-        <button class="bg-orange-400 px-5 py-3 rounded-full">Manicure</button>
-        <button class="bg-orange-400 px-5 py-3 rounded-full">
-            Polish Change
+        <button
+            v-for="(btn, index) in buttons"
+            :key="btn.val"
+            :class="index === activeIndex ? 'bg-orange-400' : 'bg-gray-400'"
+            class="px-5 py-3 rounded-full"
+            @click="onSelect(index)"
+        >
+            {{ btn.text }}
         </button>
-        <button class="bg-orange-400 px-5 py-3 rounded-full">Kids</button>
     </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, PropType } from 'vue';
+import { ref, PropType, onBeforeMount } from 'vue';
 
 const props = defineProps({
-    buttons: { type: Array as PropType<Array<number>>, required: false },
+    buttons: {
+        type: Array as PropType<Array<Record<string, string>>>,
+        required: true,
+        validator: (value: any) => {
+            return (
+                value.length > 0 &&
+                value.every((btn: any) => {
+                    return btn.text && btn.val;
+                })
+            );
+        },
+    },
 });
-const emit = defineEmits(['update:value']);
+const emit = defineEmits(['update:modelValue']);
 
-const value = ref('');
+let activeIndex = ref(0);
 
-const onSelect = (): void => {
-    emit('update:value', value);
+const onSelect = (index: number): void => {
+    activeIndex.value = index;
+    emit('update:modelValue', props.buttons[index].val);
 };
+
+onBeforeMount(() => {
+    emit('update:modelValue', props.buttons[activeIndex.value].val);
+});
 </script>
 
 <style scoped></style>
