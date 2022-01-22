@@ -1,11 +1,22 @@
 <template>
-    <div class="flex flex-row items-center gap-8 px-4 py-2 text-white text-sm">
+    <div
+        class="
+            flex flex-row
+            items-center
+            gap-8
+            px-4
+            py-2
+            text-white text-sm
+            overflow-x-scroll
+            no-scrollbar
+        "
+    >
         <button
             v-for="(btn, index) in buttons"
             :key="btn.val"
             :class="index === activeIndex ? 'bg-orange-400' : 'bg-gray-400'"
-            class="px-5 py-3 rounded-full"
-            @click="onSelect(index)"
+            class="px-6 py-3 rounded-full min-w-fit"
+            @click="onClick(btn.val, index)"
         >
             {{ btn.text }}
         </button>
@@ -20,11 +31,11 @@ const props = defineProps({
         type: Array as PropType<Array<Record<string, string>>>,
         required: true,
         validator: (value: any) => {
-            return (
+            return Boolean(
                 value.length > 0 &&
-                value.every((btn: any) => {
-                    return btn.text && btn.val;
-                })
+                    value.every((btn: any) => {
+                        return btn.text && btn.val;
+                    }),
             );
         },
     },
@@ -32,10 +43,12 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue']);
 
 let activeIndex = ref(0);
+let activeValue = ref('');
 
-const onSelect = (index: number): void => {
+const onClick = (value: string, index: number): void => {
     activeIndex.value = index;
-    emit('update:modelValue', props.buttons[index].val);
+    activeValue.value = value;
+    emit('update:modelValue', activeValue);
 };
 
 onBeforeMount(() => {
