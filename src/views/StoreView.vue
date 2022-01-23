@@ -66,8 +66,14 @@
                         Clear All
                     </button>
                 </div>
-                <div class="row-span-8">
-                    <div>Cart viewport</div>
+                <div
+                    class="
+                        row-span-8
+                        overflow-y-scroll overflow-x-hidden
+                        no-scrollbar
+                    "
+                >
+                    <ItemCart></ItemCart>
                 </div>
                 <div class="row-span-1">
                     <div>Cash/Credit Radio Group</div>
@@ -87,6 +93,7 @@ import HealthIndicator from '@/components/HealthIndicator.vue';
 import RadioGroup from '@/components/shared/RadioGroup.vue';
 import ItemGrid from '@/components/ItemGrid.vue';
 import StoreDock from '@/components/StoreDock.vue';
+import ItemCart from '@/components/ItemCart.vue';
 
 let selected = ref('');
 

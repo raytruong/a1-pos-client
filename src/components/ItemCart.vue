@@ -1,16 +1,16 @@
 <template>
-    <div class="grid grow grid-rows-3 grid-cols-5 gap-x-12 gap-y-8 m-4">
-        <ItemCard
+    <div class="flex flex-col items-center gap-4 m-4">
+        <CartItem
             v-for="item in getItems()"
             :key="item._id"
             :item="item"
-        ></ItemCard>
+        ></CartItem>
     </div>
 </template>
 
 <script lang="ts" setup>
 import { ref, PropType } from 'vue';
-import ItemCard from '@/components/ItemCard.vue';
+import CartItem from '@/components/CartItem.vue';
 import Item from '@/lib/models/Item';
 import Currency from '@/lib/models/Currency';
 import Addon from '@/lib/models/Addon';
