@@ -2,26 +2,32 @@
     <div class="flex relative w-full bg-gray-50 p-6 border-t">
         <div class="flex flex-col w-full">
             <div class="flex justify-between truncate">
-                <h1 class="text-black text-lg truncate">
+                <h1 class="text-black text-lg font-medium truncate">
                     {{ item.name }}
                 </h1>
                 <h1 class="text-orange-500 text-2xl min-w-fit">
-                    {{ item.displaySinglePrice }}
+                    {{ item.displayTotalPrice }}
                 </h1>
             </div>
             <p class="text-gray-500 font-light truncate">{{ item.category }}</p>
-            <div>
+            <div class="mt-2">
                 <div class="flex justify-between">
+                    <p class="text-gray-500 font-light truncate">Basic Price</p>
                     <p class="text-gray-500 font-light truncate">
-                        Dipping Powder x3
+                        +{{ item.displaySinglePrice }}
                     </p>
-                    <p class="text-gray-500 font-light truncate">+$1.25</p>
                 </div>
-                <div class="flex justify-between">
+                <div
+                    v-for="addon in item.addons"
+                    :key="addon._id"
+                    class="flex justify-between"
+                >
                     <p class="text-gray-500 font-light truncate">
-                        Gel Polish x2
+                        {{ addon.name }} x{{ addon.quantity }}
                     </p>
-                    <p class="text-gray-500 font-light truncate">+$1.25</p>
+                    <p class="text-gray-500 font-light truncate min-w-fit">
+                        +{{ addon.displayBatchPrice }}
+                    </p>
                 </div>
             </div>
         </div>

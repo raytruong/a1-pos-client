@@ -19,14 +19,23 @@ import Addon from '@/lib/models/Addon';
 // const emits = defineEmits([]);
 
 const getItems = () => {
+    let addon = new Addon(
+        'addon:1234567890',
+        '7-8596f70bd9ed85a3e133af283838f191',
+        'Gel Polish',
+        new Currency(200),
+        2,
+        'Addon',
+    );
+
     let item = new Item(
         'item:1234567890',
         '7-8596f70bd9ed85a3e133af283838f191',
         'Classic Pedicure',
-        new Currency(1025),
+        new Currency(1000),
         1,
         'Pedicure',
-        new Array<Addon>(),
+        new Array<Addon>(addon),
     );
 
     const items = [];
