@@ -42,9 +42,8 @@
                     h-screen
                     grid-rows-12 grid-cols-1
                     bg-gray-100
-                    shadow-inner
-                    px-4
                     py-6
+                    border
                 "
             >
                 <div class="row-span-1 flex justify-between items-center p-4">

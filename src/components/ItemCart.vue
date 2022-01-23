@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col items-center gap-4 m-4">
+    <div class="flex flex-col items-center">
         <CartItem
             v-for="item in getItems()"
             :key="item._id"
@@ -23,7 +23,7 @@ const getItems = () => {
         'item:1234567890',
         '7-8596f70bd9ed85a3e133af283838f191',
         'Classic Pedicure',
-        new Currency(100),
+        new Currency(1025),
         1,
         'Pedicure',
         new Array<Addon>(),

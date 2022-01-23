@@ -35,6 +35,7 @@
                         px-3
                         py-3
                         focus:outline-none
+                        focus:brightness-110
                         focus:ring
                         focus:ring-offset-2
                         focus:ring-blue-300

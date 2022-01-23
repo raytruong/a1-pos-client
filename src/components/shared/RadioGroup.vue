@@ -20,6 +20,7 @@
                 py-3
                 rounded-full
                 min-w-fit
+                focus:brightness-110
                 focus:outline-none
                 focus:ring
                 focus:ring-offset-2
