@@ -5,45 +5,35 @@
     </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from 'vue';
+<script lang="ts" setup>
+import { ref } from 'vue';
 
-export default defineComponent({
-    name: 'NumPad.vue',
-    props: {
-        input: {
-            type: String,
-            default: '',
-            required: true,
-        },
-        maxLen: {
-            type: Number,
-            default: 6,
-            required: false,
-        },
+const props = defineProps({
+    input: {
+        type: String,
+        default: '',
+        required: true,
     },
-    emits: ['update:input'],
-    setup(props, context) {
-        const inputCharArray = ref(Array.from(props.input));
-
-        const onNumInput = (num: string, event: Event) => {
-            if (inputCharArray.value.length < props.maxLen) {
-                inputCharArray.value.push(num);
-            }
-            context.emit('update:input', inputCharArray.value.join(''));
-        };
-
-        const onDeleteInput = () => {
-            inputCharArray.value.pop();
-            context.emit('update:input', inputCharArray.value.join(''));
-        };
-
-        return {
-            onNumInput,
-            onDeleteInput,
-        };
+    maxLen: {
+        type: Number,
+        default: 6,
+        required: false,
     },
 });
+const emit = defineEmits(['update:input']);
+const inputCharArray = ref(Array.from(props.input));
+
+const onNumInput = (num: string, event: Event): void => {
+    if (inputCharArray.value.length < props.maxLen) {
+        inputCharArray.value.push(num);
+    }
+    emit('update:input', inputCharArray.value.join(''));
+};
+
+const onDeleteInput = (): void => {
+    inputCharArray.value.pop();
+    emit('update:input', inputCharArray.value.join(''));
+};
 </script>
 
 <style scoped></style>

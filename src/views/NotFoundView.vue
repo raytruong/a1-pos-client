@@ -5,15 +5,8 @@
     </main-layout>
 </template>
 
-<script>
-import MainLayout from '@/layouts/Main.vue';
-
-export default {
-    name: 'NotFoundView',
-    components: {
-        MainLayout,
-    },
-};
+<script lang="ts" setup>
+import MainLayout from '@/layouts/TwoPanelLayout.vue';
 </script>
 
 <style scoped></style>

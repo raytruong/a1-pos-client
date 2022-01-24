@@ -4,26 +4,15 @@
     </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from 'vue';
-
-export default defineComponent({
-    name: 'PasswordInput.vue',
-    props: {
-        input: {
-            type: String,
-            default: '',
-            required: true,
-        },
-        maxLen: {
-            type: Number,
-            default: 6,
-            required: false,
-        },
+<script lang="ts" setup>
+const props = defineProps({
+    input: {
+        type: String,
+        default: '',
     },
-    emits: [],
-    setup(props, context) {
-        return;
+    maxLen: {
+        type: Number,
+        default: 6,
     },
 });
 </script>

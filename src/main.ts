@@ -8,7 +8,6 @@ import router from '@/router';
 import './styles/index.css';
 
 // tsyringe
-import 'reflect-metadata';
 import { container } from 'tsyringe';
 
 // TODO: IMPORTANT MOVE TO AUTH SERVICE

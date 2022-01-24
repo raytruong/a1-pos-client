@@ -1,11 +1,17 @@
 import HomeView from '@/views/HomeView.vue';
+import StoreView from '@/views/StoreView.vue';
 import NotFoundView from '@/views/NotFoundView.vue';
 
 const routeConfig = [
     {
-        path: '/',
+        path: '/store',
         name: 'HomeView',
         component: HomeView,
+    },
+    {
+        path: '/',
+        name: 'StoreView',
+        component: StoreView,
     },
     {
         path: '/checkout',

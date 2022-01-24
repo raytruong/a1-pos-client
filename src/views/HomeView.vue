@@ -1,22 +1,16 @@
 <template>
-    <MainLayout>
-        <div>
-            <PasswordPrompt></PasswordPrompt>
-        </div>
-    </MainLayout>
+    <TwoPanelLayout>
+        <template #leftPanel>
+            <div>Left</div>
+        </template>
+        <template #rightPanel>
+            <div>Right</div>
+        </template>
+    </TwoPanelLayout>
 </template>
 
-<script>
-import MainLayout from '@/layouts/Main.vue';
-import PasswordPrompt from '@/components/PasswordPrompt.vue';
-
-export default {
-    name: 'HomeView',
-    components: {
-        MainLayout,
-        PasswordPrompt,
-    },
-};
+<script lang="ts" setup>
+import TwoPanelLayout from '@/layouts/TwoPanelLayout.vue';
 </script>
 
 <style scoped></style>

@@ -22,7 +22,6 @@
         "test:watch": "jest --watch"
     },
     "dependencies": {
-        "@headlessui/vue": "^1.4.3",
         "class-transformer": "^0.5.1",
         "dinero.js": "^1.9.1",
         "events": "^3.3.0",

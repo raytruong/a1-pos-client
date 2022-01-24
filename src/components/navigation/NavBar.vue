@@ -1,14 +1,6 @@
 <template>
     <header
-        class="
-            flex
-            justify-between
-            items-center
-            shadow-2xl
-            bg-gray-800
-            px-4
-            py-3
-        "
+        class="flex justify-between items-center shadow-sm bg-white px-4 py-3"
     >
         <div>
             <HealthIndicator />
@@ -21,8 +13,7 @@
                     :href="item.path"
                 >
                     <button
-                        :class="item.color"
-                        class="block rounded-md text-white px-3 py-2"
+                        :class="`block bg-gradient-to-r from-${item.color}-400 to-${item.color}-500 rounded-lg text-white text-md shadow-sm px-3 py-3`"
                     >
                         {{ item.text }}
                     </button>
@@ -32,31 +23,23 @@
     </header>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from 'vue';
+<script lang="ts" setup>
 import NavItem from '@/components/navigation/NavItem.vue';
 import NavItemGroup from '@/components/navigation/NavItemGroup.vue';
 import HealthIndicator from '@/components/HealthIndicator.vue';
 
-export default defineComponent({
-    name: 'NavbarHeader.vue',
-    components: { NavItem, NavItemGroup, HealthIndicator },
-    setup(props, context) {
-        const navItems = {
-            dashboard: {
-                text: 'Dashboard',
-                path: '/dashboard',
-                color: 'bg-sky-500',
-            },
-            logout: {
-                text: 'Logout',
-                path: '/logout',
-                color: 'bg-red-400',
-            },
-        };
-        return { navItems };
+const navItems = {
+    dashboard: {
+        text: 'Dashboard',
+        path: '/dashboard',
+        color: 'blue',
     },
-});
+    logout: {
+        text: 'Logout',
+        path: '/logout',
+        color: 'red',
+    },
+};
 </script>
 
 <style scoped></style>

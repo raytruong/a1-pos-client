@@ -6,19 +6,11 @@
     </li>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
-
-export default defineComponent({
-    name: 'NavItem.vue',
-    props: {
-        href: {
-            type: String,
-            required: true,
-        },
-    },
-    setup(props, context) {
-        return;
+<script lang="ts" setup>
+const props = defineProps({
+    href: {
+        type: String,
+        required: true,
     },
 });
 </script>
