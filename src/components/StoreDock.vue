@@ -7,11 +7,13 @@
             flex flex-grow
             justify-between
             rounded-2xl
-            shadow-md
+            shadow-lg
+            outline outline-1 outline-gray-300
         "
     >
         <UserPanel />
-        <div class="bg-gray-200 w-0.5 py-6"></div>
+        <div class="border-r w-0.5 py-6"></div>
+        <div class="border-r w-0.5 py-6"></div>
     </div>
 </template>
 

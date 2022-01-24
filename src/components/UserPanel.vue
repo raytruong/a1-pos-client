@@ -30,32 +30,8 @@
                 </div>
             </div>
             <div class="flex justify-start gap-3">
-                <button
-                    class="
-                        grow
-                        rounded-xl
-                        bg-blue-400
-                        text-white text-md
-                        shadow-sm
-                        px-3
-                        py-3
-                    "
-                >
-                    Dashboard
-                </button>
-                <button
-                    class="
-                        grow
-                        rounded-xl
-                        bg-red-400
-                        text-white text-md
-                        shadow-sm
-                        px-3
-                        py-3
-                    "
-                >
-                    Logout
-                </button>
+                <BlockButton>Dashboard</BlockButton>
+                <DangerButton>Logout</DangerButton>
             </div>
         </div>
     </div>
@@ -64,3 +40,11 @@
 <script lang="ts" setup></script>
 
 <style scoped></style>
+<script>
+import BlockButton from '@/components/shared/buttons/BlockButton.vue';
+import DangerButton from '@/components/shared/buttons/DangerButton.vue';
+
+export default {
+    components: { DangerButton, BlockButton },
+};
+</script>

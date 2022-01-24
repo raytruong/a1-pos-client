@@ -30,7 +30,7 @@ const getItems = () => {
     );
 
     const items = [];
-    for (let i = 0; i < 24; i++) {
+    for (let i = 0; i < 20; i++) {
         items.push(item);
     }
     return items;

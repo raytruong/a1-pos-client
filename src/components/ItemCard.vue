@@ -25,7 +25,7 @@
                 </p>
             </div>
             <div class="mt-4 flex justify-center">
-                <button
+                <BlockButton
                     class="
                         grow
                         rounded-xl
@@ -43,7 +43,7 @@
                     @click="onClick"
                 >
                     Add to Cart
-                </button>
+                </BlockButton>
             </div>
         </div>
     </div>
@@ -53,6 +53,7 @@
 import { PropType } from 'vue';
 import Item from '@/lib/models/Item';
 import Addon from '@/lib/models/Addon';
+import BlockButton from '@/components/shared/buttons/BlockButton.vue';
 
 const props = defineProps({
     item: {

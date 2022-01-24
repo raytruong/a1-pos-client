@@ -51,20 +51,7 @@
                     <h2 class="text-3xl font-medium text-gray-900">
                         Current Order
                     </h2>
-                    <button
-                        class="
-                            block
-                            rounded-xl
-                            bg-red-400
-                            text-white text-md
-                            shadow-sm
-                            px-5
-                            py-2
-                            font-body
-                        "
-                    >
-                        Clear All
-                    </button>
+                    <DangerButton>Clear All</DangerButton>
                 </div>
                 <div
                     class="
@@ -95,23 +82,7 @@
                         </div>
                     </div>
                     <div class="flex justify-between flex-col p-6">
-                        <button
-                            class="
-                                rounded-xl
-                                bg-blue-400
-                                text-white text-md
-                                shadow-sm
-                                px-3
-                                py-3
-                                focus:outline-none
-                                focus:brightness-110
-                                focus:ring
-                                focus:ring-offset-2
-                                focus:ring-blue-300
-                            "
-                        >
-                            Checkout
-                        </button>
+                        <BlockButton>Checkout</BlockButton>
                     </div>
                 </div>
             </div>
@@ -127,6 +98,8 @@ import RadioGroup from '@/components/shared/RadioGroup.vue';
 import ItemGrid from '@/components/ItemGrid.vue';
 import StoreDock from '@/components/StoreDock.vue';
 import ItemCart from '@/components/ItemCart.vue';
+import BlockButton from '@/components/shared/buttons/BlockButton.vue';
+import DangerButton from '@/components/shared/buttons/DangerButton.vue';
 
 let selected = ref('');
 
