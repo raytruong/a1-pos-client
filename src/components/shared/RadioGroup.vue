@@ -11,30 +11,20 @@
             no-scrollbar
         "
     >
-        <button
+        <RoundedButton
             v-for="(btn, index) in buttons"
             :key="btn.val"
-            :class="index === activeIndex ? 'bg-orange-400' : 'bg-gray-400'"
-            class="
-                px-6
-                py-3
-                rounded-full
-                min-w-fit
-                focus:brightness-110
-                focus:outline-none
-                focus:ring
-                focus:ring-offset-2
-                focus:ring-orange-300
-            "
+            :active="activeIndex === index"
             @click="onClick(btn.val, index)"
         >
             {{ btn.text }}
-        </button>
+        </RoundedButton>
     </div>
 </template>
 
 <script lang="ts" setup>
 import { ref, PropType, onBeforeMount } from 'vue';
+import RoundedButton from '@/components/shared/buttons/RoundedButton.vue';
 
 const props = defineProps({
     buttons: {
@@ -49,10 +39,14 @@ const props = defineProps({
             );
         },
     },
+    defaultSelected: {
+        type: Boolean,
+        required: false,
+    },
 });
 const emit = defineEmits(['update:modelValue']);
 
-let activeIndex = ref(0);
+let activeIndex = ref();
 let activeValue = ref('');
 
 const onClick = (value: string, index: number): void => {
@@ -62,7 +56,10 @@ const onClick = (value: string, index: number): void => {
 };
 
 onBeforeMount(() => {
-    emit('update:modelValue', props.buttons[activeIndex.value].val);
+    if (props.defaultSelected) {
+        activeIndex.value = 0;
+        emit('update:modelValue', props.buttons[activeIndex.value].val);
+    }
 });
 </script>
 

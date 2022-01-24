@@ -18,6 +18,7 @@
                     <RadioGroup
                         v-model="selected"
                         :buttons="getButtons()"
+                        defaultSelected
                     ></RadioGroup>
                 </div>
                 <div
@@ -41,7 +42,7 @@
                     grid
                     h-screen
                     grid-rows-12 grid-cols-1
-                    bg-gray-100
+                    bg-gray-50
                     py-6
                     border
                 "
@@ -74,11 +75,47 @@
                 >
                     <ItemCart></ItemCart>
                 </div>
-                <div class="row-span-1">
-                    <div>Cash/Credit Radio Group</div>
+                <div class="row-span-1 border-t">
+                    <div class="flex align-center justify-between">
+                        <h1 class="text-2xl p-4">Payment Method:</h1>
+                        <div class="flex justify-end">
+                            <RadioGroup
+                                v-model="selected"
+                                :buttons="[
+                                    { text: 'Cash', val: 'cash' },
+                                    { text: 'Credit', val: 'credit' },
+                                ]"
+                                class="justify-end"
+                            ></RadioGroup>
+                        </div>
+                    </div>
                 </div>
-                <div class="row-span-2">
-                    <div>Confirmation Area</div>
+                <div class="row-span-3">
+                    <div class="flex align-center justify-between">
+                        <h1 class="text-2xl p-4">Total Price:</h1>
+                        <div class="flex justify-end">
+                            <h1 class="text-2xl p-4">$25.75</h1>
+                        </div>
+                    </div>
+                    <div class="flex h-full justify-between flex-col p-6">
+                        <button
+                            class="
+                                rounded-xl
+                                bg-blue-400
+                                text-white text-md
+                                shadow-sm
+                                px-3
+                                py-3
+                                focus:outline-none
+                                focus:brightness-110
+                                focus:ring
+                                focus:ring-offset-2
+                                focus:ring-blue-300
+                            "
+                        >
+                            Checkout
+                        </button>
+                    </div>
                 </div>
             </div>
         </template>
