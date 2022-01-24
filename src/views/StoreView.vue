@@ -78,26 +78,23 @@
                 <div class="row-span-1 border-t">
                     <div class="flex align-center justify-between">
                         <h1 class="text-2xl p-4">Payment Method:</h1>
-                        <div class="flex justify-end">
-                            <RadioGroup
-                                v-model="selected"
-                                :buttons="[
-                                    { text: 'Cash', val: 'cash' },
-                                    { text: 'Credit', val: 'credit' },
-                                ]"
-                                class="justify-end"
-                            ></RadioGroup>
-                        </div>
+                        <RadioGroup
+                            v-model="selected"
+                            :buttons="[
+                                { text: 'Cash', val: 'cash' },
+                                { text: 'Credit', val: 'credit' },
+                            ]"
+                        ></RadioGroup>
                     </div>
                 </div>
                 <div class="row-span-3">
                     <div class="flex align-center justify-between">
                         <h1 class="text-2xl p-4">Total Price:</h1>
                         <div class="flex justify-end">
-                            <h1 class="text-2xl p-4">$25.75</h1>
+                            <h1 class="text-2xl p-4 text-orange-500">$25.75</h1>
                         </div>
                     </div>
-                    <div class="flex h-full justify-between flex-col p-6">
+                    <div class="flex justify-between flex-col p-6">
                         <button
                             class="
                                 rounded-xl
