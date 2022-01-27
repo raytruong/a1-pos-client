@@ -1,5 +1,5 @@
 <template>
-    <div class="flex relative w-full bg-gray-50 p-6 border-t">
+    <div class="flex relative w-full bg-gray-50 p-6 border-b">
         <div class="flex flex-col w-full">
             <div class="flex justify-between truncate">
                 <h1 class="text-black text-lg font-medium truncate">

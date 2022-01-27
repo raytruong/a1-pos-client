@@ -5,7 +5,7 @@
             px-6
             py-3
             rounded-full
-            min-w-fit
+            min-w-fit min-h-fit
             focus:brightness-110
             focus:outline-none
             focus:ring

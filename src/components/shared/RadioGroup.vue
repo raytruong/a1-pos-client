@@ -4,11 +4,10 @@
             flex flex-row
             items-center
             gap-8
-            px-4
-            py-2
             text-white text-sm
             overflow-x-scroll
             no-scrollbar
+            p-2
         "
     >
         <RoundedButton
