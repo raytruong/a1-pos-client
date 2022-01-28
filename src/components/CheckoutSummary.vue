@@ -17,7 +17,7 @@
 <script lang="ts" setup>
 import { ref, PropType } from 'vue';
 import Currency from '@/lib/models/Currency';
-import RadioGroup from '@/components/shared/RadioGroup.vue';
+import RadioGroup from '@/components/shared/HorizontalRadioGroup.vue';
 import BlockButton from '@/components/shared/buttons/BlockButton.vue';
 
 const props = defineProps({

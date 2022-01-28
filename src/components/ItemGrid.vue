@@ -1,5 +1,5 @@
 <template>
-    <div class="grid grow grid-rows-3 grid-cols-5 gap-x-12 gap-y-8 m-4">
+    <div class="grid grow grid-rows-4 grid-cols-4 gap-x-10 gap-y-10 m-4">
         <ItemCard
             v-for="item in getItems()"
             :key="item._id"
@@ -30,7 +30,7 @@ const getItems = () => {
     );
 
     const items = [];
-    for (let i = 0; i < 20; i++) {
+    for (let i = 0; i < 30; i++) {
         items.push(item);
     }
     return items;
