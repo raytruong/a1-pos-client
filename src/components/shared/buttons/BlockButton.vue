@@ -2,12 +2,13 @@
     <button
         class="
             grow
-            rounded-xl
+            block
+            rounded-2xl
             bg-blue-400
             text-white text-md
+            min-w-fit min-h-fit
             shadow-sm
-            px-3
-            py-3
+            p-4
             focus:outline-none
             focus:brightness-110
             focus:ring

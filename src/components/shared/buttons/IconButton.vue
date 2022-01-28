@@ -3,10 +3,10 @@
         :class="active ? 'bg-orange-400' : 'bg-gray-400'"
         class="
             rounded-2xl
-            aspect-square
             flex
             items-center
             justify-center
+            shadow-sm
             min-w-fit min-h-fit
             p-4
             focus:brightness-110

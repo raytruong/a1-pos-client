@@ -86,7 +86,6 @@ import ItemGrid from '@/components/ItemGrid.vue';
 import ItemCart from '@/components/ItemCart.vue';
 import DangerButton from '@/components/shared/buttons/DangerButton.vue';
 import CheckoutSummary from '@/components/CheckoutSummary.vue';
-import AppPanel from '@/components/shared/AppPanel.vue';
 
 let selected = ref('');
 

@@ -1,12 +1,12 @@
 <template>
     <button
         class="
-            rounded-xl
+            rounded-2xl
             bg-red-400
             text-white text-md
             shadow-sm
-            px-3
-            py-3
+            min-w-fit min-h-fit
+            p-4
             focus:outline-none
             focus:brightness-110
             focus:ring

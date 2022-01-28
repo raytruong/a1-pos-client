@@ -25,9 +25,9 @@
             </IconButton>
         </div>
         <div class="row-span-1 flex flex-col items-center p-4 gap-8">
-            <IconButton :active="false">
+            <DangerButton>
                 <LogoutIcon class="h-8 w-8 text-white"></LogoutIcon>
-            </IconButton>
+            </DangerButton>
         </div>
     </div>
 </template>
@@ -43,6 +43,7 @@ import {
     LogoutIcon,
     DocumentTextIcon,
 } from '@heroicons/vue/solid';
+import DangerButton from '@/components/shared/buttons/DangerButton.vue';
 
 let activeView = ref('store');
 

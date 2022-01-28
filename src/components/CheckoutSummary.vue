@@ -1,6 +1,6 @@
 <template>
     <div class="flex align-center items-center justify-between p-4">
-        <h1 class="text-2xl">Payment Method:</h1>
+        <h1 class="text-2xl">Payment Type:</h1>
         <RadioGroup v-model="selected" :buttons="radioButtons"></RadioGroup>
     </div>
     <div class="flex align-center items-center justify-between p-4">
