@@ -40,15 +40,17 @@ describe('ItemService class', () => {
         expect(actual).toStrictEqual(expected);
     });
 
-    it('should return all Items', async () => {
-        const expected = [itemAInstance, itemBInstance, addonAInstance];
+    it('should return all Items and filter addons', async () => {
+        const expected = [itemAInstance, itemBInstance];
         const actual = await service.getAllItems();
         expect(actual).toBeInstanceOf(Array);
-        actual.forEach((item, index) => {
-            expect(item.constructor.name).toEqual(
-                expected[index].constructor.name,
-            );
-        });
+        expect(actual).toStrictEqual(expected);
+    });
+
+    it('should return all Addons and filter items', async () => {
+        const expected = [addonAInstance];
+        const actual = await service.getAllAddons();
+        expect(actual).toBeInstanceOf(Array);
         expect(actual).toStrictEqual(expected);
     });
 });

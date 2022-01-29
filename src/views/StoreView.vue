@@ -87,6 +87,10 @@ import ItemCart from '@/components/ItemCart.vue';
 import DangerButton from '@/components/shared/buttons/DangerButton.vue';
 import CheckoutSummary from '@/components/CheckoutSummary.vue';
 
+import { usePrototypeStore } from '@/stores/prototypeStore';
+
+const prototypes = usePrototypeStore();
+
 let selected = ref('');
 
 const getButtons = () => {

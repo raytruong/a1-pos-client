@@ -11,12 +11,17 @@
 <script lang="ts" setup>
 import { ref, PropType } from 'vue';
 import CartItem from '@/components/CartItem.vue';
+
 import Item from '@/lib/models/Item';
 import Currency from '@/lib/models/Currency';
 import Addon from '@/lib/models/Addon';
 
+import { useCartStore } from '@/stores/cartStore';
+
 // const props = defineProps({});
 // const emits = defineEmits([]);
+
+const cart = useCartStore();
 
 const getItems = () => {
     let addon = new Addon(
