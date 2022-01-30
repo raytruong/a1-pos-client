@@ -3,8 +3,12 @@ import ItemService from '@/lib/services/ItemService';
 import Item from '@/lib/models/Item';
 import Addon from '@/lib/models/Addon';
 import Pouch from '@/lib/databases/Pouch';
-import { addonAInstance, itemAInstance, itemBInstance } from './__mocks__/item';
-import mockItemDatabase from './__mocks__/itemDatabase';
+import {
+    addonAInstance,
+    itemAInstance,
+    itemBInstance,
+    mockItemDatabase,
+} from './__mocks__/itemDatabase';
 
 describe('ItemService class', () => {
     const mockContainer = container
@@ -33,7 +37,7 @@ describe('ItemService class', () => {
         expect(actual).toStrictEqual(expected);
     });
 
-    it('should return Addons', async () => {
+    it('should return Addons by id', async () => {
         const expected = addonAInstance;
         const actual = await service.getItemById(addonAInstance._id);
         expect(actual).toBeInstanceOf(Addon);
@@ -52,5 +56,12 @@ describe('ItemService class', () => {
         const actual = await service.getAllAddons();
         expect(actual).toBeInstanceOf(Array);
         expect(actual).toStrictEqual(expected);
+    });
+
+    it('should return all item categories', async () => {
+        const expected = [itemAInstance.category, itemBInstance.category];
+        const actual = await service.getItemCategories();
+        expect(actual).toBeInstanceOf(Set);
+        expect(Array.from(actual)).toEqual(expected);
     });
 });

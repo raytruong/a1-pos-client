@@ -8,21 +8,26 @@ const itemService = container.resolve(ItemService);
 
 export const usePrototypeStore = defineStore('prototypes', {
     state: () => ({
-        itemPrototypes: [] as Array<Item>,
-        addonPrototypes: [] as Array<Addon>,
+        itemPrototypes: new Array<Item>(),
+        addonPrototypes: new Array<Addon>(),
+        itemCategories: new Set<string>(),
     }),
     getters: {
-        getItemPrototypes(state) {
-            return state.itemPrototypes;
+        getItemPrototypes(state): Array<Item> {
+            return state.itemPrototypes as Array<Item>;
         },
-        getAddonPrototypes(state) {
-            return state.addonPrototypes;
+        getAddonPrototypes(state): Array<Addon> {
+            return state.addonPrototypes as Array<Addon>;
+        },
+        getItemCategories(state): Set<string> {
+            return state.itemCategories;
         },
     },
     actions: {
         async fetchPrototypes() {
             this.itemPrototypes = await itemService.getAllItems();
             this.addonPrototypes = await itemService.getAllAddons();
+            this.itemCategories = await itemService.getItemCategories();
         },
     },
 });

@@ -46,25 +46,24 @@ describe('ItemRepository class', () => {
     });
 
     it('should get itemA by id', async () => {
-        const expected = {
-            __id: itemA._id,
-        };
+        const expected = itemA._id;
         const actual = await repository.get(itemA._id);
         expect(actual).toBeInstanceOf(Item);
-        expect(actual).toEqual(expect.objectContaining(expected));
+        expect(actual._id).toEqual(expected);
     });
 
     it('should get itemB by id', async () => {
-        const expected = itemBInstance;
+        const expected = itemB._id;
         const actual = await repository.get(itemB._id);
         expect(actual).toBeInstanceOf(Item);
-        expect(actual).toEqual(expect.objectContaining(expected));
+        expect(actual._id).toEqual(expected);
     });
 
     it('should get all items', async () => {
+        const expected = [itemA, itemB];
         const actual = await repository.getAll();
         expect(actual).toBeInstanceOf(Array);
-        expect(actual.length).toEqual(2);
+        expect(actual).toEqual(expected);
     });
 
     it('should save a item and not pass a _rev tag', async () => {

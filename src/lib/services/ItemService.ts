@@ -32,6 +32,14 @@ class ItemService {
         });
         return filtered as Array<Addon>;
     }
+
+    public async getItemCategories(): Promise<Set<string>> {
+        const data = await this.getAllItems();
+        const categories: Set<string> = new Set(
+            data.map((item) => item.category),
+        );
+        return categories;
+    }
 }
 
 export default ItemService;

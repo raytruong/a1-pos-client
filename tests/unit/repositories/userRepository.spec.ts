@@ -46,27 +46,24 @@ describe('UserRepository class', () => {
     });
 
     it('should get user1 by id', async () => {
-        const expected = {
-            __id: userA._id,
-        };
+        const expected = userA._id;
         const actual = await repository.get(userA._id);
         expect(actual).toBeInstanceOf(User);
-        expect(actual).toEqual(expect.objectContaining(expected));
+        expect(actual._id).toEqual(expected);
     });
 
     it('should get userB by id', async () => {
-        const expected = {
-            __id: userB._id,
-        };
+        const expected = userB._id;
         const actual = await repository.get(userB._id);
         expect(actual).toBeInstanceOf(User);
-        expect(actual).toEqual(expect.objectContaining(expected));
+        expect(actual._id).toEqual(expected);
     });
 
     it('should get all users', async () => {
+        const expected = [userA, userB];
         const actual = await repository.getAll();
         expect(actual).toBeInstanceOf(Array);
-        expect(actual.length).toEqual(2);
+        expect(actual).toEqual(expected);
     });
 
     it('should save a user and not pass a _rev tag', async () => {
@@ -88,7 +85,7 @@ describe('UserRepository class', () => {
         expect(spyPut.mock.calls[0][0]._rev).toStrictEqual(userA._rev);
     });
 
-    it('should delete an existing user', async () => {
+    it('should delete an existing user and pass a _rev tag', async () => {
         const spy = jest.spyOn(mockDB, 'delete');
         await repository.delete(userA);
         expect(spy).toHaveBeenCalled();

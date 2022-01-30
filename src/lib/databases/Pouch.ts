@@ -1,6 +1,6 @@
 import Database from '@/lib/interfaces/Database';
 import PouchDB from 'pouchdb';
-import { inject, injectable } from 'tsyringe';
+import { injectable } from 'tsyringe';
 
 @injectable()
 class Pouch implements Database {

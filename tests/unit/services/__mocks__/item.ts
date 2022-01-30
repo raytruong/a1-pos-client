@@ -35,7 +35,7 @@ export const itemBJSON = {
     name: 'Pedicure',
     price: 100,
     quantity: 2,
-    category: 'Pedicure',
+    category: 'Kids',
     addons: [
         {
             _id: 'addon:953018296',

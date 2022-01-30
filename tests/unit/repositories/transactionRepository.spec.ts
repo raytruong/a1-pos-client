@@ -64,9 +64,10 @@ describe('TransactionRepository class', () => {
     });
 
     it('should get all transactions', async () => {
+        const expected = [transactionA, transactionB];
         const actual = await repository.getAll();
         expect(actual).toBeInstanceOf(Array);
-        expect(actual.length).toEqual(2);
+        expect(actual).toEqual(expected);
     });
 
     it('should save a transaction and not pass a _rev tag', async () => {
