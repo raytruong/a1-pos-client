@@ -14,10 +14,17 @@ describe('ItemService class', () => {
     const mockContainer = container
         .createChildContainer()
         .register<Pouch>(Pouch, mockItemDatabase);
+
     let service: ItemService;
+    let itemA: Item;
+    let itemB: Item;
+    let addonA: Addon;
 
     beforeEach(() => {
         service = mockContainer.resolve(ItemService);
+        itemA = itemAInstance;
+        itemB = itemBInstance;
+        addonA = addonAInstance;
     });
 
     afterEach(() => {
@@ -31,35 +38,35 @@ describe('ItemService class', () => {
     });
 
     it('should return an Item by id', async () => {
-        const expected = itemAInstance;
-        const actual = await service.getItemById(itemAInstance._id);
+        const expected = itemA;
+        const actual = await service.getItemById(itemA._id);
         expect(actual).toBeInstanceOf(Item);
         expect(actual).toStrictEqual(expected);
     });
 
     it('should return Addons by id', async () => {
-        const expected = addonAInstance;
-        const actual = await service.getItemById(addonAInstance._id);
+        const expected = addonA;
+        const actual = await service.getItemById(addonA._id);
         expect(actual).toBeInstanceOf(Addon);
         expect(actual).toStrictEqual(expected);
     });
 
     it('should return all Items and filter addons', async () => {
-        const expected = [itemAInstance, itemBInstance];
+        const expected = [itemA, itemB];
         const actual = await service.getAllItems();
         expect(actual).toBeInstanceOf(Array);
         expect(actual).toStrictEqual(expected);
     });
 
     it('should return all Addons and filter items', async () => {
-        const expected = [addonAInstance];
+        const expected = [addonA];
         const actual = await service.getAllAddons();
         expect(actual).toBeInstanceOf(Array);
         expect(actual).toStrictEqual(expected);
     });
 
     it('should return all item categories', async () => {
-        const expected = [itemAInstance.category, itemBInstance.category];
+        const expected = [itemA.category, itemB.category];
         const actual = await service.getItemCategories();
         expect(actual).toBeInstanceOf(Set);
         expect(Array.from(actual)).toEqual(expected);
