@@ -12,10 +12,10 @@ import {
 
 describe('ItemSerializer class', () => {
     const mockContainer = container.createChildContainer();
-    let serializer: ItemSerializer;
+    let underTest: ItemSerializer;
 
     beforeEach(() => {
-        serializer = mockContainer.resolve(ItemSerializer);
+        underTest = mockContainer.resolve(ItemSerializer);
     });
 
     afterEach(() => {
@@ -24,48 +24,48 @@ describe('ItemSerializer class', () => {
     });
 
     it('should create an ItemSerializer', () => {
-        expect(serializer).toBeDefined();
-        expect(serializer).toBeInstanceOf(ItemSerializer);
+        expect(underTest).toBeDefined();
+        expect(underTest).toBeInstanceOf(ItemSerializer);
     });
 
     it('should serialize an Item with addons', () => {
         const expected = itemAJSON;
-        const actual = serializer.serialize(itemAInstance);
+        const actual = underTest.serialize(itemAInstance);
         expect(actual).toBeInstanceOf(Object);
         expect(actual).toStrictEqual(expected);
     });
 
     it('should serialize multiple Items with addons', () => {
         const expected = [itemAJSON, itemBJSON];
-        const actual = serializer.serializeAll([itemAInstance, itemBInstance]);
+        const actual = underTest.serializeAll([itemAInstance, itemBInstance]);
         expect(actual).toBeInstanceOf(Array);
         expect(actual).toStrictEqual(expected);
     });
 
     it('should deserialize an Item with addons', () => {
         const expected = itemAInstance;
-        const actual = serializer.deserialize(itemAJSON);
+        const actual = underTest.deserialize(itemAJSON);
         expect(actual).toBeInstanceOf(Item);
         expect(actual).toStrictEqual(expected);
     });
 
     it('should deserialize multiple Items with addons', () => {
         const expected = [itemAInstance, itemBInstance];
-        const actual = serializer.deserializeAll([itemAJSON, itemBJSON]);
+        const actual = underTest.deserializeAll([itemAJSON, itemBJSON]);
         expect(actual).toBeInstanceOf(Array);
         expect(actual).toStrictEqual(expected);
     });
 
     it('should deserialize an Addon', () => {
         const expected = addonAInstance;
-        const actual = serializer.deserialize(itemAJSON.addons[0]);
+        const actual = underTest.deserialize(itemAJSON.addons[0]);
         expect(actual).toBeInstanceOf(Addon);
         expect(actual).toStrictEqual(expected);
     });
 
     it('should deserialize multiple Items or Addons', () => {
         const expected = [itemAInstance, itemBInstance, addonAInstance];
-        const actual = serializer.deserializeAll([
+        const actual = underTest.deserializeAll([
             itemAJSON,
             itemBJSON,
             itemAJSON.addons[0],
@@ -81,9 +81,9 @@ describe('ItemSerializer class', () => {
 
     it('should retain transitivity', () => {
         expect(
-            serializer.deserialize(
-                serializer.serialize(
-                    serializer.deserialize(serializer.serialize(itemAInstance)),
+            underTest.deserialize(
+                underTest.serialize(
+                    underTest.deserialize(underTest.serialize(itemAInstance)),
                 ),
             ),
         ).toStrictEqual(itemAInstance);

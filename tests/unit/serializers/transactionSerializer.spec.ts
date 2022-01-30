@@ -10,10 +10,10 @@ import {
 
 describe('TransactionSerializer class', () => {
     const mockContainer = container.createChildContainer();
-    let serializer: TransactionSerializer;
+    let underTest: TransactionSerializer;
 
     beforeEach(() => {
-        serializer = mockContainer.resolve(TransactionSerializer);
+        underTest = mockContainer.resolve(TransactionSerializer);
     });
 
     afterEach(() => {
@@ -21,20 +21,20 @@ describe('TransactionSerializer class', () => {
     });
 
     it('should create an TransactionSerializer', () => {
-        expect(serializer).toBeDefined();
-        expect(serializer).toBeInstanceOf(TransactionSerializer);
+        expect(underTest).toBeDefined();
+        expect(underTest).toBeInstanceOf(TransactionSerializer);
     });
 
     it('should serialize a Transaction', () => {
         const expected = transactionAJSON;
-        const actual = serializer.serialize(transactionAInstance);
+        const actual = underTest.serialize(transactionAInstance);
         expect(actual).toBeInstanceOf(Object);
         expect(actual).toStrictEqual(expected);
     });
 
     it('should serialize multiple Transactions', () => {
         const expected = [transactionAJSON, transactionBJSON];
-        const actual = serializer.serializeAll([
+        const actual = underTest.serializeAll([
             transactionAInstance,
             transactionBInstance,
         ]);
@@ -44,14 +44,14 @@ describe('TransactionSerializer class', () => {
 
     it('should deserialize a Transaction', () => {
         const expected = transactionAInstance;
-        const actual = serializer.deserialize(transactionAJSON);
+        const actual = underTest.deserialize(transactionAJSON);
         expect(actual).toBeInstanceOf(Transaction);
         expect(actual).toStrictEqual(expected);
     });
 
     it('should deserialize multiple Transactions', () => {
         const expected = [transactionAInstance, transactionBInstance];
-        const actual = serializer.deserializeAll([
+        const actual = underTest.deserializeAll([
             transactionAJSON,
             transactionBJSON,
         ]);
@@ -61,10 +61,10 @@ describe('TransactionSerializer class', () => {
 
     it('should retain transitivity', () => {
         expect(
-            serializer.deserialize(
-                serializer.serialize(
-                    serializer.deserialize(
-                        serializer.serialize(transactionAInstance),
+            underTest.deserialize(
+                underTest.serialize(
+                    underTest.deserialize(
+                        underTest.serialize(transactionAInstance),
                     ),
                 ),
             ),
