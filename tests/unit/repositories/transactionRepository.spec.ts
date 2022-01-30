@@ -40,7 +40,7 @@ describe('TransactionRepository class', () => {
     });
 
     it('should get the name', () => {
-        const expected = 'TransactionRepository';
+        const expected = 'transaction_repository';
         const actual = underTest.name;
         expect(actual).toStrictEqual(expected);
     });

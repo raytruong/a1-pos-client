@@ -23,7 +23,7 @@ export const mockDB = {
         return _id === userAJSON._id ? userAJSON : userBJSON;
     }),
     allDocs: jest.fn().mockImplementation((include_docs) => {
-        return { rows: [userAJSON, userBJSON] };
+        return { rows: [{ doc: userAJSON }, { doc: userBJSON }] };
     }),
     put: jest.fn().mockImplementation((serialized) => {
         return serialized;

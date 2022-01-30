@@ -105,7 +105,7 @@ export const mockDB = {
         }
     }),
     allDocs: jest.fn().mockImplementation((include_docs) => {
-        return { rows: [transactionAJSON, transactionBJSON] };
+        return { rows: [{ doc: transactionAJSON }, { doc: transactionBJSON }] };
     }),
     put: jest.fn().mockImplementation((serialized) => {
         const _id = serialized._id ? serialized._id : serialized;

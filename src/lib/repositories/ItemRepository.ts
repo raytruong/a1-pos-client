@@ -42,7 +42,9 @@ class ItemRepository implements Repository<AbstractItem> {
             const data = await this._localDB.allDocs({
                 include_docs: true,
             });
-            return this.serializer.deserializeAll(data.rows);
+            return this.serializer.deserializeAll(
+                data.rows.map((row: Record<string, unknown>) => row.doc),
+            );
         } catch (err: any) {
             throw new Error(err);
         }

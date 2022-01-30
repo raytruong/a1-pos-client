@@ -91,6 +91,8 @@ import { usePrototypeStore } from '@/stores/prototypeStore';
 
 const prototypes = usePrototypeStore();
 
+prototypes.fetchPrototypes();
+
 let selected = ref('');
 
 const getButtons = () => {

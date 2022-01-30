@@ -70,7 +70,13 @@ export const mockDB = {
         }
     }),
     allDocs: jest.fn().mockImplementation((include_docs) => {
-        return { rows: [itemAJSON, itemBJSON, itemAJSON.addons[0]] };
+        return {
+            rows: [
+                { doc: itemAJSON },
+                { doc: itemBJSON },
+                { doc: itemAJSON.addons[0] },
+            ],
+        };
     }),
     put: jest.fn().mockImplementation((serialized) => {
         return serialized;

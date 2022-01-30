@@ -39,7 +39,8 @@ class Pouch implements Database {
         }
 
         // TODO: implement auth service
-        const remoteUrl = import.meta.env.VITE_DEV_DB + this.name;
+        // const remoteUrl = import.meta.env.VITE_DEV_DB + this.name;
+        const remoteUrl = `remote-${this.name}`;
         const localUrl = `local-${this.name}`;
 
         this._localDB = new PouchDB(localUrl);
