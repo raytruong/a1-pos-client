@@ -17,7 +17,7 @@
                 <div class="row-span-1 flex items-center px-10">
                     <RadioGroup
                         v-model="selected"
-                        :buttons="getButtons()"
+                        :buttons="getButtons"
                         defaultSelected
                     >
                     </RadioGroup>
@@ -78,7 +78,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import TwoPanelLayout from '@/layouts/TwoPanelLayout.vue';
 import HealthIndicator from '@/components/HealthIndicator.vue';
 import RadioGroup from '@/components/shared/HorizontalRadioGroup.vue';
@@ -90,12 +90,20 @@ import CheckoutSummary from '@/components/CheckoutSummary.vue';
 import { usePrototypeStore } from '@/stores/prototypeStore';
 
 const prototypes = usePrototypeStore();
-
 prototypes.fetchPrototypes();
 
 let selected = ref('');
 
-const getButtons = () => {
+// const getButtons = computed(() => {
+//     return Array.from(prototypes.getItemCategories).map(category => {
+//         return {
+//             text: category,
+//             val: category,
+//         };
+//     });
+// });
+
+const getButtons = computed(() => {
     return [
         {
             text: 'Full Set',
@@ -122,7 +130,7 @@ const getButtons = () => {
             val: 'kids',
         },
     ];
-};
+});
 </script>
 
 <style scoped></style>
