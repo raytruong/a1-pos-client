@@ -20,7 +20,7 @@ class UserRepository implements Repository<User> {
         this._localDB = database.getConnection();
     }
 
-    private _name = 'UserRepository';
+    private _name = 'user_repository';
 
     public get name(): string {
         return this._name;

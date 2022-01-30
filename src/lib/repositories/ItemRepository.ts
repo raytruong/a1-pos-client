@@ -21,7 +21,7 @@ class ItemRepository implements Repository<AbstractItem> {
         this._localDB = database.getConnection();
     }
 
-    private _name = 'ItemRepository';
+    private _name = 'item_repository';
 
     public get name(): string {
         return this._name;

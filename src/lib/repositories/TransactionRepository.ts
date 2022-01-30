@@ -22,7 +22,7 @@ class TransactionRepository implements Repository<Transaction> {
         this._localDB = database.getConnection();
     }
 
-    private _name = 'TransactionRepository';
+    private _name = 'transaction_repository';
 
     public get name(): string {
         return this._name;
