@@ -3,17 +3,28 @@ import ItemService from '@/lib/services/ItemService';
 import Item from '@/lib/models/Item';
 import Addon from '@/lib/models/Addon';
 import Pouch from '@/lib/databases/Pouch';
-import { addonAInstance, itemAInstance, itemBInstance } from './__mocks__/item';
-import mockItemDatabase from './__mocks__/itemDatabase';
+import {
+    addonAInstance,
+    itemAInstance,
+    itemBInstance,
+    mockItemDatabase,
+} from './__mocks__/itemDatabase';
 
 describe('ItemService class', () => {
     const mockContainer = container
         .createChildContainer()
         .register<Pouch>(Pouch, mockItemDatabase);
-    let service: ItemService;
+
+    let underTest: ItemService;
+    let itemA: Item;
+    let itemB: Item;
+    let addonA: Addon;
 
     beforeEach(() => {
-        service = mockContainer.resolve(ItemService);
+        underTest = mockContainer.resolve(ItemService);
+        itemA = itemAInstance;
+        itemB = itemBInstance;
+        addonA = addonAInstance;
     });
 
     afterEach(() => {
@@ -22,33 +33,42 @@ describe('ItemService class', () => {
     });
 
     it('should create an ItemService', () => {
-        expect(service).toBeDefined();
-        expect(service).toBeInstanceOf(ItemService);
+        expect(underTest).toBeDefined();
+        expect(underTest).toBeInstanceOf(ItemService);
     });
 
     it('should return an Item by id', async () => {
-        const expected = itemAInstance;
-        const actual = await service.getItemById(itemAInstance._id);
+        const expected = itemA;
+        const actual = await underTest.getItemById(itemA._id);
         expect(actual).toBeInstanceOf(Item);
         expect(actual).toStrictEqual(expected);
     });
 
-    it('should return Addons', async () => {
-        const expected = addonAInstance;
-        const actual = await service.getItemById(addonAInstance._id);
+    it('should return Addons by id', async () => {
+        const expected = addonA;
+        const actual = await underTest.getItemById(addonA._id);
         expect(actual).toBeInstanceOf(Addon);
         expect(actual).toStrictEqual(expected);
     });
 
-    it('should return all Items', async () => {
-        const expected = [itemAInstance, itemBInstance, addonAInstance];
-        const actual = await service.getAllItems();
+    it('should return all Items and filter addons', async () => {
+        const expected = [itemA, itemB];
+        const actual = await underTest.getAllItems();
         expect(actual).toBeInstanceOf(Array);
-        actual.forEach((item, index) => {
-            expect(item.constructor.name).toEqual(
-                expected[index].constructor.name,
-            );
-        });
         expect(actual).toStrictEqual(expected);
+    });
+
+    it('should return all Addons and filter items', async () => {
+        const expected = [addonA];
+        const actual = await underTest.getAllAddons();
+        expect(actual).toBeInstanceOf(Array);
+        expect(actual).toStrictEqual(expected);
+    });
+
+    it('should return all item categories', async () => {
+        const expected = [itemA.category, itemB.category];
+        const actual = await underTest.getItemCategories();
+        expect(actual).toBeInstanceOf(Set);
+        expect(Array.from(actual)).toStrictEqual(expected);
     });
 });

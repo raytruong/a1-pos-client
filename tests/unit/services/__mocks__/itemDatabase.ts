@@ -1,6 +1,6 @@
+import { plainToInstance } from 'class-transformer';
 import Item from '@/lib/models/Item';
 import Addon from '@/lib/models/Addon';
-import Currency from '@/lib/models/Currency';
 
 export const itemAJSON = {
     _id: 'item:1539132218',
@@ -35,7 +35,7 @@ export const itemBJSON = {
     name: 'Pedicure',
     price: 100,
     quantity: 2,
-    category: 'Pedicure',
+    category: 'Kids',
     addons: [
         {
             _id: 'addon:953018296',
@@ -48,52 +48,15 @@ export const itemBJSON = {
     ],
 };
 
-const addonAInstance = new Addon(
-    itemAJSON.addons[0]._id,
-    itemAJSON.addons[0]._rev,
-    itemAJSON.addons[0].name,
-    new Currency(itemAJSON.addons[0].price),
-    itemAJSON.addons[0].quantity,
-    itemAJSON.addons[0].category,
-);
+export const addonAInstance = plainToInstance(Addon, itemAJSON.addons[0]);
 
-const addonBInstance = new Addon(
-    itemAJSON.addons[1]._id,
-    itemAJSON.addons[1]._rev,
-    itemAJSON.addons[1].name,
-    new Currency(itemAJSON.addons[1].price),
-    itemAJSON.addons[1].quantity,
-    itemAJSON.addons[1].category,
-);
+export const addonBInstance = plainToInstance(Addon, itemAJSON.addons[1]);
 
-const addonCInstance = new Addon(
-    itemBJSON.addons[0]._id,
-    itemBJSON.addons[0]._rev,
-    itemBJSON.addons[0].name,
-    new Currency(itemBJSON.addons[0].price),
-    itemBJSON.addons[0].quantity,
-    itemBJSON.addons[0].category,
-);
+export const addonCInstance = plainToInstance(Addon, itemAJSON.addons[0]);
 
-export const itemAInstance = new Item(
-    itemAJSON._id,
-    itemAJSON._rev,
-    itemAJSON.name,
-    new Currency(itemAJSON.price),
-    itemAJSON.quantity,
-    itemAJSON.category,
-    new Array<Addon>(addonAInstance, addonBInstance),
-);
+export const itemAInstance = plainToInstance(Item, itemAJSON);
 
-export const itemBInstance = new Item(
-    itemBJSON._id,
-    itemBJSON._rev,
-    itemBJSON.name,
-    new Currency(itemBJSON.price),
-    itemBJSON.quantity,
-    itemBJSON.category,
-    new Array<Addon>(addonCInstance),
-);
+export const itemBInstance = plainToInstance(Item, itemBJSON);
 
 export const mockDB = {
     get: jest.fn().mockImplementation((_id) => {
@@ -107,7 +70,13 @@ export const mockDB = {
         }
     }),
     allDocs: jest.fn().mockImplementation((include_docs) => {
-        return { rows: [itemAJSON, itemBJSON, itemAJSON.addons[0]] };
+        return {
+            rows: [
+                { doc: itemAJSON },
+                { doc: itemBJSON },
+                { doc: itemAJSON.addons[0] },
+            ],
+        };
     }),
     put: jest.fn().mockImplementation((serialized) => {
         return serialized;
@@ -133,12 +102,10 @@ export const mockConnect = jest.fn().mockImplementation(() => {
     };
 });
 
-const mockItemDatabase = jest.fn().mockImplementation(() => {
+export const mockItemDatabase = jest.fn().mockImplementation(() => {
     return {
         getConnection: mockGetConnection(),
         setup: mockSetup(),
         connect: mockConnect(),
     };
 });
-
-export default mockItemDatabase;

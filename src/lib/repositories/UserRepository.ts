@@ -20,7 +20,7 @@ class UserRepository implements Repository<User> {
         this._localDB = database.getConnection();
     }
 
-    private _name = 'UserRepository';
+    private _name = 'user_repository';
 
     public get name(): string {
         return this._name;
@@ -40,7 +40,9 @@ class UserRepository implements Repository<User> {
             const data = await this._localDB.allDocs({
                 include_docs: true,
             });
-            return this.serializer.deserializeAll(data.rows);
+            return this.serializer.deserializeAll(
+                data.rows.map((row: Record<string, unknown>) => row.doc),
+            );
         } catch (err: any) {
             throw new Error(err);
         }

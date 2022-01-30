@@ -1,3 +1,4 @@
+import { plainToInstance } from 'class-transformer';
 import User from '@/lib/models/User';
 
 export const userAJSON = {
@@ -14,26 +15,15 @@ export const userBJSON = {
     name: 'John Doe',
 };
 
-export const userAInstance = new User(
-    userAJSON._id,
-    userAJSON._rev,
-    userAJSON.pin,
-    userAJSON.name,
-);
-
-export const userBInstance = new User(
-    userBJSON._id,
-    userBJSON._rev,
-    userBJSON.pin,
-    userBJSON.name,
-);
+export const userAInstance = plainToInstance(User, userAJSON);
+export const userBInstance = plainToInstance(User, userBJSON);
 
 export const mockDB = {
     get: jest.fn().mockImplementation((_id) => {
         return _id === userAJSON._id ? userAJSON : userBJSON;
     }),
     allDocs: jest.fn().mockImplementation((include_docs) => {
-        return { rows: [userAJSON, userBJSON] };
+        return { rows: [{ doc: userAJSON }, { doc: userBJSON }] };
     }),
     put: jest.fn().mockImplementation((serialized) => {
         return serialized;

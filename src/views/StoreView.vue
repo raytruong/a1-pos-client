@@ -11,28 +11,26 @@
                 "
             >
                 <div class="px-8 row-span-1 flex justify-between items-center">
-                    <h1 class="text-4xl">A1 Nails Salon</h1>
+                    <h1 class="text-4xl">Raymond Truong</h1>
                     <HealthIndicator />
                 </div>
-                <div class="row-span-1 flex items-center px-3">
+                <div class="row-span-1 flex items-center px-10">
                     <RadioGroup
                         v-model="selected"
-                        :buttons="getButtons()"
+                        :buttons="getButtons"
                         defaultSelected
-                    ></RadioGroup>
+                    >
+                    </RadioGroup>
                 </div>
                 <div
                     class="
-                        row-span-8
+                        row-span-10
                         px-6
                         overflow-y-scroll overflow-x-hidden
                         no-scrollbar
                     "
                 >
                     <ItemGrid></ItemGrid>
-                </div>
-                <div class="row-span-2 px-6 flex items-center">
-                    <StoreDock></StoreDock>
                 </div>
             </div>
         </template>
@@ -47,7 +45,16 @@
                     border
                 "
             >
-                <div class="row-span-1 flex justify-between items-center p-4">
+                <div
+                    class="
+                        row-span-1
+                        flex
+                        justify-between
+                        items-center
+                        border-b
+                        p-4
+                    "
+                >
                     <h2 class="text-3xl font-medium text-gray-900">
                         Current Order
                     </h2>
@@ -62,28 +69,8 @@
                 >
                     <ItemCart></ItemCart>
                 </div>
-                <div class="row-span-1 border-t">
-                    <div class="flex align-center justify-between">
-                        <h1 class="text-2xl p-4">Payment Method:</h1>
-                        <RadioGroup
-                            v-model="selected"
-                            :buttons="[
-                                { text: 'Cash', val: 'cash' },
-                                { text: 'Credit', val: 'credit' },
-                            ]"
-                        ></RadioGroup>
-                    </div>
-                </div>
-                <div class="row-span-3">
-                    <div class="flex align-center justify-between">
-                        <h1 class="text-2xl p-4">Total Price:</h1>
-                        <div class="flex justify-end">
-                            <h1 class="text-2xl p-4 text-orange-500">$25.75</h1>
-                        </div>
-                    </div>
-                    <div class="flex justify-between flex-col p-6">
-                        <BlockButton>Checkout</BlockButton>
-                    </div>
+                <div class="row-span-3 border-t">
+                    <CheckoutSummary></CheckoutSummary>
                 </div>
             </div>
         </template>
@@ -91,19 +78,32 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import TwoPanelLayout from '@/layouts/TwoPanelLayout.vue';
 import HealthIndicator from '@/components/HealthIndicator.vue';
-import RadioGroup from '@/components/shared/RadioGroup.vue';
+import RadioGroup from '@/components/shared/HorizontalRadioGroup.vue';
 import ItemGrid from '@/components/ItemGrid.vue';
-import StoreDock from '@/components/StoreDock.vue';
 import ItemCart from '@/components/ItemCart.vue';
-import BlockButton from '@/components/shared/buttons/BlockButton.vue';
 import DangerButton from '@/components/shared/buttons/DangerButton.vue';
+import CheckoutSummary from '@/components/CheckoutSummary.vue';
+
+import { usePrototypeStore } from '@/stores/prototypeStore';
+
+const prototypes = usePrototypeStore();
+prototypes.fetchPrototypes();
 
 let selected = ref('');
 
-const getButtons = () => {
+// const getButtons = computed(() => {
+//     return Array.from(prototypes.getItemCategories).map(category => {
+//         return {
+//             text: category,
+//             val: category,
+//         };
+//     });
+// });
+
+const getButtons = computed(() => {
     return [
         {
             text: 'Full Set',
@@ -130,7 +130,7 @@ const getButtons = () => {
             val: 'kids',
         },
     ];
-};
+});
 </script>
 
 <style scoped></style>

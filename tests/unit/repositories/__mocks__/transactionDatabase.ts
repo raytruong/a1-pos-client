@@ -1,7 +1,7 @@
+import { plainToInstance } from 'class-transformer';
 import Item from '@/lib/models/Item';
 import Transaction from '@/lib/models/Transaction';
 import Addon from '@/lib/models/Addon';
-import Currency from '@/lib/models/Currency';
 
 export const transactionAJSON = {
     _id: 'txn:1640891179',
@@ -65,67 +65,33 @@ export const transactionBJSON = {
     ],
 };
 
-const addonAInstance = new Addon(
-    transactionAJSON.items[0].addons[0]._id,
-    transactionAJSON.items[0].addons[0]._rev,
-    transactionAJSON.items[0].addons[0].name,
-    new Currency(transactionAJSON.items[0].addons[0].price),
-    transactionAJSON.items[0].addons[0].quantity,
-    transactionAJSON.items[0].addons[0].category,
+export const addonAInstance = plainToInstance(
+    Addon,
+    transactionAJSON.items[0].addons[0],
 );
 
-const addonBInstance = new Addon(
-    transactionAJSON.items[0].addons[1]._id,
-    transactionAJSON.items[0].addons[1]._rev,
-    transactionAJSON.items[0].addons[1].name,
-    new Currency(transactionAJSON.items[0].addons[1].price),
-    transactionAJSON.items[0].addons[1].quantity,
-    transactionAJSON.items[0].addons[1].category,
+export const addonBInstance = plainToInstance(
+    Addon,
+    transactionAJSON.items[0].addons[1],
 );
 
-const ItemAInstance = new Item(
-    transactionAJSON.items[0]._id,
-    transactionAJSON.items[0]._rev,
-    transactionAJSON.items[0].name,
-    new Currency(transactionAJSON.items[0].price),
-    transactionAJSON.items[0].quantity,
-    transactionAJSON.items[0].category,
-    new Array<Addon>(addonAInstance, addonBInstance),
+export const itemAInstance = plainToInstance(Item, transactionAJSON.items[0]);
+
+export const itemBInstance = plainToInstance(Item, transactionBJSON.items[0]);
+
+export const addonCInstance = plainToInstance(
+    Addon,
+    transactionBJSON.items[0].addons[0],
 );
 
-export const transactionAInstance = new Transaction(
-    transactionAJSON._id,
-    transactionAJSON._rev,
-    transactionAJSON.employee,
-    transactionAJSON.paymentType,
-    new Array<Item>(ItemAInstance),
+export const transactionAInstance = plainToInstance(
+    Transaction,
+    transactionAJSON,
 );
 
-const addonCInstance = new Addon(
-    transactionBJSON.items[0].addons[0]._id,
-    transactionBJSON.items[0].addons[0]._rev,
-    transactionBJSON.items[0].addons[0].name,
-    new Currency(transactionBJSON.items[0].addons[0].price),
-    transactionBJSON.items[0].addons[0].quantity,
-    transactionBJSON.items[0].addons[0].category,
-);
-
-const itemCInstance = new Item(
-    transactionBJSON.items[0]._id,
-    transactionBJSON.items[0]._rev,
-    transactionBJSON.items[0].name,
-    new Currency(transactionBJSON.items[0].price),
-    transactionBJSON.items[0].quantity,
-    transactionBJSON.items[0].category,
-    new Array<Addon>(addonCInstance),
-);
-
-export const transactionBInstance = new Transaction(
-    transactionBJSON._id,
-    transactionBJSON._rev,
-    transactionBJSON.employee,
-    transactionBJSON.paymentType,
-    new Array<Item>(itemCInstance),
+export const transactionBInstance = plainToInstance(
+    Transaction,
+    transactionBJSON,
 );
 
 export const mockDB = {
@@ -139,7 +105,7 @@ export const mockDB = {
         }
     }),
     allDocs: jest.fn().mockImplementation((include_docs) => {
-        return { rows: [transactionAJSON, transactionBJSON] };
+        return { rows: [{ doc: transactionAJSON }, { doc: transactionBJSON }] };
     }),
     put: jest.fn().mockImplementation((serialized) => {
         const _id = serialized._id ? serialized._id : serialized;

@@ -1,6 +1,7 @@
 import Item from '@/lib/models/Item';
 import Addon from '@/lib/models/Addon';
 import Currency from '@/lib/models/Currency';
+import { plainToInstance } from 'class-transformer';
 
 export const itemAJSON = {
     _id: 'item:1539132218',
@@ -48,52 +49,11 @@ export const itemBJSON = {
     ],
 };
 
-const addonAInstance = new Addon(
-    itemAJSON.addons[0]._id,
-    itemAJSON.addons[0]._rev,
-    itemAJSON.addons[0].name,
-    new Currency(itemAJSON.addons[0].price),
-    itemAJSON.addons[0].quantity,
-    itemAJSON.addons[0].category,
-);
-
-const addonBInstance = new Addon(
-    itemAJSON.addons[1]._id,
-    itemAJSON.addons[1]._rev,
-    itemAJSON.addons[1].name,
-    new Currency(itemAJSON.addons[1].price),
-    itemAJSON.addons[1].quantity,
-    itemAJSON.addons[1].category,
-);
-
-const addonCInstance = new Addon(
-    itemBJSON.addons[0]._id,
-    itemBJSON.addons[0]._rev,
-    itemBJSON.addons[0].name,
-    new Currency(itemBJSON.addons[0].price),
-    itemBJSON.addons[0].quantity,
-    itemBJSON.addons[0].category,
-);
-
-export const itemAInstance = new Item(
-    itemAJSON._id,
-    itemAJSON._rev,
-    itemAJSON.name,
-    new Currency(itemAJSON.price),
-    itemAJSON.quantity,
-    itemAJSON.category,
-    new Array<Addon>(addonAInstance, addonBInstance),
-);
-
-export const itemBInstance = new Item(
-    itemBJSON._id,
-    itemBJSON._rev,
-    itemBJSON.name,
-    new Currency(itemBJSON.price),
-    itemBJSON.quantity,
-    itemBJSON.category,
-    new Array<Addon>(addonCInstance),
-);
+export const addonAInstance = plainToInstance(Addon, itemAJSON.addons[0]);
+export const addonBInstance = plainToInstance(Addon, itemBJSON.addons[0]);
+export const addonCInstance = plainToInstance(Addon, itemBJSON.addons[1]);
+export const itemAInstance = plainToInstance(Item, itemAJSON);
+export const itemBInstance = plainToInstance(Item, itemBJSON);
 
 export const mockDB = {
     get: jest.fn().mockImplementation((query) => {
@@ -106,7 +66,7 @@ export const mockDB = {
         }
     }),
     allDocs: jest.fn().mockImplementation((include_docs) => {
-        return { rows: [itemAJSON, itemBJSON] };
+        return { rows: [{ doc: itemAJSON }, { doc: itemBJSON }] };
     }),
     put: jest.fn().mockImplementation((serialized) => {
         const _id = serialized._id ? serialized._id : serialized;

@@ -1,6 +1,8 @@
 import ItemRepository from '@/lib/repositories/ItemRepository';
 import { inject, singleton } from 'tsyringe';
 import AbstractItem from '@/lib/models/AbstractItem';
+import Addon from '@/lib/models/Addon';
+import Item from '@/lib/models/Item';
 
 @singleton()
 class ItemService {
@@ -15,9 +17,28 @@ class ItemService {
         return data;
     }
 
-    public async getAllItems(): Promise<Array<AbstractItem>> {
+    public async getAllItems(): Promise<Array<Item>> {
         const data = await this.repository.getAll();
-        return data;
+        const filtered = data.filter((item) => {
+            return item.category !== 'Addon';
+        });
+        return filtered as Array<Item>;
+    }
+
+    public async getAllAddons(): Promise<Array<Addon>> {
+        const data = await this.repository.getAll();
+        const filtered = data.filter((item) => {
+            return item.category === 'Addon';
+        });
+        return filtered as Array<Addon>;
+    }
+
+    public async getItemCategories(): Promise<Set<string>> {
+        const data = await this.getAllItems();
+        const categories: Set<string> = new Set(
+            data.map((item) => item.category),
+        );
+        return categories;
     }
 }
 

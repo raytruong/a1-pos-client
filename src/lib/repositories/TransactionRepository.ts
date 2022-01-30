@@ -22,7 +22,7 @@ class TransactionRepository implements Repository<Transaction> {
         this._localDB = database.getConnection();
     }
 
-    private _name = 'TransactionRepository';
+    private _name = 'transaction_repository';
 
     public get name(): string {
         return this._name;
@@ -42,7 +42,9 @@ class TransactionRepository implements Repository<Transaction> {
             const data = await this._localDB.allDocs({
                 include_docs: true,
             });
-            return this.serializer.deserializeAll(data.rows);
+            return this.serializer.deserializeAll(
+                data.rows.map((row: Record<string, unknown>) => row.doc),
+            );
         } catch (err: any) {
             throw new Error(err);
         }

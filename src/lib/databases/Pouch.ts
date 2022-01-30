@@ -1,18 +1,11 @@
 import Database from '@/lib/interfaces/Database';
 import PouchDB from 'pouchdb';
-import { inject, injectable } from 'tsyringe';
+import { injectable } from 'tsyringe';
 
 @injectable()
 class Pouch implements Database {
     private _localDB: any;
     private _remoteDB: any;
-
-    // TODO: move to auth service and setup function instead of injection
-    constructor(
-        @inject('username') private _username: string,
-        @inject('password') private _password: string,
-        @inject('baseUrl') private _baseUrl: string,
-    ) {}
 
     private _name = '';
 
@@ -46,10 +39,8 @@ class Pouch implements Database {
         }
 
         // TODO: implement auth service
-        const remoteUrl = this._baseUrl
-            .replaceAll('USERNAME', this._username)
-            .replaceAll('PASSWORD', this._password)
-            .replaceAll('DB_NAME', this.name);
+        // const remoteUrl = import.meta.env.VITE_DEV_DB + this.name;
+        const remoteUrl = `remote-${this.name}`;
         const localUrl = `local-${this.name}`;
 
         this._localDB = new PouchDB(localUrl);

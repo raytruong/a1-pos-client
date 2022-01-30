@@ -17,12 +17,12 @@ describe('ItemRepository class', () => {
         .createChildContainer()
         .register<Pouch>(Pouch, mockItemDatabase);
 
-    let repository: ItemRepository;
+    let underTest: ItemRepository;
     let itemA: Item;
     let itemB: Item;
 
     beforeEach(() => {
-        repository = mockContainer.resolve(ItemRepository);
+        underTest = mockContainer.resolve(ItemRepository);
         itemA = itemAInstance;
         itemB = itemBInstance;
     });
@@ -33,43 +33,42 @@ describe('ItemRepository class', () => {
     });
 
     it('should create an ItemRepository', () => {
-        expect(repository).toBeDefined();
+        expect(underTest).toBeDefined();
         expect(mockSetup).toHaveBeenCalled();
         expect(mockGetConnection).toHaveBeenCalled();
         expect(mockConnect).toHaveBeenCalled();
     });
 
     it('should get the name', () => {
-        const expected = 'ItemRepository';
-        const actual = repository.name;
+        const expected = 'item_repository';
+        const actual = underTest.name;
         expect(actual).toStrictEqual(expected);
     });
 
     it('should get itemA by id', async () => {
-        const expected = {
-            __id: itemA._id,
-        };
-        const actual = await repository.get(itemA._id);
+        const expected = itemA._id;
+        const actual = await underTest.get(itemA._id);
         expect(actual).toBeInstanceOf(Item);
-        expect(actual).toEqual(expect.objectContaining(expected));
+        expect(actual._id).toBe(expected);
     });
 
     it('should get itemB by id', async () => {
-        const expected = itemBInstance;
-        const actual = await repository.get(itemB._id);
+        const expected = itemB._id;
+        const actual = await underTest.get(itemB._id);
         expect(actual).toBeInstanceOf(Item);
-        expect(actual).toEqual(expect.objectContaining(expected));
+        expect(actual._id).toBe(expected);
     });
 
     it('should get all items', async () => {
-        const actual = await repository.getAll();
+        const expected = [itemA, itemB];
+        const actual = await underTest.getAll();
         expect(actual).toBeInstanceOf(Array);
-        expect(actual.length).toEqual(2);
+        expect(actual).toStrictEqual(expected);
     });
 
     it('should save a item and not pass a _rev tag', async () => {
         const spy = jest.spyOn(mockDB, 'put');
-        await repository.save(itemA);
+        await underTest.save(itemA);
         expect(spy).toHaveBeenCalled();
         expect(spy.mock.calls[0][0]).toBeInstanceOf(Object);
         expect(spy.mock.calls[0][0]._rev).not.toBeDefined();
@@ -78,7 +77,7 @@ describe('ItemRepository class', () => {
     it('should update an existing item and pass a _rev tag', async () => {
         const spyPut = jest.spyOn(mockDB, 'put');
         const spyGet = jest.spyOn(mockDB, 'get');
-        await repository.update(itemA);
+        await underTest.update(itemA);
         expect(spyGet).toHaveBeenCalled();
         expect(spyGet.mock.calls[0][0]._rev).toStrictEqual(itemA._rev);
         expect(spyPut).toHaveBeenCalled();
@@ -86,9 +85,9 @@ describe('ItemRepository class', () => {
         expect(spyPut.mock.calls[0][0]._rev).toStrictEqual(itemA._rev);
     });
 
-    it('should delete an existing item', async () => {
+    it('should delete an existing item and pass a _rev tag', async () => {
         const spy = jest.spyOn(mockDB, 'delete');
-        await repository.delete(itemA);
+        await underTest.delete(itemA);
         expect(spy).toHaveBeenCalled();
         expect(spy.mock.calls[0][0]).toBeInstanceOf(Object);
         expect(spy.mock.calls[0][0]._id).toStrictEqual(itemA._id);
