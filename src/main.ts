@@ -1,6 +1,9 @@
 import { createApp } from 'vue';
 import App from './App.vue';
 
+// tsyringe
+import 'reflect-metadata';
+
 // vue-router
 import router from '@/router';
 

@@ -18,7 +18,7 @@
                     <RadioGroup
                         v-model="selected"
                         :buttons="getButtons"
-                        defaultSelected
+                        default-selected
                     >
                     </RadioGroup>
                 </div>
@@ -94,43 +94,43 @@ prototypes.fetchPrototypes();
 
 let selected = ref('');
 
-// const getButtons = computed(() => {
-//     return Array.from(prototypes.getItemCategories).map(category => {
-//         return {
-//             text: category,
-//             val: category,
-//         };
-//     });
-// });
-
 const getButtons = computed(() => {
-    return [
-        {
-            text: 'Full Set',
-            val: 'full-set',
-        },
-        {
-            text: 'Fill In',
-            val: 'fill-in',
-        },
-        {
-            text: 'Pedicure',
-            val: 'pedicure',
-        },
-        {
-            text: 'Manicure',
-            val: 'manicure',
-        },
-        {
-            text: 'Polish Change',
-            val: 'polish-change',
-        },
-        {
-            text: 'Kids',
-            val: 'kids',
-        },
-    ];
+    return Array.from(prototypes.getItemCategories).map((category) => {
+        return {
+            text: category,
+            val: category,
+        };
+    });
 });
+
+// const getButtons = computed(() => {
+//     return [
+//         {
+//             text: 'Full Set',
+//             val: 'full-set',
+//         },
+//         {
+//             text: 'Fill In',
+//             val: 'fill-in',
+//         },
+//         {
+//             text: 'Pedicure',
+//             val: 'pedicure',
+//         },
+//         {
+//             text: 'Manicure',
+//             val: 'manicure',
+//         },
+//         {
+//             text: 'Polish Change',
+//             val: 'polish-change',
+//         },
+//         {
+//             text: 'Kids',
+//             val: 'kids',
+//         },
+//     ];
+// });
 </script>
 
 <style scoped></style>

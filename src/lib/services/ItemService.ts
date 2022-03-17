@@ -40,6 +40,14 @@ class ItemService {
         );
         return categories;
     }
+
+    public async saveItem(item: AbstractItem) {
+        try {
+            await this.repository.save(item);
+        } catch (err: any) {
+            throw new Error(err);
+        }
+    }
 }
 
 export default ItemService;
