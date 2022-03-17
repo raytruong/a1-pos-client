@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { container } from 'tsyringe';
+import container from '@/containerConfig';
 import ItemService from '@/lib/services/ItemService';
 import Item from '@/lib/models/Item';
 import Addon from '@/lib/models/Addon';

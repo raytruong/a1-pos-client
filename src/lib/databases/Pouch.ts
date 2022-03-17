@@ -38,7 +38,11 @@ class Pouch implements Database {
             throw new Error('Name needs to be assigned before connection');
         }
 
-        const remoteUrl = 'remote-' + this.name;
+        if (!container.resolve('baseUrl')) {
+            throw new Error('Error finding baseUrl');
+        }
+
+        const remoteUrl = container.resolve('baseUrl') + this.name;
         const localUrl = 'local-' + this.name;
 
         this._localDB = new PouchDB(localUrl);
