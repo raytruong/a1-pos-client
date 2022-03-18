@@ -25,7 +25,7 @@
                 </p>
             </div>
             <div class="mt-4 flex justify-center">
-                <BlockButton @click="onClick"> Add to Cart </BlockButton>
+                <BlockButton @click="onClick"> Add to Cart</BlockButton>
             </div>
         </div>
     </div>
@@ -37,9 +37,13 @@ import Item from '@/lib/models/Item';
 import Addon from '@/lib/models/Addon';
 import BlockButton from '@/components/shared/buttons/BlockButton.vue';
 
+import { useCartStore } from '@/stores/cartStore';
+
+const cart = useCartStore();
+
 const props = defineProps({
     item: {
-        type: Object as PropType<Item> | PropType<Addon>,
+        type: Object as PropType<Item>,
         required: true,
     },
 });
@@ -47,6 +51,7 @@ const emits = defineEmits(['onAddToCart']);
 
 const onClick = () => {
     emits('onAddToCart', props.item);
+    cart.addItem(props.item);
 };
 </script>
 

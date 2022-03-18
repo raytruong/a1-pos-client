@@ -58,7 +58,9 @@
                     <h2 class="text-3xl font-medium text-gray-900">
                         Current Order
                     </h2>
-                    <DangerButton>Clear All</DangerButton>
+                    <DangerButton @click="cart.clearAll"
+                        >Clear All</DangerButton
+                    >
                 </div>
                 <div
                     class="
@@ -67,11 +69,11 @@
                         no-scrollbar
                     "
                 >
-                    <ItemCart></ItemCart>
+                    <ItemCart :items="cart.items"></ItemCart>
                 </div>
                 <div class="row-span-3 border-t">
                     <CheckoutSummary
-                        :total-price="cart.totalPrice"
+                        :totalPrice="cart.totalPrice"
                     ></CheckoutSummary>
                 </div>
             </div>

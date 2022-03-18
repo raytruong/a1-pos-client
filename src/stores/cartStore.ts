@@ -32,5 +32,8 @@ export const useCartStore = defineStore('cart', {
                 return item._id !== itemToRemove._id;
             });
         },
+        clearAll() {
+            this.cartItems.length = 0;
+        },
     },
 });

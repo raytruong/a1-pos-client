@@ -8,9 +8,7 @@ export const useCheckoutStore = defineStore('checkout', {
     getters: {
         isReadyForCheckout(state) {
             const cart = useCartStore();
-            return Boolean(
-                ['cash', 'credit'].includes(state.paymentType) && !cart.isEmpty,
-            );
+            return Boolean(state.paymentType && !cart.isEmpty);
         },
     },
     actions: {
