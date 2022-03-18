@@ -1,6 +1,6 @@
 import Database from '@/lib/interfaces/Database';
 import PouchDB from 'pouchdb';
-import { injectable } from 'tsyringe';
+import { container, injectable } from 'tsyringe';
 
 @injectable()
 class Pouch implements Database {
@@ -38,10 +38,12 @@ class Pouch implements Database {
             throw new Error('Name needs to be assigned before connection');
         }
 
-        // TODO: implement auth service
-        // const remoteUrl = import.meta.env.VITE_DEV_DB + this.name;
-        const remoteUrl = `remote-${this.name}`;
-        const localUrl = `local-${this.name}`;
+        if (!container.resolve('baseUrl')) {
+            throw new Error('Error finding baseUrl');
+        }
+
+        const remoteUrl = container.resolve('baseUrl') + this.name;
+        const localUrl = 'local-' + this.name;
 
         this._localDB = new PouchDB(localUrl);
         this._remoteDB = new PouchDB(remoteUrl);

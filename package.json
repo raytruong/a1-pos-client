@@ -6,10 +6,10 @@
     "scripts": {
         "lint": "eslint --ext .js,.ts,.vue --fix src",
         "format": "prettier . --write",
-        "dev": "vite",
+        "dev": "cross-env debug=true vite",
         "build": "vue-tsc --noEmit && vite build",
         "serve": "vite preview",
-        "clean": "rm -rf dist-* local-*",
+        "clean": "rm -rf dist-* local-* remote-*",
         "precommit": "npm run build && npm run test && npm run format",
         "css:build": "tailwindcss build -i src/styles/index.css -o public/styles.css",
         "electron:dev": "cross-env debug=true electron .",
@@ -19,7 +19,8 @@
         "electron:build:mac": "npm run build && electron-builder build --mac --config electron-builder.json",
         "test": "jest --coverage",
         "test:unit": "jest --coverage",
-        "test:watch": "jest --watch"
+        "test:watch": "jest --watch",
+        "db:populate": "npx ts-node --project ./scripts/database/tsconfig.json -r tsconfig-paths/register ./scripts/database/populate.ts"
     },
     "dependencies": {
         "@heroicons/vue": "^1.0.5",
@@ -46,6 +47,7 @@
         "@vue/eslint-config-typescript": "^9.1.0",
         "autoprefixer": "^10.4.2",
         "cross-env": "^7.0.3",
+        "dotenv": "^16.0.0",
         "electron": "^16.0.1",
         "electron-builder": "^22.13.1",
         "eslint": "^8.2.0",
@@ -56,6 +58,7 @@
         "prettier": "2.4.1",
         "tailwindcss": "^3.0.15",
         "ts-jest": "^27.0.7",
+        "tsconfig-paths": "^3.14.0",
         "typescript": "^4.5.2",
         "vite": "^2.6.4",
         "vue-tsc": "^0.31.1"

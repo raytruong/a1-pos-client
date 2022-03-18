@@ -1,7 +1,7 @@
 <template>
     <div class="flex align-center items-center justify-between p-4">
         <h1 class="text-2xl">Payment Type:</h1>
-        <RadioGroup v-model="selected" :buttons="radioButtons"></RadioGroup>
+        <RadioGroup v-model="paymentType" :buttons="radioButtons"></RadioGroup>
     </div>
     <div class="flex align-center items-center justify-between p-4">
         <h1 class="text-2xl">Total Price:</h1>
@@ -15,10 +15,13 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, PropType } from 'vue';
+import { ref, watch } from 'vue';
 import Currency from '@/lib/models/Currency';
 import RadioGroup from '@/components/shared/HorizontalRadioGroup.vue';
 import BlockButton from '@/components/shared/buttons/BlockButton.vue';
+import { useCartStore } from '@/stores/cartStore';
+
+const cart = useCartStore();
 
 const props = defineProps({
     totalPrice: {
@@ -33,7 +36,14 @@ const radioButtons = [
     { text: 'Credit', val: 'credit' },
 ];
 
-let selected = ref('');
+const paymentType = ref('');
+watch(paymentType, (val) => {
+    if (val === 'cash') {
+        cart.setCashPaymentType();
+    } else {
+        cart.setCreditPaymentType();
+    }
+});
 </script>
 
 <style scoped></style>

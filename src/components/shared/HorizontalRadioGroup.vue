@@ -61,7 +61,7 @@ if (props.defaultSelected) {
 const onClick = (value: string, index: number): void => {
     activeIndex.value = index;
     activeValue.value = value;
-    emit('update:modelValue', activeValue);
+    emit('update:modelValue', activeValue.value);
 };
 </script>
 

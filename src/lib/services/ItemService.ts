@@ -17,6 +17,11 @@ class ItemService {
         return data;
     }
 
+    public async getAllItemsAndAddons(): Promise<Array<Item>> {
+        const data = await this.repository.getAll();
+        return data as Array<Item>;
+    }
+
     public async getAllItems(): Promise<Array<Item>> {
         const data = await this.repository.getAll();
         const filtered = data.filter((item) => {
@@ -39,6 +44,14 @@ class ItemService {
             data.map((item) => item.category),
         );
         return categories;
+    }
+
+    public async registerNewItem(item: AbstractItem) {
+        try {
+            await this.repository.save(item);
+        } catch (err: any) {
+            throw new Error(err);
+        }
     }
 }
 

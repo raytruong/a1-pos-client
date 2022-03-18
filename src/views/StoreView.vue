@@ -16,9 +16,9 @@
                 </div>
                 <div class="row-span-1 flex items-center px-10">
                     <RadioGroup
-                        v-model="selected"
-                        :buttons="getButtons"
-                        defaultSelected
+                        v-model="selectedCategory"
+                        :buttons="categoryButtons"
+                        default-selected
                     >
                     </RadioGroup>
                 </div>
@@ -30,7 +30,7 @@
                         no-scrollbar
                     "
                 >
-                    <ItemGrid></ItemGrid>
+                    <ItemGrid :itemPrototypes="currentGridItems"></ItemGrid>
                 </div>
             </div>
         </template>
@@ -58,7 +58,9 @@
                     <h2 class="text-3xl font-medium text-gray-900">
                         Current Order
                     </h2>
-                    <DangerButton>Clear All</DangerButton>
+                    <DangerButton @click="cart.clearAll"
+                        >Clear All
+                    </DangerButton>
                 </div>
                 <div
                     class="
@@ -67,10 +69,12 @@
                         no-scrollbar
                     "
                 >
-                    <ItemCart></ItemCart>
+                    <ItemCart :items="cart.items"></ItemCart>
                 </div>
                 <div class="row-span-3 border-t">
-                    <CheckoutSummary></CheckoutSummary>
+                    <CheckoutSummary
+                        :totalPrice="cart.totalPrice"
+                    ></CheckoutSummary>
                 </div>
             </div>
         </template>
@@ -79,6 +83,7 @@
 
 <script lang="ts" setup>
 import { computed, ref } from 'vue';
+import Item from '@/lib/models/Item';
 import TwoPanelLayout from '@/layouts/TwoPanelLayout.vue';
 import HealthIndicator from '@/components/HealthIndicator.vue';
 import RadioGroup from '@/components/shared/HorizontalRadioGroup.vue';
@@ -88,48 +93,28 @@ import DangerButton from '@/components/shared/buttons/DangerButton.vue';
 import CheckoutSummary from '@/components/CheckoutSummary.vue';
 
 import { usePrototypeStore } from '@/stores/prototypeStore';
+import { useCartStore } from '@/stores/cartStore';
 
+const cart = useCartStore();
 const prototypes = usePrototypeStore();
 prototypes.fetchPrototypes();
 
-let selected = ref('');
+let selectedCategory = ref('');
 
-// const getButtons = computed(() => {
-//     return Array.from(prototypes.getItemCategories).map(category => {
-//         return {
-//             text: category,
-//             val: category,
-//         };
-//     });
-// });
+const categoryButtons = computed(() => {
+    return Array.from(prototypes.categories).map((category) => {
+        return {
+            text: category as string,
+            val: category as string,
+        };
+    });
+});
 
-const getButtons = computed(() => {
-    return [
-        {
-            text: 'Full Set',
-            val: 'full-set',
-        },
-        {
-            text: 'Fill In',
-            val: 'fill-in',
-        },
-        {
-            text: 'Pedicure',
-            val: 'pedicure',
-        },
-        {
-            text: 'Manicure',
-            val: 'manicure',
-        },
-        {
-            text: 'Polish Change',
-            val: 'polish-change',
-        },
-        {
-            text: 'Kids',
-            val: 'kids',
-        },
-    ];
+const currentGridItems = computed(() => {
+    const filtered = prototypes.items.filter((item) => {
+        return item.category === selectedCategory.value;
+    });
+    return filtered as Array<Item>;
 });
 </script>
 
