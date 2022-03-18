@@ -59,8 +59,8 @@
                         Current Order
                     </h2>
                     <DangerButton @click="cart.clearAll"
-                        >Clear All</DangerButton
-                    >
+                        >Clear All
+                    </DangerButton>
                 </div>
                 <div
                     class="

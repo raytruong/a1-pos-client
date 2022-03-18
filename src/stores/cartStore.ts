@@ -5,6 +5,7 @@ import Currency from '@/lib/models/Currency';
 export const useCartStore = defineStore('cart', {
     state: () => ({
         cartItems: [] as Array<Item>,
+        paymentType: '',
     }),
     getters: {
         items(state): Array<Item> {
@@ -18,6 +19,9 @@ export const useCartStore = defineStore('cart', {
             const reducer = (acc: any, item: any): Currency =>
                 acc.add(item.totalPrice as Currency);
             return state.cartItems.reduce(reducer, initVal) as Currency;
+        },
+        isReadyForCheckout(state): boolean {
+            return Boolean(state.paymentType && state.cartItems.length > 0);
         },
     },
     actions: {
@@ -34,6 +38,12 @@ export const useCartStore = defineStore('cart', {
         },
         clearAll() {
             this.cartItems.length = 0;
+        },
+        setCashPaymentType() {
+            this.paymentType = 'cash';
+        },
+        setCreditPaymentType() {
+            this.paymentType = 'credit';
         },
     },
 });
