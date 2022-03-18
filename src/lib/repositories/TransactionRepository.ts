@@ -58,7 +58,6 @@ class TransactionRepository implements Repository<Transaction> {
             delete serialized._rev;
 
             await this._localDB.put(serialized);
-            await this._localDB.put(serialized);
         } catch (err: any) {
             throw new Error(err);
         }

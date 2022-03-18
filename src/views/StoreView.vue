@@ -16,8 +16,8 @@
                 </div>
                 <div class="row-span-1 flex items-center px-10">
                     <RadioGroup
-                        v-model="selected"
-                        :buttons="getButtons"
+                        v-model="selectedCategory"
+                        :buttons="categoryButtons"
                         default-selected
                     >
                     </RadioGroup>
@@ -30,7 +30,7 @@
                         no-scrollbar
                     "
                 >
-                    <ItemGrid :item-prototypes="prototypes.items"></ItemGrid>
+                    <ItemGrid :itemPrototypes="currentGridItems"></ItemGrid>
                 </div>
             </div>
         </template>
@@ -81,6 +81,7 @@
 
 <script lang="ts" setup>
 import { computed, ref } from 'vue';
+import Item from '@/lib/models/Item';
 import TwoPanelLayout from '@/layouts/TwoPanelLayout.vue';
 import HealthIndicator from '@/components/HealthIndicator.vue';
 import RadioGroup from '@/components/shared/HorizontalRadioGroup.vue';
@@ -96,15 +97,22 @@ const cart = useCartStore();
 const prototypes = usePrototypeStore();
 prototypes.fetchPrototypes();
 
-let selected = ref('');
+let selectedCategory = ref('');
 
-const getButtons = computed(() => {
+const categoryButtons = computed(() => {
     return Array.from(prototypes.categories).map((category) => {
         return {
             text: category as string,
             val: category as string,
         };
     });
+});
+
+const currentGridItems = computed(() => {
+    const filtered = prototypes.items.filter((item) => {
+        return item.category === selectedCategory.value;
+    });
+    return filtered as Array<Item>;
 });
 </script>
 
