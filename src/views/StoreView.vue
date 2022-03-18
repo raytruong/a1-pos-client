@@ -30,7 +30,7 @@
                         no-scrollbar
                     "
                 >
-                    <ItemGrid></ItemGrid>
+                    <ItemGrid :item-prototypes="prototypes.items"></ItemGrid>
                 </div>
             </div>
         </template>
@@ -70,7 +70,9 @@
                     <ItemCart></ItemCart>
                 </div>
                 <div class="row-span-3 border-t">
-                    <CheckoutSummary></CheckoutSummary>
+                    <CheckoutSummary
+                        :total-price="cart.totalPrice"
+                    ></CheckoutSummary>
                 </div>
             </div>
         </template>
@@ -88,49 +90,22 @@ import DangerButton from '@/components/shared/buttons/DangerButton.vue';
 import CheckoutSummary from '@/components/CheckoutSummary.vue';
 
 import { usePrototypeStore } from '@/stores/prototypeStore';
+import { useCartStore } from '@/stores/cartStore';
 
+const cart = useCartStore();
 const prototypes = usePrototypeStore();
 prototypes.fetchPrototypes();
 
 let selected = ref('');
 
 const getButtons = computed(() => {
-    return Array.from(prototypes.getItemCategories).map((category) => {
+    return Array.from(prototypes.categories).map((category) => {
         return {
-            text: category,
-            val: category,
+            text: category as string,
+            val: category as string,
         };
     });
 });
-
-// const getButtons = computed(() => {
-//     return [
-//         {
-//             text: 'Full Set',
-//             val: 'full-set',
-//         },
-//         {
-//             text: 'Fill In',
-//             val: 'fill-in',
-//         },
-//         {
-//             text: 'Pedicure',
-//             val: 'pedicure',
-//         },
-//         {
-//             text: 'Manicure',
-//             val: 'manicure',
-//         },
-//         {
-//             text: 'Polish Change',
-//             val: 'polish-change',
-//         },
-//         {
-//             text: 'Kids',
-//             val: 'kids',
-//         },
-//     ];
-// });
 </script>
 
 <style scoped></style>

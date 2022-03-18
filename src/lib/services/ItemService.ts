@@ -41,7 +41,7 @@ class ItemService {
         return categories;
     }
 
-    public async saveItem(item: AbstractItem) {
+    public async registerNewItem(item: AbstractItem) {
         try {
             await this.repository.save(item);
         } catch (err: any) {

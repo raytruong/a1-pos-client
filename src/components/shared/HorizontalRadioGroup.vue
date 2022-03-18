@@ -29,14 +29,14 @@ const props = defineProps({
     buttons: {
         type: Array as PropType<Array<Record<string, string>>>,
         default: [] as PropType<Array<Record<string, string>>>,
-        // required: true,
-        // validator: (value: any) => {
-        //     return Boolean(
-        //         value.every((btn: any) => {
-        //             return btn.text && btn.val;
-        //         }),
-        //     );
-        // },
+        required: true,
+        validator: (value: any) => {
+            return Boolean(
+                value.every((btn: any) => {
+                    return btn.text && btn.val;
+                }),
+            );
+        },
     },
     defaultSelected: {
         type: Boolean,

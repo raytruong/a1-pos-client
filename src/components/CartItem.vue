@@ -35,7 +35,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, PropType } from 'vue';
+import { PropType } from 'vue';
 import Item from '@/lib/models/Item';
 
 const props = defineProps({
