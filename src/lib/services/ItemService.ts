@@ -17,6 +17,11 @@ class ItemService {
         return data;
     }
 
+    public async getAllItemsAndAddons(): Promise<Array<Item>> {
+        const data = await this.repository.getAll();
+        return data as Array<Item>;
+    }
+
     public async getAllItems(): Promise<Array<Item>> {
         const data = await this.repository.getAll();
         const filtered = data.filter((item) => {

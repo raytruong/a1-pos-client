@@ -12,7 +12,10 @@ export const usePrototypeStore = defineStore('prototypes', {
     }),
     getters: {
         items(state): Array<Item> {
-            return state.itemPrototypes as Array<Item>;
+            const filtered = state.itemPrototypes.filter((item) => {
+                return item.category !== 'Addon';
+            }) as unknown;
+            return filtered as Array<Item>;
         },
         addons(state): Array<Addon> {
             const filtered = state.itemPrototypes.filter((item) => {
@@ -24,12 +27,13 @@ export const usePrototypeStore = defineStore('prototypes', {
             const categories: Set<string> = new Set(
                 state.itemPrototypes.map((item) => item.category),
             );
+            categories.delete('Addon');
             return categories;
         },
     },
     actions: {
         async fetchPrototypes() {
-            this.itemPrototypes = await itemService.getAllItems();
+            this.itemPrototypes = await itemService.getAllItemsAndAddons();
         },
     },
 });

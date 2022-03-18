@@ -21,25 +21,56 @@ async function getItems() {
     }
 }
 
-async function registerNewItem() {
+async function registerNewItem(item: AbstractItem) {
     try {
-        const proto = new Item(
-            `item:${Date.now()}`,
-            '',
-            'Gel Polish',
-            new Currency(3300),
-            1,
-            'Full Set',
-            new Array<Addon>(),
-        );
-        await service.registerNewItem(proto);
+        await service.registerNewItem(item);
     } catch (err: any) {
         throw new Error(err);
     }
 }
 
-// saveItem();
 // getItems();
+// registerNewItem();
+
+import data from './items.json';
+import AbstractItem from '@/lib/models/AbstractItem';
+
+async function populate() {
+    for (const [key, value] of Object.entries(data)) {
+        let proto;
+
+        if (value.category == 'Addons') {
+            proto = new Addon(
+                `addon:${Date.now()}`,
+                '',
+                value.name,
+                new Currency(value.price),
+                1,
+                'Addon',
+            );
+        } else {
+            proto = new Item(
+                `item:${Date.now()}`,
+                '',
+                value.name,
+                new Currency(value.price),
+                1,
+                value.category,
+                new Array<Addon>(),
+            );
+        }
+        console.log(proto);
+        for (let i = 0; i < 99999999; i++) {
+            //
+            const a = 0;
+            const b = i;
+            const c = a + b;
+        }
+        await registerNewItem(proto);
+    }
+}
+
+populate();
 
 setTimeout(() => {
     process.exit(0);
